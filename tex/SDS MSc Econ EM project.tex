@@ -8,10 +8,10 @@
 \usepackage[capitalise,noabbrev]{cleveref}
 \usepackage[a4paper, total={6in, 8in}]{geometry}
 
-\bibliographystyle{abbrvnat}
+\bibliographystyle{plainnat}
 \setcitestyle{authoryear,open={(},close={)}}
 
-\title{\textbf{Does deindustrialization influence energy intensity?}}
+\title{\textbf{Does deindustrialization increase or decrease energy intensity?}}
 \author{S. Drake Siard}
 \date{2020 May 5}
 \begin{document}
@@ -23,14 +23,24 @@ This project aims to apply a previously developed path model, originally applied
 The model is first validated by replicating the results in the original paper, and then applied to more recent data in the UK.
 \end{abstract}
 
+\tableofcontents
 
 \section{Introduction}
-\cite{panHowIndustrializationTrade2019}
+Original paper: \cite{panHowIndustrializationTrade2019}
+
+\section{Data}
+
+In order to most closely match \cite{panHowIndustrializationTrade2019}, it was necessary to use the April 2018 vintage of the data
+\footnote{ISG was revised in the June 2018 vintage, and the ``current" \$US scaler for P\_GDP was rebased in September 2019.}.
+
+For technological innovation (TI) the total number of patent applications was used, again matching \cite{panHowIndustrializationTrade2019}.
+Patent data was retrieved from the WIPO Statistics Database via the IP Statistics Data Center, \cite{worldintellectualpropertyorganisationWIPOStatisticsDatabase2020}.
+
+
 
 \section{Conclusion}
 Maybe.
 
 \bibliography{project}
-
 
 \end{document}
