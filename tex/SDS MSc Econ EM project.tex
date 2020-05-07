@@ -1,4 +1,4 @@
-\documentclass[11pt]{article}
+\documentclass[11pt,a4paper]{article}
 \usepackage{natbib}
 \usepackage{graphicx}
 \usepackage{subcaption}
@@ -62,12 +62,13 @@ Word count: \em{Drake forgot to do this!}
 \section{Introduction}\label{sec:introduction}
 
 Energy intensity, defined as the demand for energy per unit of output, is a critical measure of economic efficiency; it becomes every more important as the world economy develops and world populations continue to rise.
-Decreasing energy intensity is a necessary condition for the developing world's economic growth to continue through this century without overwhelming the world's limited resources, and for the developed world to maintain its quality of life while reducing their energy consumption.
+Decreasing energy intensity is a necessary condition for the developing world's economic growth to continue through this century without overwhelming the world's limited resources, and for the developed world to maintain its quality of life while reducing their environmental impact.
+A better understanding of the drivers of energy intensity would thus benefit both the developed and developing world.
 
 \cite{panHowIndustrializationTrade2019} cite an extensive literature on energy intensity and its influencing factors, and extract four commonly described determinants of energy intensity: industrialization, trade openness, technological innovation, and economic growth.
 These nature of these variables, and the specific economic data series used to represent them, are described in greater detail in \cref{sec:data_sources}.
-They note that due to the interdependence of these variables there may both direct and indirect effects, and propose a path model (which they describe as novel) to analyse these effects; this model is described and the results analysed in \cref{sec:original_model}.
-The model is used to test four hypotheses:
+\cite{panHowIndustrializationTrade2019} also mention a number of models and analyses that attempt to estimate the effect of these variables. 
+The authors note that due to the interdependence of these variables there may both direct and indirect effects, and propose four specific hypotheses for the interactions:
 \begin{enumerate}[label=\textbf{H.\arabic*}]
 \item Industrialisation has positive direct impact on energy intensity.
 \item Industrialization has negative indirect impact on energy intensity through technological innovation.
@@ -75,6 +76,14 @@ The model is used to test four hypotheses:
 \item Trade openness has negative indirect impact on energy intensity through economic growth.
 \end{enumerate}
 
+\cite{panHowIndustrializationTrade2019} propose a path model (which they describe as novel) to analyse these effects, and apply it to the specific situation of Bangladesh, 1986-2015.
+This model is outlined and the results analysed in \cref{sec:original_model}.
+The results of the original analysis are (partially) replicated, but some questions are raised regarding the significance of the results and the goodness of fit.
+
+To answer these questions, \cref{sec:data_analysis} then revisits the original data, noting some characteristics that suggest alternative transformations and model specifications.
+These updated models are then described and evaluated in \cref{sec:revised_model}, and the results are summarised in \cref{sec:conclusion}.
+
+\clearpage
 
 \section{Data Sources}\label{sec:data_sources}
  
@@ -82,13 +91,11 @@ As in \cite{panHowIndustrializationTrade2019}, the dependent variable is energy 
 The abbreviation is due to the original paper labelling this as ``Industrial Share of Growth"; however, the measure actually used is industrial share of output, not of output growth. 
 Similarly, the variable P\_GDP is a measure of output per capita, not growth.
 } and trade openness (TO), and the two intermediary variables are economic output (P\_GDP) and technological innovation (TI).
-The precise definitions\footnote{
-Supplementing Table 2 in \cite{panHowIndustrializationTrade2019}
-} are described in \cref{tab:data_source}.
+The precise definitions are described in \cref{tab:data_source}, supplementing Table 2 in \cite{panHowIndustrializationTrade2019}.
 All data is sampled at an annual frequency.
 The specific energy intensity measure in this case is not directly available form the database in those units, but is constructed by taking the primary energy use in kg. of oil equivalent per capita, divided by the (2015, PPP-adjusted) \$US GDP per capita.
 
-\begin{table}[htbp]
+\begin{table}[tbp]
 \centering
 \begin{tabulary}{\textwidth}{l l L} 
  \toprule 
@@ -113,13 +120,20 @@ Additional patent data was retrieved directly from the WIPO Statistics Database 
 
 For the updated analysis, data was taken directly from the most recent update of the WDI database, \cite{theworldbankWorldDevelopmentIndicators2019}. In addition, an up-to-date alternate energy intensity measure was added from \cite{enerdataGlobalEnergyStatistical2019} and denoted EIb in the dataset.
 
-In the original paper, the data truncated to the date range 1986-2015, but subject to no further transformation, resulting in the summary statistics in \cref{tab:original_summary_stats} and variable correlations in \cref{fig:original_summary_corr};
-significant correlations (at the 0.01 level) are denoted with an asterisk.
-Comparing these with the Table 3 and Table 4 of \cite{panHowIndustrializationTrade2019}, there is a close match but not an exact one.
-Of some concern is the mismatch in the number of samples of EI: the per capita primary energy use measure used to construct it is absent for the year 2015, in both previous vintages and the current version of the upstream database.
-While we can incomplete data to estimate the model, this will result in an additional difference with the original paper.
+In the original paper, the data is truncated to the date range 1986-2015, resulting in the summary statistics in \cref{tab:original_summary_stats}.
+Comparing these with the Table 3 of \cite{panHowIndustrializationTrade2019}, there is a close match, but not an exact one.
+Of some concern is the mismatch in the number of samples of EI: the per capita primary energy use measure used that has been to construct EI is absent for the year 2015, both in previous vintages and the current version of the upstream database.
+While we can use incomplete data to estimate the model, this inevitably results in an additional difference with the original paper.
 
-\begin{table}[htbp]
+In the original paper, the model is run on the logarithm of the data, with no further transformations. 
+This results the variable correlations in \cref{fig:original_summary_corr}; significant correlations (at the 0.01 level) are denoted with an asterisk.
+We can compare these results with Table 4 of \cite{panHowIndustrializationTrade2019}. 
+It is unclear in the original whether the correlations are of the raw or log data), but again, in either case, we have a close match but not an exact one.
+
+We defer further analysis of the data to \cref{sec:data_analysis}, and use the log-transformed data in the initial replication.
+
+
+\begin{table}[tbp]
 \centering
 \begin{tabular}{lrrrrr}
 \toprule
@@ -137,29 +151,36 @@ EI    &   0.20 &    0.49 &   0.35 &   0.07 &     29 \\
 \end{table}
 
 
-\begin{figure}[htbp]
+\begin{figure}[tbp]
 \centering
+\begin{subfigure}{0.43\textwidth}
 \includegraphics[width=\textwidth]{./plots/BGD_201805_correlations.pdf}
+\caption{Untransformed data}
+\end{subfigure}%
+\begin{subfigure}{0.57\textwidth}
+\includegraphics[width=\textwidth]{./plots/BGD_201805_correlations_log.pdf}
+\caption{Log data}
+\end{subfigure}
 \caption{Original data correlations}
 \label{fig:original_summary_corr}
 \end{figure}
 
+\clearpage
+
 \section{Original Model}\label{sec:original_model}
 
 Path models\footnote{ 
-This is a summary of material in \cite{klinePrinciplesPracticeStructural2016}; the interested reader is directed to the source for more details.
+Some of this section is a summary of material in \cite{klinePrinciplesPracticeStructural2016}; the interested reader is directed to the source for more details.
 } are a subset of structural equation models that deal only with observed variables (as opposed to hidden, or latent variables), where between the exogenous and final endogenous variables there may be one or more mediating endogenous variables.
-In the case of this model, openness to trade and industrialisation are the exogenous variables; openness to trade  
-
-This model is represented\footnote{
+In the case of this model, openness to trade and industrialisation are the exogenous variables. 
+Openness to trade directly affects energy intensity and economic growth, and economic growth in turn affects energy intensity. 
+Industrialisation directly affects  energy intensity and technological innovation, which in turn also affects energy intensity.
+This model is represented graphically\footnote{
 Following Figure 3 in \cite{panHowIndustrializationTrade2019}, we simplify the diagram by dropping the variance notation.
 } in \cref{fig:original_model}. 
+The parameter naming convention is preserved from the original: that is, $P_{y,x}$ represents the regression coefficient of an endogenous variable $y$ of an exogenous variable $x$.
 
-Variance of the exogenous 
-
-The sample size ($n=30$) is at the very lower bound of what might be considered acceptable for SEM.
-
-\begin{figure}[htbp]
+\begin{figure}[tbp]
 \centering
 \begin{tikzpicture}[node distance = 3cm, auto]
     \node [block] (EI) {EI};
@@ -173,12 +194,12 @@ The sample size ($n=30$) is at the very lower bound of what might be considered 
     \node [right of=EI] (epsEI) {$\epsilon_{\scriptscriptstyle{EI}}$};
     \node [right of=TI] (epsTI) {$\epsilon_{\scriptscriptstyle{TI}}$};
 
-	\path[->] (ISG) edge[arrow] node[anchor=center, fill=white] {$\beta_{EI,ISG}$} (EI);
-	\path[->] (ISG) edge[arrow] node[anchor=center, fill=white] {$\beta_{TI,ISG}$} (TI);
-	\path[->] (TO) edge[arrow] node[anchor=center, fill=white] {$\beta_{EI,TO}$} (EI);
-	\path[->] (TO) edge[arrow] node[anchor=center, fill=white] {$\beta_{P\_GDP,TO}$} (PGDP);
-	\path[->] (PGDP) edge[arrow] node[anchor=center, fill=white] {$\beta_{EI,P\_GDP}$} (EI);
-	\path[->] (TI) edge[arrow] node[anchor=center, fill=white] {$\beta_{EI,TI}$} (EI);
+	\path[->] (ISG) edge[arrow] node[anchor=center, fill=white] {$P_{EI,ISG}$} (EI);
+	\path[->] (ISG) edge[arrow] node[anchor=center, fill=white] {$P_{TI,ISG}$} (TI);
+	\path[->] (TO) edge[arrow] node[anchor=center, fill=white] {$P_{EI,TO}$} (EI);
+	\path[->] (TO) edge[arrow] node[anchor=center, fill=white] {$P_{P\_GDP,TO}$} (PGDP);
+	\path[->] (PGDP) edge[arrow] node[anchor=center, fill=white] {$P_{EI,P\_GDP}$} (EI);
+	\path[->] (TI) edge[arrow] node[anchor=center, fill=white] {$P_{EI,TI}$} (EI);
 	\path[->] (epsPGDP) edge[arrow] (PGDP);
 	\path[->] (epsEI) edge[arrow] (EI);	
 	\path[->] (epsTI) edge[arrow] (TI);
@@ -191,23 +212,34 @@ The sample size ($n=30$) is at the very lower bound of what might be considered 
 \label{fig:original_model}
 \end{figure}
 
+Alternatively, we can represent this model as a system of three linear equations:
+\begin{align}
+TI &= \alpha_{TI} + P_{TI,ISG} TO + \epsilon_{TI} \label{eq:ti}\\
+P\_GDP &= \alpha_{P\_GDP} + P_{P\_GDP,TO} TO + \epsilon_{P\_GDP} \label{eq:pgdp}\\
+EI &= \alpha_{EI} + P_{EI,ISG} ISG + P_{EI,TO} TO + P_{EI,TI} TI + P_{EI,P\_GDP} P\_GDP + \epsilon_{EI} \label{eq:ei}
+\end{align}
 
-
-
-
-
-This model was fitted using an R software package for latent variable modeling called \pkg{lavaan}, \cite{rosseelLavaanPackageStructural2012}, and supplementary analysis was performed using the \pkg{semTools} package, \cite{jorgensenSemToolsUsefulTools2019}.\footnote{
+This model is recursive; the disturbance processes of the endogenous variables are assumed to be uncorrelated, and all causal effects are strictly unidirectional (there are no feedback loops).
+It is also over-identified: there are twelve parameters to estimate (three means for the endogenous variables, three variances for the disturbances, and six regression coefficients) and fifteen data points (the sample covariances), leaving three degrees of freedom.
+As the model is recursive, it is possible to consistently estimate it using OLS regression, but here we follow \cite{panHowIndustrializationTrade2019} in using maximum likelihood estimation.
+The original paper used SPSS Amos 23; in our case, the model was fitted using an R software package for latent variable modeling called \pkg{lavaan}, \cite{rosseelLavaanPackageStructural2012}, and supplementary analysis was performed using the \pkg{semTools} package, \cite{jorgensenSemToolsUsefulTools2019}.\footnote{
 Additional code for generating model predictions and residuals was drawn from user contributions that have not yet been merged with the main \pkg{semTools} codebase.
 See \url{https://github.com/simsem/semTools/pull/25} and \url{https://github.com/simsem/semTools/compare/master...drakesiard:residual-predict} for more detail.
 }
 
+
+
+First, the sample size ($n=29$ or 30) is at the very lower bound of what might be considered acceptable.
+
+Second, the model fit itself is not
+
 Fit measures described in \cite{parryFitIndicesCommonly2020}.
 
-\section{Data Analysis}
+\section{Data Analysis}\label{sec:data_analysis}
 
-\section{Revised Model}
+\section{Revised Model}\label{sec:revised_model}
 
-\section{Conclusion}
+\section{Conclusion}\label{sec:conclusion}
 Maybe.
 
 \clearpage
@@ -217,16 +249,28 @@ Maybe.
 \renewcommand{\refname}{\section{References}}.
 \bibliography{project}
 
+\clearpage
 
 \section{Appendices}
 
 
-\subsection{Another appendix}
+\subsection{Program Output}\label{sec:program_output}
 
-More lipsum.
+\newgeometry{margin=1.5cm}
+\pagestyle{empty}
 
-\end{document}
 
+\begin{figure}[htbp]
+\tiny{\input{./plots/model.path.fit.summary.tex}}
+\caption{Original path model output, missing data discarded}
+\end{figure}
+
+\begin{figure}[htbp]
+\tiny{\input{./plots/model.path.fit.fiml.summary.tex}}
+\caption{Original path model output, missing data imputed}
+\end{figure}
+
+\restoregeometry{}
 
 
 \end{document}
