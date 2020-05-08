@@ -233,7 +233,10 @@ First, the sample size ($n=29$ or 30) is at the very lower bound of what might b
 
 Second, the model fit itself is not
 
-Fit measures described in \cite{parryFitIndicesCommonly2020}.
+Acceptable values for the fit measures are discussed in \cite{klinePrinciplesPracticeStructural2016}; for this analysis, we refer to the values in \cite{parryFitIndicesCommonly2020}.
+
+For reference, the complete program output for the model can be found in \cref{fig:orig_model_output} (discarding missing data) and \cref{fig:orig_model_fiml_output} (imputing missing data) in \cref{sec:program_output}
+
 
 \section{Data Analysis}\label{sec:data_analysis}
 
@@ -256,17 +259,41 @@ Maybe.
 
 \subsection{Program Output}\label{sec:program_output}
 
-\newgeometry{margin=1.5cm}
+\newgeometry{margin=2cm}
 \pagestyle{empty}
 
 
 \begin{figure}[htbp]
-\tiny{\input{./plots/model.path.fit.summary.tex}}
+\begin{subfigure}{\textwidth}
+\input{./plots/model.path.fit.summary.tex}
+\caption{Model summary}
+\end{subfigure}
+\caption{Original path model output, missing data discarded}
+\label{fig:orig_model_output}
+\end{figure}
+
+\begin{figure}[htbp]\ContinuedFloat
+\begin{subfigure}{\textwidth}
+\input{./plots/model.path.fit.estimates.tex}
+\caption{Parameter estimates}
+\end{subfigure}
 \caption{Original path model output, missing data discarded}
 \end{figure}
 
 \begin{figure}[htbp]
-\tiny{\input{./plots/model.path.fit.fiml.summary.tex}}
+\begin{subfigure}{\textwidth}
+\input{./plots/model.path.fit.fiml.summary.tex}
+\caption{Model summary}
+\end{subfigure}
+\caption{Original path model output, missing data imputed}
+\label{fig:orig_model_fiml_output}
+\end{figure}
+
+\begin{figure}[htbp]\ContinuedFloat
+\begin{subfigure}{\textwidth}
+\input{./plots/model.path.fit.fiml.estimates.tex}
+\caption{Parameter estimates}
+\end{subfigure}
 \caption{Original path model output, missing data imputed}
 \end{figure}
 
