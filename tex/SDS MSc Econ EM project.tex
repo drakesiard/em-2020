@@ -220,12 +220,41 @@ EI &= \alpha_{EI} + P_{EI,ISG} ISG + P_{EI,TO} TO + P_{EI,TI} TI + P_{EI,P\_GDP}
 \end{align}
 
 This model is recursive; the disturbance processes of the endogenous variables are assumed to be uncorrelated, and all causal effects are strictly unidirectional (there are no feedback loops).
-It is also over-identified: there are twelve parameters to estimate (three means for the endogenous variables, three variances for the disturbances, and six regression coefficients) and fifteen data points (the sample covariances), leaving three degrees of freedom.
 As the model is recursive, it is possible to consistently estimate it using OLS regression, but here we follow \cite{panHowIndustrializationTrade2019} in using maximum likelihood estimation.
+It is also over-identified: there are twelve parameters to estimate (three means for the endogenous variables, three variances for the disturbances, and six regression coefficients) and fifteen data points (the sample covariances), leaving three degrees of freedom.
 The original paper used SPSS Amos 23; in our case, the model was fitted using an R software package for latent variable modeling called \pkg{lavaan}, \cite{rosseelLavaanPackageStructural2012}, and supplementary analysis was performed using the \pkg{semTools} package, \cite{jorgensenSemToolsUsefulTools2019}.\footnote{
 Additional code for generating model predictions and residuals was drawn from user contributions that have not yet been merged with the main \pkg{semTools} codebase.
 See \url{https://github.com/simsem/semTools/pull/25} and \url{https://github.com/simsem/semTools/compare/master...drakesiard:residual-predict} for more detail.
 }
+
+We this by imputing missing data with a case-wise (full-information) ML estimation, as performed by Amos. 
+The complete program output for the model can be found in \cref{sec:program_output}.
+The (raw and standardised) coefficient estimates are given in \cref{tab:original_estimates}; we compare these with Table 3 in \cite{panHowIndustrializationTrade2019}, looking at the standardised estimates for the mediating values and unstandardised for the final .
+The $R^{2}$ values for the individual endogenous variables are given only for comparison purposes; p-values below 0.01 are marked with an asterisk.
+Standard errors are not given in the original, but included here for clarity.
+
+The values for \cref{eq:ti} and \cref{eq:pgdp} match fairly closely, and the significance of the parameters and goodness of fit for \cref{eq:ei} match.
+
+\begin{table}[tbp]
+\centering
+\begin{tabular}{llllrrrl}
+\toprule
+Equation & Dep. var. & Ind. var. &      Coefficient &  Est. (std.) &  S.E. (std.) & p-value & $R^{2}$ \\
+\midrule
+    (1) &        TI &       ISG &     $P_{TI,ISG}$ &        0.800 &        0.055 &       * &   0.641 \\
+    (2) &    P\_GDP &        TO &  $P_{P\_GDP,TO}$ &        0.940 &        0.016 &       * &   0.883 \\
+    (3) &        EI &       ISG &     $P_{EI,ISG}$ &        0.128 &        0.077 &   0.094 &   0.985 \\
+        &        EI &        TO &      $P_{EI,TO}$ &        0.083 &        0.094 &   0.375 &         \\
+        &        EI &        TI &      $P_{EI,TI}$ &        0.073 &        0.039 &   0.060 &         \\
+        &        EI &    P\_GDP &  $P_{EI,P\_GDP}$ &       -1.230 &        0.062 &       * &         \\
+\bottomrule
+\end{tabular}
+\caption{Original model parameter estimates}
+\label{tab:original_estimates}
+\end{table}
+
+
+
 
 
 
@@ -235,7 +264,6 @@ Second, the model fit itself is not
 
 Acceptable values for the fit measures are discussed in \cite{klinePrinciplesPracticeStructural2016}; for this analysis, we refer to the values in \cite{parryFitIndicesCommonly2020}.
 
-For reference, the complete program output for the model can be found in \cref{fig:orig_model_output} (discarding missing data) and \cref{fig:orig_model_fiml_output} (imputing missing data) in \cref{sec:program_output}
 
 
 \section{Data Analysis}\label{sec:data_analysis}
@@ -262,13 +290,12 @@ Maybe.
 \newgeometry{margin=2cm}
 \pagestyle{empty}
 
-
 \begin{figure}[htbp]
 \begin{subfigure}{\textwidth}
 \input{./plots/model.path.fit.summary.tex}
 \caption{Model summary}
 \end{subfigure}
-\caption{Original path model output, missing data discarded}
+\caption{Original path model output}
 \label{fig:orig_model_output}
 \end{figure}
 
@@ -277,24 +304,7 @@ Maybe.
 \input{./plots/model.path.fit.estimates.tex}
 \caption{Parameter estimates}
 \end{subfigure}
-\caption{Original path model output, missing data discarded}
-\end{figure}
-
-\begin{figure}[htbp]
-\begin{subfigure}{\textwidth}
-\input{./plots/model.path.fit.fiml.summary.tex}
-\caption{Model summary}
-\end{subfigure}
-\caption{Original path model output, missing data imputed}
-\label{fig:orig_model_fiml_output}
-\end{figure}
-
-\begin{figure}[htbp]\ContinuedFloat
-\begin{subfigure}{\textwidth}
-\input{./plots/model.path.fit.fiml.estimates.tex}
-\caption{Parameter estimates}
-\end{subfigure}
-\caption{Original path model output, missing data imputed}
+\caption{Original path model output}
 \end{figure}
 
 \restoregeometry{}
