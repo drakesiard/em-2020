@@ -4,8 +4,10 @@
 \usepackage{subcaption}
 \usepackage{amsmath}
 \usepackage{amsfonts}
+\usepackage{mathtools}
 \usepackage{enumitem}
 \usepackage{setspace}
+\usepackage{adjustbox}
 \usepackage{booktabs}
 \usepackage{tabulary}
 \usepackage{hyperref}
@@ -227,47 +229,114 @@ Additional code for generating model predictions and residuals was drawn from us
 See \url{https://github.com/simsem/semTools/pull/25} and \url{https://github.com/simsem/semTools/compare/master...drakesiard:residual-predict} for more detail.
 }
 
-We this by imputing missing data with a case-wise (full-information) ML estimation, as performed by Amos. 
+We estimate the model by imputing missing data with a case-wise (full-information) ML estimation, and report Huber-White (heteroskedasticity-robust) standard errors. 
 The complete program output for the model can be found in \cref{sec:program_output}.
-The (raw and standardised) coefficient estimates are given in \cref{tab:original_estimates}; we compare these with Table 3 in \cite{panHowIndustrializationTrade2019}, looking at the standardised estimates for the mediating values and unstandardised for the final .
-The $R^{2}$ values for the individual endogenous variables are given only for comparison purposes; p-values below 0.01 are marked with an asterisk.
+The standardised coefficient estimates are given in \cref{tab:original_estimates}; we compare these with Table 3 in \cite{panHowIndustrializationTrade2019}.
+p-values below 0.001 are marked with an asterisk; the $R^{2}$ values for the individual endogenous variables are given only for comparison purposes.
 Standard errors are not given in the original, but included here for clarity.
 
-The values for \cref{eq:ti} and \cref{eq:pgdp} match fairly closely, and the significance of the parameters and goodness of fit for \cref{eq:ei} match.
+The values for \cref{eq:ti} and \cref{eq:pgdp} match fairly closely, and the significance of the parameters and goodness of fit measure for \cref{eq:ei} match, but the actual estimates of the parameters differ significantly (by approximately 10 standard errors).
+To confirm that this was not an issue with the choice of estimation software, the model was also estimated with SPSS Amos 23, with identical results.\footnote{
+Output from SPSS Amos 23 is not included in this paper, but is available as described in \cref{sec:data_and_code}.}
+Without access to the original data set or regression software options, it is impossible to identify the source of the discrepancy.
 
 \begin{table}[tbp]
 \centering
+\begin{adjustbox}{max width=\textwidth}
 \begin{tabular}{llllrrrl}
 \toprule
 Equation & Dep. var. & Ind. var. &      Coefficient &  Est. (std.) &  S.E. (std.) & p-value & $R^{2}$ \\
 \midrule
-    (1) &        TI &       ISG &     $P_{TI,ISG}$ &        0.800 &        0.055 &       * &   0.641 \\
-    (2) &    P\_GDP &        TO &  $P_{P\_GDP,TO}$ &        0.940 &        0.016 &       * &   0.883 \\
-    (3) &        EI &       ISG &     $P_{EI,ISG}$ &        0.128 &        0.077 &   0.094 &   0.985 \\
-        &        EI &        TO &      $P_{EI,TO}$ &        0.083 &        0.094 &   0.375 &         \\
-        &        EI &        TI &      $P_{EI,TI}$ &        0.073 &        0.039 &   0.060 &         \\
-        &        EI &    P\_GDP &  $P_{EI,P\_GDP}$ &       -1.230 &        0.062 &       * &         \\
-\bottomrule
+       1 &        TI &       ISG &     $P_{TI,ISG}$ &        0.804 &        0.046 &       * &   0.647 \\
+       2 &    P\_GDP &        TO &  $P_{P\_GDP,TO}$ &        0.925 &        0.016 &       * &   0.855 \\
+       3 &        EI &       ISG &     $P_{EI,ISG}$ &        0.122 &        0.048 &   0.012 &   0.988 \\
+         &        EI &        TO &      $P_{EI,TO}$ &        0.076 &        0.082 &   0.352 &         \\
+         &        EI &        TI &      $P_{EI,TI}$ &        0.066 &        0.043 &   0.126 &         \\
+         &        EI &    P\_GDP &  $P_{EI,P\_GDP}$ &       -1.211 &        0.044 &       * &         \\\bottomrule
 \end{tabular}
-\caption{Original model parameter estimates}
+\end{adjustbox}
+\caption{Original model parameter estimates (standardised)}
 \label{tab:original_estimates}
 \end{table}
 
+\begin{table}[tbp]
+\centering
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{l|rrr|rrr|rrr}
+\toprule
+ 				& \multicolumn{3}{c|}{Direct effect}  & \multicolumn{3}{c|}{Indirect effect} & \multicolumn{3}{c}{Total effect} \\
+Causal variable & Coeff. & s.e. & p-value & Coeff. & s.e. & p-value & Coeff. & s.e. & p-value \\
+\midrule
+            ISG &     0.122 &   0.048 &      0.012 &     0.053 &   0.035 &      0.128 &     0.175 &   0.066 &      0.008 \\
+             TO &     0.076 &   0.082 &      0.352 &    -1.120 &   0.046 &          * &    -1.044 &   0.072 &          * \\
+             TI &     0.066 &   0.043 &      0.126 &           &         &            &     0.066 &   0.043 &      0.126 \\
+         P\_GDP &    -1.211 &   0.044 &          * &           &         &            &    -1.211 &   0.044 &          * \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\caption{Original model path coefficients (standardised)}
+\label{tab:original_path_coeff}
+\end{table}
+
+From the coefficients in \cref{tab:original_estimates}, we construct the indirect and total effects within the model:
+\begin{align}
+\overbrace{P^{total}_{EI,ISG}}^\text{total effect} &=  
+\overbrace{P_{EI,ISG}}^\text{direct effect} + 
+\overbrace{P_{EI,TI} \times P_{TI,ISG}}^\text{indirect effect} \\
+P^{total}_{EI,TO} &=  
+P_{EI,TO} + 
+P_{EI,P\_GDP} \times P_{P\_GDP,TO}
+\end{align}
+The results are given in \cref{tab:original_path_coeff} and used to assess the four hypotheses:
+
+\begin{enumerate}[label=\textbf{H.\arabic*}]
+\item Industrialisation has positive direct impact on energy intensity.
+
+The coefficient of this direct effect is $P_{EI,ISG}$, which is indeed estimated to be positive (at 0.122) but the p-value is 0.048, so at the 5\% level we (just) reject the null hypothesis (of industrialisation having no effect).
+In the original paper, the significance threshold is not given, but they accept the alternative hypothesis\footnote{
+The actual statement is: ``Thus, our first hypothesis is proved." 
+} with a p-value of 0.082, so we infer a threshold of 10\% in their case.
+
+\item Industrialization has negative indirect impact on energy intensity through technological innovation.
+
+The coefficient of this indirect effect is estimated to be \emph{positive} (at 0.053), but given the relatively high uncertainty of this estimate our confidence interval includes zero.
+The original paper does find a negative coefficient, but of a similar (small) magnitude; without knowing the exact standard errors calculated, we can nonetheless infer that this effect is weak, if present.
+
+\item Trade openness has negative direct impact on energy intensity.
+
+Again, the coefficient of this direct effect is estimated to be \emph{positive} (at 0.076), but the confidence interval includes zero.
+The original paper finds a negative coefficient, that is just significant at the 5\% level, but in our regression nearly all of the variance in energy intensity is explained by economic growth, and almost none by trade openness and technological innovation. 
+
+\item Trade openness has negative indirect impact on energy intensity through economic growth.
+
+This coefficient is negative (-1.120) and significant at the 5\% level, so we reject the null hypothesis of no indirect impact, as does the original paper.
+
+\end{enumerate}
+
+\noindent 
+Based on the data available and the analysis above, we can only replicate two of the four hypotheses: H.1 and H.4.
 
 
+We now turn our attention to model diagnostics.
+\cite{panHowIndustrializationTrade2019} only report goodness-of-fit measures at the single-equation level.
+Various fit measures for structural equation models and their acceptable values are discussed in \cite{klinePrinciplesPracticeStructural2016}, which suggests that, at a minimum, the model $\chi^2$, RMSEA, CFI, and SRMR should be reported; for this analysis, we refer to the cut-off values in \cite{parryFitIndicesCommonly2020}.
 
+The CFI is a goodness-of-fit measure that compares the model fit to a null (independent) model, and the cut-off value for a ``good" fit is $\geq0.90$; we calculate 0.946, suggesting the model fits slightly better than the null model. 
+For RMSEA, a badness-of-fit measure, we calculate a value of 0.363, which is well above the cut-off value of 0.08, indicating a significant departure from a close fit.
+For the model $\chi^2$ (another badness-of-fit measure), we calculate 14.8, which gives a p-value of $<0.01$, well below the cut-off value of 0.05.
+This indicates a large discrepancy between the sample and fitted covariance matrices, but this measure is sensitive to sample size, which at ($n=30$) is at the very lower bound of what might be considered acceptable.
+Another measure of this discrepancy is SRMR, which at 0.041 is below the cut-off value of 0.08, indicating that at least by one metric the covariance residuals may not be excessively large; however, it is clear that the model fit is not ideal.
+As a standardised graphical indication of this problem, the correlation residuals (sorted by size) are plotted in \cref{fig:original_corr_resid}; noting that all the major outliers are associated with the TI variable suggests that further investigation is warranted, and so we revisit the data set to consider any scaling or transformations that may be necessary.
 
-
-First, the sample size ($n=29$ or 30) is at the very lower bound of what might be considered acceptable.
-
-Second, the model fit itself is not
-
-Acceptable values for the fit measures are discussed in \cite{klinePrinciplesPracticeStructural2016}; for this analysis, we refer to the values in \cite{parryFitIndicesCommonly2020}.
-
-
+\begin{figure}[tbp]
+\centering
+\includegraphics[width=0.6\textwidth]{./plots/original_correlation_residuals.pdf}
+\caption{Correlation residuals}
+\label{fig:original_corr_resid}
+\end{figure}
 
 \section{Data Analysis}\label{sec:data_analysis}
-
+For the same set of variables, we update the data set to the most recent 
 \section{Revised Model}\label{sec:revised_model}
 
 \section{Conclusion}\label{sec:conclusion}
@@ -284,15 +353,27 @@ Maybe.
 
 \section{Appendices}
 
+\subsection{Data and Code}\label{sec:data_and_code}
+
+All of the data and code used to download and process it is available in the Github repository at the following URL:
+
+\url{https://github.com/drakesiard/em-2020}
+
+\noindent
+The repository structure is described at:
+
+\url{https://github.com/drakesiard/em-2020/blob/master/README.md}
 
 \subsection{Program Output}\label{sec:program_output}
+
+A small selection of program output referred to in the main text is included in this section; all other program output associated with this project is presented in-line with the code in the repository described in \cref{sec:data_and_code}.
 
 \newgeometry{margin=2cm}
 \pagestyle{empty}
 
 \begin{figure}[htbp]
 \begin{subfigure}{\textwidth}
-\input{./plots/model.path.fit.summary.tex}
+\small{\input{./plots/model.path.fit.summary.tex}}
 \caption{Model summary}
 \end{subfigure}
 \caption{Original path model output}
