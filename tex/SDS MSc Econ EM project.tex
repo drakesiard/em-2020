@@ -54,7 +54,7 @@ This project aims to further develop a published path model, originally applied 
 The model is first validated by replicating the results in the original paper; not all findings are confirmed, and some choices regarding model construction and data treatment are re-assessed.
 A modified version of the model then applied to more recent data in India and the UK, where the directions of industrialisation and technological innovation differ, to see if the original hypotheses continue to hold.
 
-Programs used: Python (\pkg{statsmodels}); R (\pkg{lavaan}, \pkg{semTools}); SPSS Amos 23 for replication
+Programs used: Python (\pkg{statsmodels}, \pkg{scipy}); R (\pkg{lavaan}, \pkg{semTools}); SPSS Amos 23 for replication
 
 Word count: \em{Drake forgot to do this!}
  
@@ -108,10 +108,10 @@ The specific energy intensity measure in this case is not directly available for
  \midrule 
  EI & Energy intensity & Primary energy use in kg. of oil equivalent per ``current" (2018 or 2019, by vintage) \$US of GDP \\ 
  EIb & Energy intensity (alt.) & Primary energy use in kg. of oil equivalent per (2015, PPP-adjusted) \$US of GDP \\ 
- ISG & Industrialisation & Total industry (mining, construction, utilities) value added as \% of GDP \\
- TO & Trade openness & Total value of imports and exports (goods and services) as \% of GDP \\ 
- TI & Technological innovation & Total number of patent applications (direct and PCT national phase entries) \\ 
- P\_GDP & Economic output & GDP in ``current" (2018 or 2019, by dataset) \$US, divided by mid-year population \\ 
+ ISG & Industrialisation & Total industry (mining, construction, utilities) value added as \% of GDP (unitless) \\
+ TO & Trade openness & Total value of imports and exports (both goods and services) as \% of GDP (unitless) \\ 
+ TI & Technological innovation & Total number of patent applications (both direct and PCT national phase entries) \\ 
+ P\_GDP & Economic output & GDP measured in ``current" (2018 or 2019, by vintage) \$US, divided by mid-year population estimate\\ 
  \bottomrule 
 \end{tabulary}
 \caption{Variable names and descriptions}
@@ -119,22 +119,22 @@ The specific energy intensity measure in this case is not directly available for
 \end{table}
 
 For the replication phase, in order to most closely match \cite{panHowIndustrializationTrade2019}, it was necessary\footnote{
-ISG was revised in the June 2018 vintage, and the ``current" \$US scaler for P\_GDP was rebased in September 2019.
+ISG was revised in the June 2018 vintage, and the scaling factor for ``current" \$US-denominated values was rebased in September 2019.
 } to use the April 2018 vintage of the data from the WDI Database Archives, \cite{theworldbankWDIDatabaseArchives2018}.
 Additional patent data was retrieved directly from the WIPO Statistics Database via the IP Statistics Data Center, \cite{wipoWIPOStatisticsDatabase2020}, and used to fill in gaps in World Bank data where necessary.
 
 In the original paper, the data is truncated to the date range 1986-2015, resulting in the summary statistics in \cref{tab:original_summary_stats}.
-Comparing these with the Table 3 of \cite{panHowIndustrializationTrade2019}, there is a close match, but not an exact one.
+Comparing these with the Table 3 of \cite{panHowIndustrializationTrade2019}, there is a very close match, but not an exact one.
 Of some concern is the mismatch in the number of samples of EI: the per capita primary energy use measure used that has been to construct EI is absent for the year 2015, both in previous vintages and the current version of the upstream database.
 While we can use incomplete data to estimate the model, this inevitably results in an additional difference.
 
 In the original paper, the model is run on the logarithm of the data, with no further transformations. 
 This results the variable correlations in \cref{fig:original_summary_corr}; significant correlations (at the 0.01 level) are denoted with an asterisk.
 We can compare these results with Table 4 of \cite{panHowIndustrializationTrade2019}. 
-It is unclear in the original whether the correlations are of the raw or log data), but again, in either case, we have a close match but not an exact one.
+It is unclear in the original whether the correlations are of the raw or log data), but again, in either case, there is a close match in direction and magnitude on all measures, but not an exact one.
 
 For the model update, data was taken directly from the most recent update of the WDI database, \cite{theworldbankWorldDevelopmentIndicators2019}, and India (constant industrialisation level) and the United Kingdom (de-industrialising). In addition, a more up-to-date alternate energy intensity measure was added from \cite{enerdataGlobalEnergyStatistical2019} and denoted EIb in the dataset, for the countries for which it is available.
-We defer further analysis of the data to \cref{sec:data_analysis}, and use the log-transformed data in the initial replication, following \cite{panHowIndustrializationTrade2019}.
+We defer further detailed analysis of the data to \cref{sec:data_analysis}, and use the log-transformed data in the initial replication, following \cite{panHowIndustrializationTrade2019}.
 
 \begin{table}[tbp]
 \centering
@@ -340,8 +340,9 @@ As a standardised graphical indication of this problem, the correlation residual
 For the same set of variables, we update the data set to the most recent vintage of WDI data, from \cite{theworldbankWorldDevelopmentIndicators2019}.
 We also expand the data set to include India, a comparable developing nation in terms of per capita GDP growth, and the United Kingdom, a de-industrialising nation.
 The four original variables are plotted in \cref{fig:data_plots} (in \cref{sec:graph_appendix}); we include the addition measure of energy intensity for India and the UK, but it is not available for Bangladesh.
-Energy intensity, per-capita GDP, and number of patents are plotted on a logarithmic scale, as we are interested in growth rates.
-Trade openness and industrial share are fractions, and plotted on a linear scale; over the range of these two variables, applying a logistic transformation yields a visually indistinguishable result.
+Energy intensity, per-capita GDP, and number of patents are plotted on a logarithmic scale.
+Trade openness and industrial share are fractions, and plotted on a linear scale; applying a logistic transformation yields a visually indistinguishable result, as neither of these variables are at the extremes of their ranges.
+The correlation structures of the data are plotted in \cref{fig:log_correlations}; distributions and scatter plots can be found in \cref{fig:log_scatterplot}.
 
 We can note some stylised facts about the data from these figures and their descriptive statistics that will inform the analysis:
 \begin{itemize}
@@ -350,9 +351,10 @@ We can note some stylised facts about the data from these figures and their desc
 \item Bangladesh is industrialising, the United Kingdom is de-industrialising, and India has a roughly constant level of industrialisation over the period
 \item While India and the UK have a roughly similar levels of technological innovation if averaged over the period, India's is increasing, while the UK's is (if anything) falling.
 \item Energy intensity is falling through across all three of these countries, regardless of the direction of the other variables.
-\item The scales of the data sometimes differ by orders of magnitude between countries, so pooling data will require additional transformation.
+\item The scales of the data sometimes differ by orders of magnitude between countries, so pooling data would require additional transformation.
 \end{itemize}
-It is also clear to the naked eye that these series appear to be non-stationary. 
+It is also clear to the naked eye that these series appear to be non-stationary.
+
 
 \section{Revised Model}\label{sec:revised_model}
 
@@ -380,6 +382,13 @@ All of the data and code used to download and process it is available in the Git
 The repository structure is described at:
 
 \url{https://github.com/drakesiard/em-2020/blob/master/README.md}
+
+\noindent
+The SPSS Amos 23 output can be found at:
+
+\begin{adjustbox}{max width=\textwidth}
+\url{https://github.com/drakesiard/em-2020/blob/master/analysis/BGD\%20201805\%20SPSS\%20Amos\%2023.pdf}
+\end{adjustbox}
 
 \newgeometry{margin=2cm}
 \subsection{Additional graphs}\label{sec:graph_appendix}
@@ -421,9 +430,55 @@ The repository structure is described at:
 \caption{Updated data, timeseries plots}
 \end{figure}
 
+\begin{figure}[htbp]
+\centering
+\begin{subfigure}{0.7\textwidth}
+\includegraphics[width=\textwidth]{./plots/BGD_current_correlations.pdf}
+\caption{Bangladesh}
+\end{subfigure}\\
+\begin{subfigure}{0.7\textwidth}
+\includegraphics[width=\textwidth]{./plots/IND_current_correlations.pdf}
+\caption{India}
+\end{subfigure}\\
+\begin{subfigure}{0.7\textwidth}
+\includegraphics[width=\textwidth]{./plots/GBR_current_correlations.pdf}
+\caption{United Kingdom}
+\end{subfigure}
+\caption{Updated data (logs), correlation structure}
+\label{fig:log_correlations}
+\end{figure}
 
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{./plots/log_pairplot.pdf}
+\label{fig:log_scatterplot}
+\caption{Updated data (logs), distributions and scatter plots}
+\end{figure}
 
+\begin{figure}[htbp]
+\centering
+\begin{subfigure}{0.7\textwidth}
+\includegraphics[width=\textwidth]{./plots/BGD_current_diff_correlations.pdf}
+\caption{Bangladesh}
+\end{subfigure}\\
+\begin{subfigure}{0.7\textwidth}
+\includegraphics[width=\textwidth]{./plots/IND_current_diff_correlations.pdf}
+\caption{India}
+\end{subfigure}\\
+\begin{subfigure}{0.7\textwidth}
+\includegraphics[width=\textwidth]{./plots/GBR_current_diff_correlations.pdf}
+\caption{United Kingdom}
+\end{subfigure}
+\label{fig:log_diff_correlations}
+\caption{Updated data (log diff), correlation structure}
+\end{figure}
 
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{./plots/logdiff_pairplot.pdf}
+\label{fig:logdiff_scatterplot}
+\caption{Updated data (log diff), distributions and scatter plots}
+\end{figure}
 
 \clearpage
 \subsection{Program Output}\label{sec:program_output}
