@@ -98,20 +98,24 @@ Similarly, the variable P\_GDP is a measure of output per capita, not growth.
 } and trade openness (TO), and the two intermediary variables are economic output (P\_GDP) and technological innovation (TI).
 The precise definitions are described in \cref{tab:data_source}, supplementing Table 2 in \cite{panHowIndustrializationTrade2019}.
 All data is sampled at an annual frequency.
-The specific energy intensity measure in this case is not directly available form the database in those units, but is constructed by taking the primary energy use in kg. of oil equivalent per capita, divided by the (2015, PPP-adjusted) \$US GDP per capita.
+The specific energy intensity measure EI is not directly available from the database in those units, but is constructed by taking the primary energy use in kg. of oil equivalent per capita, divided by the (2018 base) \$US GDP per capita.
 
 \begin{table}[tbp]
 \centering
 \begin{tabulary}{\textwidth}{l l L} 
  \toprule 
- Abbr. & Name & Description and units \\ [1ex] 
+ Measure & Economic variable & Description and units \\ [1ex] 
  \midrule 
  EI & Energy intensity & Primary energy use in kg. of oil equivalent per ``current" (2018 or 2019, by vintage) \$US of GDP \\ 
- EIb & Energy intensity (alt.) & Primary energy use in kg. of oil equivalent per (2015, PPP-adjusted) \$US of GDP \\ 
  ISG & Industrialisation & Total industry (mining, construction, utilities) value added as \% of GDP (unitless) \\
  TO & Trade openness & Total value of imports and exports (both goods and services) as \% of GDP (unitless) \\ 
  TI & Technological innovation & Total number of patent applications (both direct and PCT national phase entries) \\ 
- P\_GDP & Economic output & GDP measured in ``current" (2018 or 2019, by vintage) \$US, divided by mid-year population estimate\\ 
+ P\_GDP & Economic output & GDP measured in ``current" (2018 or 2019, by vintage) \$US, divided by mid-year population estimate\\
+\hline \\ 
+   EIb & Energy intensity & Primary energy use in kg. of oil equivalent per (2019, PPP-adjusted) \$US of GDP (from WB WDI) \\ 
+ EIc & Energy intensity & Primary energy use in kg. of oil equivalent per (2015, PPP-adjusted) \$US of GDP (from Enerdata) \\ 
+ P\_GDPb & Economic output & GDP measured in ``current" (2018 or 2019, by vintage, PPP-adjusted) \$US, divided by mid-year population estimate\\ 
+
  \bottomrule 
 \end{tabulary}
 \caption{Variable names and descriptions}
@@ -133,7 +137,10 @@ This results the variable correlations in \cref{fig:original_summary_corr}; sign
 We can compare these results with Table 4 of \cite{panHowIndustrializationTrade2019}. 
 It is unclear in the original whether the correlations are of the raw or log data), but again, in either case, there is a close match in direction and magnitude on all measures, but not an exact one.
 
-For the model update, data was taken directly from the most recent update of the WDI database, \cite{theworldbankWorldDevelopmentIndicators2019}, and India (constant industrialisation level) and the United Kingdom (de-industrialising). In addition, a more up-to-date alternate energy intensity measure was added from \cite{enerdataGlobalEnergyStatistical2019} and denoted EIb in the dataset, for the countries for which it is available.
+For the model update, data was taken directly from the most recent update of the WDI database, \cite{theworldbankWorldDevelopmentIndicators2019}, and two countries were added for comparison: India (constant industrialisation level) and the United Kingdom (de-industrialising). 
+PPP-adjusted measures of energy intensity and per-capita GDP were added, and were denoted EIb and P\_GDPb in the dataset.
+
+In addition, a more up-to-date alternate energy intensity measure was added from \cite{enerdataGlobalEnergyStatistical2019} and denoted EIc in the dataset, for the countries for which it is available.
 We defer further detailed analysis of the data to \cref{sec:data_analysis}, and use the log-transformed data in the initial replication, following \cite{panHowIndustrializationTrade2019}.
 
 \begin{table}[tbp]
@@ -167,8 +174,6 @@ EI    &   0.20 &    0.49 &   0.35 &   0.07 &     29 \\
 \caption{Original data correlations}
 \label{fig:original_summary_corr}
 \end{figure}
-
-\clearpage
 
 \section{Original Model}\label{sec:original_model}
 
@@ -329,7 +334,7 @@ This indicates a large discrepancy between the sample and fitted covariance matr
 Another measure of this discrepancy is SRMR, which at 0.041 is below the cut-off value of 0.08, indicating that at least by one metric the covariance residuals may not be excessively large; however, with all these results taken together, it is clear that the model fit is not ideal.
 As a standardised graphical indication of this problem, the correlation residuals (sorted by size) are plotted in \cref{fig:original_corr_resid}; noting that all the major outliers are associated with the TI variable suggests that further investigation is warranted, and so we revisit the data set to consider any scaling or transformations that may be necessary.
 
-\begin{figure}[tbp]
+\begin{figure}[htbp]
 \centering
 \includegraphics[width=0.6\textwidth]{./plots/original_correlation_residuals.pdf}
 \caption{Correlation residuals}
@@ -391,17 +396,36 @@ The SPSS Amos 23 output can be found at:
 \end{adjustbox}
 
 \newgeometry{margin=2cm}
-\subsection{Additional graphs}\label{sec:graph_appendix}
+\subsection{Graphs}\label{sec:graph_appendix}
+
 
 \begin{figure}[htbp]
 \centering
 \begin{subfigure}{0.9\textwidth}
-\includegraphics[width=\textwidth]{./plots/P_GDP_timeseries.pdf}
-\caption{GDP per capita (P\_GDP)}
+\includegraphics[width=\textwidth]{./plots/TO_timeseries.pdf}
+\caption{Trade openness (TO)}
 \end{subfigure}
-\caption{Original path model output}
+\begin{subfigure}{0.9\textwidth}
+\includegraphics[width=\textwidth]{./plots/EI_timeseries.pdf}
+\caption{Energy intensity (EI)}
+\end{subfigure}\\
+\caption{Updated data, timeseries plots}
 \label{fig:data_plots}
 \end{figure}
+
+\begin{figure}[htbp]\ContinuedFloat
+\centering
+\begin{subfigure}{0.9\textwidth}
+\includegraphics[width=\textwidth]{./plots/EIb_timeseries.pdf}
+\caption{Energy intensity, PPP-adjusted (EI)}
+\end{subfigure}\\
+\begin{subfigure}{0.9\textwidth}
+\includegraphics[width=\textwidth]{./plots/EIc_timeseries.pdf}
+\caption{Energy intensity, alternate source (EIb)}
+\end{subfigure}
+\caption{Updated data, timeseries plots}
+\end{figure}
+
 
 \begin{figure}[htbp]\ContinuedFloat
 \centering
@@ -414,20 +438,20 @@ The SPSS Amos 23 output can be found at:
 \caption{Technological Innovation (TI)}
 \end{subfigure}
 \caption{Updated data, timeseries plots}
-
 \end{figure}
 
 \begin{figure}[htbp]\ContinuedFloat
 \centering
 \begin{subfigure}{0.9\textwidth}
-\includegraphics[width=\textwidth]{./plots/EI_timeseries.pdf}
-\caption{Energy intensity (EI)}
+\includegraphics[width=\textwidth]{./plots/P_GDP_timeseries.pdf}
+\caption{GDP per capita (P\_GDP)}
 \end{subfigure}\\
 \begin{subfigure}{0.9\textwidth}
-\includegraphics[width=\textwidth]{./plots/EIb_timeseries.pdf}
-\caption{Energy intensity (EIB, alternate measure)}
+\includegraphics[width=\textwidth]{./plots/P_GDPb_timeseries.pdf}
+\caption{GDP per capita, PPP-adjusted (P\_GDPb)}
 \end{subfigure}
 \caption{Updated data, timeseries plots}
+\label{fig:data_plots}
 \end{figure}
 
 \begin{figure}[htbp]
@@ -451,8 +475,8 @@ The SPSS Amos 23 output can be found at:
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=\textwidth]{./plots/log_pairplot.pdf}
-\label{fig:log_scatterplot}
 \caption{Updated data (logs), distributions and scatter plots}
+\label{fig:log_scatterplot}
 \end{figure}
 
 \begin{figure}[htbp]
@@ -469,15 +493,15 @@ The SPSS Amos 23 output can be found at:
 \includegraphics[width=\textwidth]{./plots/GBR_current_diff_correlations.pdf}
 \caption{United Kingdom}
 \end{subfigure}
-\label{fig:log_diff_correlations}
 \caption{Updated data (log diff), correlation structure}
+\label{fig:log_diff_correlations}
 \end{figure}
 
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=\textwidth]{./plots/logdiff_pairplot.pdf}
-\label{fig:logdiff_scatterplot}
 \caption{Updated data (log diff), distributions and scatter plots}
+\label{fig:logdiff_scatterplot}
 \end{figure}
 
 \clearpage
