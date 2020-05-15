@@ -56,7 +56,7 @@ A modified version of the model then applied to more recent data in India and th
 
 Programs used: Python (\pkg{statsmodels}, \pkg{scipy}); R (\pkg{lavaan}, \pkg{semTools}); SPSS Amos 23 for replication
 
-Word count: \em{Drake forgot to do this!}
+Word count: \em{Don't forget to do this!}
  
 \end{abstract}
 
@@ -391,6 +391,80 @@ To test this theory, we run the model on the data for Bangladesh with the follow
 \item We take the log difference of variables with unit levels (TI, EIb, P\_GDPb); we take the difference of unitless ratios (ISG, TO) as above. 
 \end{itemize}
 
+The results of the updated model are given in \cref{tab:updated_estimates} and the path coefficients are summarised in \cref{tab:updated_path_coeff}; full program output can be found in  \cref{fig:updated_model_output}.
+Unsurprisingly, with such a weak correlation structure, no path coefficients to EI are significant, and we fail to reject the null for all four hypothesis H.1 through H.4.
+The only coefficient of any significance is $P_{P_GDPb,TO}$, the effect of trade openness on economic development, which is positive, as expected by conventional economic theory.
+
+None of the fit statistics (shown in \cref{tab:updated_fit_statistics}) necessarily indicate a bad fit; however, with such a weak correlation structure, they have little diagnostic power. Inspecting the correlation residuals in \cref{fig:updated_fit_residuals}, there are still major outliers associated with the TI variable.
+
+Running the regression on India, a comparable country with a longer alternative energy intensity timeseries (EIc) and a stronger correlation structure (\cref{fig:logdiff_correlations_india})
+
+\begin{table}[tbp]
+\centering
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{llllrrll}
+\toprule
+Equation & Dep. var. & Ind. var. &        Coefficient &  Est. (std.) &  S.E. (std.) & p-value & $R^{2}$ \\
+\midrule
+     (1) &        TI &       ISG &       $P_{TI,ISG}$ &        0.080 &        0.265 &   0.763 &   0.006 \\
+     (2) &   P\_GDPb &        TO &   $P_{P\_GDPb,TO}$ &        0.423 &        0.112 &       * &   0.179 \\
+     (3) &       EIb &       ISG &      $P_{EIb,ISG}$ &        0.011 &        0.208 &   0.960 &   0.116 \\
+         &       EIb &        TO &       $P_{EIb,TO}$ &        0.086 &        0.185 &   0.644 &         \\
+         &       EIb &        TI &       $P_{EIb,TI}$ &        0.232 &        0.186 &   0.213 &         \\
+         &       EIb &   P\_GDPb &  $P_{EIb,P\_GDPb}$ &       -0.273 &        0.192 &   0.154 &         \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\caption{Updated Bangladesh model parameter estimates (standardised)}
+\label{tab:updated_estimates}
+\end{table}
+
+\begin{table}[tbp]
+\centering
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{l|rrr|rrr|rrr}
+\toprule
+ 				& \multicolumn{3}{c|}{Direct effect}  & \multicolumn{3}{c|}{Indirect effect} & \multicolumn{3}{c}{Total effect} \\
+Causal variable & Coeff. & s.e. & p-value & Coeff. & s.e. & p-value & Coeff. & s.e. & p-value \\
+\midrule
+            ISG &     0.011 &   0.208 &      0.960 &     0.019 &   0.070 &      0.791 &     0.029 &   0.231 &      0.900 \\
+             TO &     0.086 &   0.185 &      0.644 &    -0.116 &   0.082 &      0.161 &    -0.030 &   0.175 &      0.864 \\
+             TI &     0.232 &   0.186 &      0.213 &           &         &            &     0.232 &   0.186 &      0.213 \\
+        P\_GDPb &    -0.273 &   0.192 &      0.154 &           &         &            &    -0.273 &   0.192 &      0.154 \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\caption{Updated Bangladesh model path coefficients (standardised)}
+\label{tab:updated_path_coeff}
+\end{table}
+
+\begin{figure}[htbp]
+\begin{subfigure}{0.4\textwidth}
+\centering
+\begin{tabular}{lrl}
+\toprule
+{} &  value &      cut-off \\
+\midrule
+$\chi^2$ &  0.588 &     $> 0.05$ \\
+RMSEA    &  0.000 &      $<0.08$ \\
+CFI      &  1.000 &  $\geq 0.90$ \\
+SRMR     &  0.048 &      $<0.08$ \\
+\bottomrule
+\end{tabular}
+\caption{Fit statistics}
+\label{tab:updated_fit_statistics}
+\end{subfigure}
+\begin{subfigure}{0.6\textwidth}
+\centering
+\includegraphics[width=\textwidth]{./plots/updated_correlation_residuals.pdf}
+\caption{Correlation residuals}
+\label{fig:updated_fit_residuals}
+\end{subfigure}
+
+\caption{Updated Bangladesh model fit measures}
+\label{fig:updated_fit}
+\end{figure}
+
 \section{Conclusion}\label{sec:conclusion}
 Maybe.
 
@@ -581,6 +655,7 @@ country &    EI &   EIb &  EIc &   ISG &  P\_GDP &  P\_GDPb &    TI &  TO \\
 \begin{subfigure}{0.7\textwidth}
 \includegraphics[width=\textwidth]{./plots/IND_current_diff_correlations.pdf}
 \caption{India}
+\label{fig:logdiff_correlations_india}
 \end{subfigure}\\
 \begin{subfigure}{0.7\textwidth}
 \includegraphics[width=\textwidth]{./plots/GBR_current_diff_correlations.pdf}
@@ -637,6 +712,24 @@ A small selection of program output referred to in the main text is included in 
 \end{subfigure}
 \caption{Original path model output}
 \end{figure}
+
+\begin{figure}[htbp]
+\begin{subfigure}{\textwidth}
+\small{\input{./plots/model.logdiff.fit.summary.tex}}
+\caption{Model summary}
+\end{subfigure}
+\caption{Updated path model output}
+\label{fig:updated_model_output}
+\end{figure}
+
+\begin{figure}[htbp]\ContinuedFloat
+\begin{subfigure}{\textwidth}
+\input{./plots/model.logdiff.fit.estimates.tex}
+\caption{Parameter estimates}
+\end{subfigure}
+\caption{Updated path model output}
+\end{figure}
+
 
 \restoregeometry{}
 
