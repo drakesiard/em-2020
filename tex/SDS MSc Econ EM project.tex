@@ -12,7 +12,7 @@
 \usepackage{tabulary}
 \usepackage{hyperref}
 \usepackage[capitalise,noabbrev]{cleveref}
-\usepackage[a4paper, total={6in, 8in}]{geometry}
+\usepackage[a4paper, total={6in, 9in}]{geometry}
 \usepackage{tikz}
 \usetikzlibrary{shapes,arrows,positioning}
 
@@ -70,7 +70,12 @@ Energy intensity, defined as the demand for energy per unit of output, is a crit
 Decreasing energy intensity is a necessary condition for the developing world's economic growth to continue through this century without overwhelming the world's limited resources, and for the developed world to maintain its quality of life while reducing their environmental impact.
 A better understanding of the drivers of energy intensity would thus benefit both the developed and developing worlds.
 
-\cite{panHowIndustrializationTrade2019} cite an extensive literature on energy intensity and its influencing factors, and extract four commonly described determinants of energy intensity: industrialization, trade openness, technological innovation, and economic growth.
+\cite{panHowIndustrializationTrade2019} cite an extensive literature on energy intensity and its influencing factors, and extract four commonly described determinants of energy intensity: economic growth, industrialization, trade openness, and technological innovation.
+Economic growth, in both absolute and per-capita terms, frequently recurs as a forcing factor of energy intensity, as both increased population and production place pressure on limited energy sources.
+Industrialisation, while increasing absolute energy consumption, allows mass production and its attendant efficiencies.
+Trade openness allows substitution away from energy-intensive inputs as well as a focus on higher-productivity exports. 
+Finally, technological development (often spurred by foreign direct investment) allows increases in productivity across all input factors.
+
 These nature of these variables, and the specific economic data series used to represent them, are described in greater detail in \cref{sec:data_sources}.
 \cite{panHowIndustrializationTrade2019} also cite a number of models and analyses that attempt to estimate the effect of these variables. 
 The authors note that due to the interdependence of these variables there may both direct and indirect effects, and propose four specific hypotheses for the interactions:
@@ -85,22 +90,25 @@ The authors note that due to the interdependence of these variables there may bo
 This model is outlined and the results analysed in \cref{sec:original_model}.
 The results of the original analysis are (partially) replicated, but some questions are raised regarding the significance of the results and the goodness of fit.
 
-To answer these questions, \cref{sec:data_analysis} then revisits the original data, noting some characteristics that suggest alternative transformations and model specifications.
+To answer these questions, \cref{sec:data_analysis} then revisits the original data, noting some characteristics that suggest model misspecification; most worrying is the strong possibility of spurious correlation.
+These characteristics are then used to inform alternative transformations and model specifications.
 These updated models are then described and evaluated in \cref{sec:revised_model}, and the results are summarised in \cref{sec:conclusion}.
 
 \clearpage
 
 \section{Data Sources}\label{sec:data_sources}
- 
-As in \cite{panHowIndustrializationTrade2019}, the dependent variable is energy intensity (denoted EI). The two independent variables are level of industrialization (ISG)\footnote{
-The abbreviation is due to the original paper labelling this as ``Industrial Share of Growth"; however, the measure actually used is industrial share of output, not of output growth. 
-Similarly, the variable P\_GDP is a measure of output per capita, not growth.
-} and trade openness (TO), and the two intermediary variables are economic output (P\_GDP) and technological innovation (TI).
-The precise definitions are described in \cref{tab:data_source}, supplementing Table 2 in \cite{panHowIndustrializationTrade2019}.
-All data is sampled at an annual frequency.
-The specific energy intensity measure EI is not directly available from the database in those units, but is constructed by taking the primary energy use in kg. of oil equivalent per capita, divided by the (2018 base) \$US GDP per capita.
+Energy intensity (abbreviated EI) is measured as the total primary energy use per unit of output. 
+The energy use is aggregated as kilograms of oil equivalent, and the unit of output is measured as (inflation-adjusted) \$US of gross domestic product.
+Industrialisation (ISG) is the total value added of industry (mining, manufacturing, construction, electricity, water, and gas) as a fraction of the total gross domestic product, and is therefore a unitless ratio (scaled in percent).
+The abbreviation ISG is due to the original paper labelling this as ``Industrial Share of Growth"; however, the measure actually used is industrial share of output, not of output growth.
+Trade openness (TO) is the total value of imported and exported goods and services as a fraction of total gross domestic product, and is likewise a unitless ratio scaled in percentage terms.
+For technological innovation (TI), we follow \cite{panHowIndustrializationTrade2019} in using total patent application count: resident patent applications are a measure of domestic innovation, and non-resident patent applications are a measure of technology deemed by foreign entities to be worth the effort of protection in that country, as would be the case with imported technology.
+Economic development (P\_GDP) is measured as the per capita gross domestic product, in this case the GDP divided by the mid-year population estimate. 
+As with ISG, the variable P\_GDP is a measure of output, not of growth, though this will be addressed further in \cref{sec:data_analysis}. 
+All of the above data series are sampled at an annual frequency, with a multi-year reporting lag, and are revised series (not point-in-time).
+The precise unit definitions are summarised in the first part of \cref{tab:data_source}, supplementing Table 2 in \cite{panHowIndustrializationTrade2019}.
 
-\begin{table}[tbp]
+\begin{table}[htbp]
 \centering
 \begin{tabulary}{\textwidth}{l l L} 
  \toprule 
@@ -125,9 +133,10 @@ The specific energy intensity measure EI is not directly available from the data
 For the replication phase, in order to most closely match \cite{panHowIndustrializationTrade2019}, it was necessary\footnote{
 ISG was revised in the June 2018 vintage, and the scaling factor for ``current" \$US-denominated values was rebased in September 2019.
 } to use the April 2018 vintage of the data from the WDI Database Archives, \cite{theworldbankWDIDatabaseArchives2018}.
+The specific energy intensity measure EI is not directly available from the database in those units, but is constructed by taking the primary energy use in kg. of oil equivalent per capita, divided by the (2018 base) \$US GDP per capita.
 Additional patent data was retrieved directly from the WIPO Statistics Database via the IP Statistics Data Center, \cite{wipoWIPOStatisticsDatabase2020}, and used to fill in gaps in World Bank data where necessary.
 
-In the original paper, the data is truncated to the date range 1986-2015, resulting in the summary statistics in \cref{tab:original_summary_stats}.
+The data is truncated to the date range 1986-2015, resulting in the summary statistics in \cref{tab:original_summary_stats}.
 Comparing these with the Table 3 of \cite{panHowIndustrializationTrade2019}, there is a very close match, but not an exact one.
 Of some concern is the mismatch in the number of samples of EI: the per capita primary energy use measure used that has been to construct EI is absent for the year 2015, both in previous vintages and the current version of the upstream database.
 While we can use incomplete data to estimate the model, this inevitably results in an additional difference.
@@ -137,10 +146,11 @@ This results the variable correlations in \cref{fig:original_summary_corr}; sign
 We can compare these results with Table 4 of \cite{panHowIndustrializationTrade2019}. 
 It is unclear in the original whether the correlations are of the raw or log data), but again, in either case, there is a close match in direction and magnitude on all measures, but not an exact one.
 
-For the model update, data was taken directly from the most recent update of the WDI database, \cite{theworldbankWorldDevelopmentIndicators2019}, and two countries were added for comparison: India (constant industrialisation level) and the United Kingdom (de-industrialising). 
-PPP-adjusted measures of energy intensity and per-capita GDP were added, and were denoted EIb and P\_GDPb in the dataset.
-
+For the model update, data was taken directly from the most recent update of the WDI database, \cite{theworldbankWorldDevelopmentIndicators2019}, and two countries were added for comparison: India (with a relatively constant level of industrialisation over the period) and the United Kingdom (de-industrialising). 
+PPP-adjusted measures of energy intensity and per-capita GDP were added, and were denoted EIb and P\_GDPb in the dataset. 
 In addition, a more up-to-date alternate energy intensity measure was added from \cite{enerdataGlobalEnergyStatistical2019} and denoted EIc in the dataset, for the countries for which it is available.
+These added data series are also described in the second part of \cref{tab:data_source}.
+
 We defer further detailed analysis of the data to \cref{sec:data_analysis}, and use the log-transformed data in the initial replication, following \cite{panHowIndustrializationTrade2019}.
 
 \begin{table}[tbp]
@@ -176,16 +186,17 @@ EI    &   0.20 &    0.49 &   0.35 &   0.07 &     29 \\
 \end{figure}
 
 \section{Original Model}\label{sec:original_model}
-
 Path models\footnote{ 
 Some of this section is a summary of material in \cite{klinePrinciplesPracticeStructural2016}; the interested reader is directed to the source for more details.
 } are a subset of structural equation models that deal only with observed variables (as opposed to hidden, or latent variables), where between the exogenous and final endogenous variables there may be one or more mediating endogenous variables.
+
+In the case of \cite{panHowIndustrializationTrade2019}, the dependent variable is energy intensity (EI). The two exogenous independent variables are level of industrialization (ISG) and trade openness (TO), and the two intermediary variables are economic output (P\_GDP) and technological innovation (TI).
+
+
 In the case of this model, openness to trade and industrialisation are the exogenous variables. 
 Openness to trade directly affects energy intensity and economic growth, and economic growth in turn affects energy intensity. 
 Industrialisation directly affects  energy intensity and technological innovation, which in turn also affects energy intensity.
-This model is represented graphically\footnote{
-Following Figure 3 in \cite{panHowIndustrializationTrade2019}, we simplify the diagram by dropping the variance notation.
-} in \cref{fig:original_model}. 
+This model is represented graphically in \cref{fig:original_model}. 
 The parameter naming convention is preserved from the original: that is, $P_{y,x}$ represents the regression coefficient of an endogenous variable $y$ of an exogenous variable $x$.
 
 \begin{figure}[tbp]
@@ -216,9 +227,10 @@ The parameter naming convention is preserved from the original: that is, $P_{y,x
 		node[anchor=center, fill=white] {$\rho_{\scriptscriptstyle{ISG,TO}}$} 
 		(TO);
 \end{tikzpicture}
-\caption{Path model for EI, mediated by P\_GDP and TI}
+\caption[Path model for EI, mediated by P\_GDP and TI]{Path model\footnotemark for EI, mediated by P\_GDP and TI}
 \label{fig:original_model}
 \end{figure}
+\footnotetext{Following Figure 3 in \cite{panHowIndustrializationTrade2019}, we simplify the diagram by dropping the variance notation.}
 
 Alternatively, we can represent this model as a system of three linear equations:
 \begin{align}
@@ -349,19 +361,35 @@ Energy intensity, per-capita GDP, and number of patents are plotted on a logarit
 Trade openness and industrial share are fractions, and plotted on a linear scale; applying a logistic transformation yields a visually indistinguishable result, as neither of these variables are at the extremes of their ranges.
 The correlation structures of the data are plotted in \cref{fig:log_correlations}; distributions and scatter plots can be found in \cref{fig:log_scatterplot}.
 
-We can note some stylised facts about the data from these figures and their descriptive statistics that will inform the analysis:
+We can note some stylised facts about the data from these figures and their descriptive statistics:
 \begin{itemize}
 
-\item All three countries have positive growth over the period (though UK growth stalls after the Global Financial Crisis)
+\item All three countries have positive growth over the period (though UK growth appears to stall  after the Global Financial Crisis)
 \item Bangladesh is industrialising, the United Kingdom is de-industrialising, and India has a roughly constant level of industrialisation over the period
 \item While India and the UK have a roughly similar levels of technological innovation if averaged over the period, India's is increasing, while the UK's is (if anything) falling.
-\item Energy intensity is falling through across all three of these countries, regardless of the direction of the other variables.
+\item Energy intensity is falling through time across all three of these countries, regardless of the direction of the other variables.
 \item The scales of the data sometimes differ by orders of magnitude between countries, so pooling data would require additional transformation.
+\item The data series with \$US scaling are significantly more volatile than the PPP-adjusted \$US-scaled series, suggesting that EIb and P\_GDPb may be less noisy measures; noting that the energy use measure is the same between EI and EIb, but that the correlation between EIb and P\_GDPb is weaker than that between EI and P\_GDP, we conclude that part of the covariance between EI and P\_GDP may be driven by exchange rate fluctuations.
 \end{itemize}
-It is also clear to the naked eye that these series appear to be non-stationary.
+It is clear to the naked eye that these series are non-stationary.
+Testing for a unit-root with an ADF test (with constant and trend) yields the test statistic and p-values in \cref{tab:adf_log}; we cannot reject the null hypothesis of a unit root in most series.
 
+This is unsurprising, and so we follow standard procedure in taking the first difference of these series, running the ADF test again to obtain the results in \cref{tab:adf_logdiff}: now we can reject the null hypothesis of a unit root in nearly all of the series.
+The correlation structures of the (log-differenced) data are plotted in \cref{fig:logdiff_correlations}; distributions and scatter plots can be found in \cref{fig:logdiff_scatterplot}.
+The distributions are better behaved, and appear much closer to normality.
+\cref{tab:normality_test} shows the results of a Jarque-Bera test, and we cannot reject the null hypothesis of normality in most cases.
+
+The most striking fact about the log differenced data is that most of the correlation structure is no longer significant, suggesting the possibility that the previous results were the result of spurious regression between I(1) series.
 
 \section{Revised Model}\label{sec:revised_model}
+
+To test this theory, we run the model on the data for Bangladesh with the following modifications:
+\begin{itemize}
+\item The most recent vintage of the data is used
+\item EI and P\_GDP are replaced with EIb and P\_GDPb, the PPP-adjusted versions
+\item Since EIb and P\_GDPb are only available from 1990 onwards, the regression is run on 1990-2015 (with the missing EIb data in 2015 imputed via EM, as before)
+\item We take the log difference of variables with unit levels (TI, EIb, P\_GDPb); we take the difference of unitless ratios (ISG, TO) as above. 
+\end{itemize}
 
 \section{Conclusion}\label{sec:conclusion}
 Maybe.
@@ -375,6 +403,7 @@ Maybe.
 
 \clearpage
 
+\newgeometry{margin=2cm}
 \section{Appendices}
 
 \subsection{Data and Code}\label{sec:data_and_code}
@@ -395,8 +424,7 @@ The SPSS Amos 23 output can be found at:
 \url{https://github.com/drakesiard/em-2020/blob/master/analysis/BGD\%20201805\%20SPSS\%20Amos\%2023.pdf}
 \end{adjustbox}
 
-\newgeometry{margin=2cm}
-\subsection{Graphs}\label{sec:graph_appendix}
+\subsection{Additional Figures}\label{sec:graph_appendix}
 
 
 \begin{figure}[htbp]
@@ -479,6 +507,71 @@ The SPSS Amos 23 output can be found at:
 \label{fig:log_scatterplot}
 \end{figure}
 
+\begin{table}[htbp]
+\begin{subfigure}{\textwidth}
+\centering
+\begin{tabular}{lrrrrrrrr}
+\toprule
+country &    EI &   EIb &   EIc &   ISG &  P\_GDP &  P\_GDPb &    TI &    TO \\
+\midrule
+    BGD & -6.82 & -2.48 &       & -2.00 &  -0.21 &   -0.84 & -1.60 & -2.20 \\
+    GBR & -2.10 & -4.92 & -5.19 & -0.70 &  -1.30 &   -0.71 & -2.76 & -2.66 \\
+    IND & -1.57 & -1.50 & -3.18 & -1.63 &  -1.51 &   -1.56 & -2.25 & -2.26 \\
+\bottomrule
+\end{tabular}
+\caption{ADF test statistic}
+\end{subfigure}
+\begin{subfigure}{\textwidth}
+\centering
+\begin{tabular}{lrrrrrrrr}
+\toprule
+country &    EI &   EIb &   EIc &   ISG &  P\_GDP &  P\_GDPb &    TI &    TO \\
+\midrule
+    BGD &     * & 0.336 &       & 0.604 &  0.991 &   0.962 & 0.794 & 0.487 \\
+    GBR & 0.547 &     * &     * & 0.973 &  0.889 &   0.972 & 0.213 & 0.253 \\
+    IND & 0.804 & 0.831 & 0.089 & 0.778 &  0.825 &   0.806 & 0.461 & 0.454 \\
+\bottomrule
+\end{tabular}
+\caption[ADF test p-value]{ADF test p-value\footnotemark}
+\end{subfigure}
+\caption{ADF test, updated data (logs)}
+\label{tab:adf_log}
+\end{table}
+
+\begin{table}[htbp]
+\begin{subfigure}{\textwidth}
+\centering
+\begin{tabular}{lrrrrrrrr}
+\toprule
+country &    EI &   EIb &   EIc &   ISG &  P\_GDP &  P\_GDPb &    TI &    TO \\
+\midrule
+    BGD & -3.98 & -5.44 &       & -4.86 &  -3.97 &   -3.83 & -7.93 & -5.15 \\
+    GBR & -4.65 & -4.94 & -7.99 & -9.73 &  -4.42 &   -4.95 & -2.73 & -6.11 \\
+    IND & -5.15 & -4.57 & -5.44 & -2.29 &  -5.36 &   -4.45 & -4.96 & -4.94 \\
+\bottomrule
+\end{tabular}
+\caption{ADF test statistic}
+\end{subfigure}
+\begin{subfigure}{\textwidth}
+\centering
+\begin{tabular}{lrrrrrrrr}
+\toprule
+country &    EI &   EIb &  EIc &   ISG &  P\_GDP &  P\_GDPb &    TI &  TO \\
+\midrule
+    BGD & 0.009 &     * &      &     * &  0.010 &   0.015 &     * &   * \\
+    GBR &     * &     * &    * &     * &  0.002 &       * & 0.222 &   * \\
+    IND &     * & 0.001 &    * & 0.438 &      * &   0.002 &     * &   * \\
+\bottomrule
+\end{tabular}
+\caption[ADF test p-value]{ADF test p-value\footnotemark[\value{footnote}]}
+\end{subfigure}
+\caption{ADF test, updated data (log diff)}
+\label{tab:adf_logdiff}
+\end{table}
+
+
+\footnotetext{asterisk indicates p-value \textless 0.001}
+
 \begin{figure}[htbp]
 \centering
 \begin{subfigure}{0.7\textwidth}
@@ -494,7 +587,7 @@ The SPSS Amos 23 output can be found at:
 \caption{United Kingdom}
 \end{subfigure}
 \caption{Updated data (log diff), correlation structure}
-\label{fig:log_diff_correlations}
+\label{fig:logdiff_correlations}
 \end{figure}
 
 \begin{figure}[htbp]
@@ -503,6 +596,23 @@ The SPSS Amos 23 output can be found at:
 \caption{Updated data (log diff), distributions and scatter plots}
 \label{fig:logdiff_scatterplot}
 \end{figure}
+
+\begin{table}[htbp]
+\centering
+\begin{tabular}{lrrrrrrrr}
+\toprule
+country &    EI &   EIb &   EIc &   ISG &  P\_GDP &  P\_GDPb &    TI &    TO \\
+\midrule
+    BGD & 0.355 & 0.892 &       &     * &  0.748 &   0.413 & 0.786 & 0.016 \\
+    GBR & 0.577 & 0.713 & 0.805 & 0.131 &  0.706 &       * & 0.777 & 0.531 \\
+    IND & 0.077 & 0.299 & 0.396 & 0.313 &  0.079 &   0.337 &     * & 0.305 \\
+\bottomrule
+\end{tabular}
+\caption{Jarque-Bera normality test p-values, log diff data}
+\label{tab:normality_test}
+\end{table}
+
+
 
 \clearpage
 \subsection{Program Output}\label{sec:program_output}
