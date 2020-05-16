@@ -358,7 +358,7 @@ For the same set of variables, we update the data set to the most recent vintage
 We also expand the data set to include India, a comparable developing nation in terms of per capita GDP growth, and the United Kingdom, a de-industrialising nation.
 The four original variables are plotted in \cref{fig:data_plots} (in \cref{sec:graph_appendix}); we include the addition measure of energy intensity for India and the UK, but it is not available for Bangladesh.
 Energy intensity, per-capita GDP, and number of patents are plotted on a logarithmic scale.
-Trade openness and industrial share are fractions, and plotted on a linear scale; applying a logistic transformation yields a visually indistinguishable result, as neither of these variables are at the extremes of their ranges.
+Trade openness and industrial share are fractions, and plotted on a linear scale; applying a logistic transformation yields a visually indistinguishable result, as neither of these variables are at the extremes of the distribution and the logistic transformation is nearly linear over their ranges.
 The correlation structures of the data are plotted in \cref{fig:log_correlations}; distributions and scatter plots can be found in \cref{fig:log_scatterplot}.
 
 We can note some stylised facts about the data from these figures and their descriptive statistics:
@@ -372,14 +372,15 @@ We can note some stylised facts about the data from these figures and their desc
 \item The data series with \$US scaling are significantly more volatile than the PPP-adjusted \$US-scaled series, suggesting that EIb and P\_GDPb may be less noisy measures; noting that the energy use measure is the same between EI and EIb, but that the correlation between EIb and P\_GDPb is weaker than that between EI and P\_GDP, we conclude that part of the covariance between EI and P\_GDP may be driven by exchange rate fluctuations.
 \end{itemize}
 It is clear to the naked eye that these series are non-stationary.
-Testing for a unit-root with an ADF test (with constant and trend) yields the test statistic and p-values in \cref{tab:adf_log}; we cannot reject the null hypothesis of a unit root in most series.
+Testing each series for a unit-root with an ADF test (with constant and trend) yields the test statistic and p-values in \cref{tab:adf_log}; we cannot reject the null hypothesis of a unit root in most of the series.
+This is unsurprising, and so we follow standard procedure in taking the first difference of all series, running the ADF test again to obtain the results in \cref{tab:adf_logdiff}: now we can reject the null hypothesis of a unit root in nearly all of the series.
+Running a Levin-Lin-Chu test across all the series in an individual country as a panel yields a similar result: for Bangladesh, the p-value of the test on the log data is $\approx0.32$, whereas that on the log-differenced data is $<0.01$, confirming the more imprecise results above.
 
-This is unsurprising, and so we follow standard procedure in taking the first difference of these series, running the ADF test again to obtain the results in \cref{tab:adf_logdiff}: now we can reject the null hypothesis of a unit root in nearly all of the series.
 The correlation structures of the (log-differenced) data are plotted in \cref{fig:logdiff_correlations}; distributions and scatter plots can be found in \cref{fig:logdiff_scatterplot}.
 The distributions are better behaved, and appear much closer to normality.
-\cref{tab:normality_test} shows the results of a Jarque-Bera test, and we cannot reject the null hypothesis of normality in most cases.
+\cref{tab:normality_test} shows the results of a Jarque-Bera test, and we cannot reject the null hypothesis of normality in a majority of cases.
 
-The most striking fact about the log differenced data is that most of the correlation structure is no longer significant, suggesting the possibility that the previous results were the result of spurious regression between I(1) series.
+The most striking fact about the log differenced data is that much of the correlation structure is no longer significant, suggesting the possibility that the previous results were the result of spurious regression between I(1) series.
 
 \section{Revised Model}\label{sec:revised_model}
 
@@ -392,12 +393,14 @@ To test this theory, we run the model on the data for Bangladesh with the follow
 \end{itemize}
 
 The results of the updated model are given in \cref{tab:updated_estimates} and the path coefficients are summarised in \cref{tab:updated_path_coeff}; full program output can be found in  \cref{fig:updated_model_output}.
+
 Unsurprisingly, with such a weak correlation structure, no path coefficients to EI are significant, and we fail to reject the null for all four hypothesis H.1 through H.4.
-The only coefficient of any significance is $P_{P_GDPb,TO}$, the effect of trade openness on economic development, which is positive, as expected by conventional economic theory.
+The only coefficient of any significance is $P_{P\_GDPb,TO}$, the effect of trade openness on economic development, which is positive, as expected by conventional economic theory. 
+Running the regression from 1986 onward, and imputing the missing EIb and P\_GDPb data, yields a similar result; running the regression on the non-PPP-adjusted data yields a significant $P_{EI,P\_GDP}$ coefficient, whereas $P_{EIb,P\_GDPb}$ in the regression above is not significant, suggesting that the correlation does indeed come from the currency conversion. 
 
 None of the fit statistics (shown in \cref{tab:updated_fit_statistics}) necessarily indicate a bad fit; however, with such a weak correlation structure, they have little diagnostic power. Inspecting the correlation residuals in \cref{fig:updated_fit_residuals}, there are still major outliers associated with the TI variable.
 
-Running the regression on India, a comparable country with a longer alternative energy intensity timeseries (EIc) and a stronger correlation structure (\cref{fig:logdiff_correlations_india})
+Running the regression on India, a comparable country with a longer energy intensity timeseries (from a different source, but in a similar unit: EIc) and a stronger correlation structure (\cref{fig:logdiff_correlations_india})
 
 \begin{table}[tbp]
 \centering
@@ -406,12 +409,12 @@ Running the regression on India, a comparable country with a longer alternative 
 \toprule
 Equation & Dep. var. & Ind. var. &        Coefficient &  Est. (std.) &  S.E. (std.) & p-value & $R^{2}$ \\
 \midrule
-     (1) &        TI &       ISG &       $P_{TI,ISG}$ &        0.080 &        0.265 &   0.763 &   0.006 \\
-     (2) &   P\_GDPb &        TO &   $P_{P\_GDPb,TO}$ &        0.423 &        0.112 &       * &   0.179 \\
-     (3) &       EIb &       ISG &      $P_{EIb,ISG}$ &        0.011 &        0.208 &   0.960 &   0.116 \\
-         &       EIb &        TO &       $P_{EIb,TO}$ &        0.086 &        0.185 &   0.644 &         \\
-         &       EIb &        TI &       $P_{EIb,TI}$ &        0.232 &        0.186 &   0.213 &         \\
-         &       EIb &   P\_GDPb &  $P_{EIb,P\_GDPb}$ &       -0.273 &        0.192 &   0.154 &         \\
+     (1) &        TI &       ISG &       $P_{TI,ISG}$ &        0.113 &        0.305 &   0.710 &   0.013 \\
+     (2) &   P\_GDPb &        TO &   $P_{P\_GDPb,TO}$ &        0.444 &        0.115 &       * &   0.197 \\
+     (3) &       EIb &       ISG &      $P_{EIb,ISG}$ &        0.011 &        0.210 &   0.960 &   0.111 \\
+         &       EIb &        TO &       $P_{EIb,TO}$ &        0.091 &        0.197 &   0.644 &         \\
+         &       EIb &        TI &       $P_{EIb,TI}$ &        0.221 &        0.180 &   0.220 &         \\
+         &       EIb &   P\_GDPb &  $P_{EIb,P\_GDPb}$ &       -0.277 &        0.194 &   0.153 &         \\
 \bottomrule
 \end{tabular}
 \end{adjustbox}
@@ -427,10 +430,10 @@ Equation & Dep. var. & Ind. var. &        Coefficient &  Est. (std.) &  S.E. (st
  				& \multicolumn{3}{c|}{Direct effect}  & \multicolumn{3}{c|}{Indirect effect} & \multicolumn{3}{c}{Total effect} \\
 Causal variable & Coeff. & s.e. & p-value & Coeff. & s.e. & p-value & Coeff. & s.e. & p-value \\
 \midrule
-            ISG &     0.011 &   0.208 &      0.960 &     0.019 &   0.070 &      0.791 &     0.029 &   0.231 &      0.900 \\
-             TO &     0.086 &   0.185 &      0.644 &    -0.116 &   0.082 &      0.161 &    -0.030 &   0.175 &      0.864 \\
-             TI &     0.232 &   0.186 &      0.213 &           &         &            &     0.232 &   0.186 &      0.213 \\
-        P\_GDPb &    -0.273 &   0.192 &      0.154 &           &         &            &    -0.273 &   0.192 &      0.154 \\
+            ISG &     0.011 &   0.210 &      0.960 &     0.025 &   0.079 &      0.752 &     0.036 &   0.238 &      0.881 \\
+             TO &     0.091 &   0.197 &      0.644 &    -0.123 &   0.087 &      0.160 &    -0.032 &   0.186 &      0.864 \\
+             TI &     0.221 &   0.180 &      0.220 &           &         &            &     0.221 &   0.180 &      0.220 \\
+        P\_GDPb &    -0.277 &   0.194 &      0.153 &           &         &            &    -0.277 &   0.194 &      0.153 \\
 \bottomrule
 \end{tabular}
 \end{adjustbox}
