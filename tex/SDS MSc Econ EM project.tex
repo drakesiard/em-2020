@@ -42,7 +42,7 @@
 \newcommand{\pkg}[1]{{\fontseries{b}\selectfont #1}} 
 
 
-\title{\textbf{A developmental model of energy intensity}}
+\title{\textbf{A path model of energy intensity}}
 \author{S. Drake Siard\\
 MSc Economics 2019-2020}
 \date{2020 May 5}
@@ -53,7 +53,8 @@ MSc Economics 2019-2020}
 \begin{abstract}
 This project aims to further develop a published path model, originally applied to Bangladesh, to analyse the direct and indirect impacts of growth, industrialization, technological innovation, and trade openness on energy intensity.
 The model is first validated by replicating the results in the original paper; not all findings are confirmed, and some choices regarding model construction and data treatment are re-assessed.
-A modified version of the model then applied to more recent data in India and the UK, where the directions of industrialisation and technological innovation differ, to see if the original hypotheses continue to hold.
+The data set is then updated and processed according to the findings, and the model is applied to Bangladesh as well as to India and the UK, where the directions of industrialisation and technological innovation differ, to see if the original hypotheses continue to hold.
+The results of the original analysis are not replicated in any country, except for a possible link between economic growth and reductions in energy intensity.
 
 Programs used: Python (\pkg{statsmodels}, \pkg{scipy}); R (\pkg{lavaan}, \pkg{semTools}); SPSS Amos 23 for replication
 
@@ -438,7 +439,13 @@ Causal variable & Coeff. & s.e. & p-value & Coeff. & s.e. & p-value & Coeff. & s
 Unsurprisingly, with such a weak correlation structure, no path coefficients to EI are significant, and we fail to reject the null for all four hypothesis H.1 through H.4.
 The only coefficient of any significance is $P_{P\_GDPb,TO}$, the effect of trade openness on economic development, which is positive, as expected by conventional economic theory. 
 Running the regression from 1986 onward, and imputing the missing EIb and P\_GDPb data, yields a similar result; running the regression on the non-PPP-adjusted data yields a significant coefficient of GDP against energy intensity ($P_{EI,P\_GDP}$), whereas $P_{EIb,P\_GDPb}$ in the regression on PPP-adjusted data above is not significant, suggesting that some of the correlation does indeed come from the currency conversion. 
-Running the regression on India, a comparable country with a longer energy intensity timeseries (from a different source, but in a similar unit: EIc) and a stronger correlation structure (\cref{fig:logdiff_correlations_india}), we do find a significant $P_{EIb,P\_GDPb}$; however, running the regression on the United Kingdom, that coefficient is not significant. 
+Running the regression on India, a comparable country with a longer energy intensity timeseries (from a different source, but in a similar unit: EIc) and a stronger correlation structure (\cref{fig:logdiff_correlations_india}), we do find a significant $P_{EIb,P\_GDPb}$; however, running the regression on the United Kingdom, that coefficient is not significant.\footnote{
+
+\cref{tab:ind_path_coeff}
+\cref{tab:gbr_path_coeff}
+\cref{fig:ind_fit}
+\cref{fig:gbr_fit}
+} 
 
 \begin{figure}[tbp]
 \begin{subfigure}{0.4\textwidth}
@@ -468,12 +475,14 @@ SRMR     &  0.048 &      $<0.08$ \\
 
 Overall,none of the fit statistics for the updated Bangladesh model (shown in \cref{tab:updated_fit_statistics}) necessarily indicate a bad fit; however, with such a weak correlation structure, there was little covariance to explain. Inspecting the correlation residuals in \cref{fig:updated_fit_residuals}, there are still major outliers associated with the TI variable.
 
-
 \section{Conclusion}\label{sec:conclusion}
 
-
+We are able to replicate the findings of \cite{panHowIndustrializationTrade2019} with regards to two of their hypothesis (industrialisation having positive direct impact on energy intensity, and trade openness has negative indirect impact on energy intensity through economic growth) on their chosen data set.
+However, once the data series are differenced as indicated by unit root tests, the effect disappears. 
+Running the analysis on two other countries (one, industrialised, one de-industrialising) yields only one other significant result, a negative relationship between energy intensity and growth, and that only on the other developing nation (India).
+\cite{tibaIncomeTradeOpenness2018} regress energy consumption on a number of economic variables and find a significant relationship between GDP and energy consumption in less than half of the countries in their data set; it is worth noting that they also use a non-PPP-adjusted measure of GDP, though their energy consumption measure is per capita rather than per unit of output, so it is possible some omitted variable bias currency fluctuations are likely to add noise rather than spurious .
 While \cite{aydinDoesLevelEnergy2018} find significant interactions between energy intensity and growth using first differences of PPP-adjusted GDP and energy intensity measures, they do so with a panel of 12 countries.
-\cite{tibaIncomeTradeOpenness2018} regress energy consumption on a number of economic variables and find a significant relationship between GDP and energy consumption in less than half of the countries in their data set; it is worth noting that they also use a non-PPP-adjusted measure of GDP, though their energy consumption measure is per capita rather than per unit of output.
+
 
 \clearpage
 
