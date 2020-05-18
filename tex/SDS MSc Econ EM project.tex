@@ -51,7 +51,7 @@ MSc Economics 2019-2020}
 \maketitle
 
 \begin{abstract}
-This project aims to further develop a published path model, originally applied to Bangladesh, to analyse the direct and indirect impacts of growth, industrialization, technological innovation, and trade openness on energy intensity.
+This project aims to further develop a published path model, originally applied to Bangladesh, to analyse the direct and indirect impacts of growth, industrialisation, technological innovation, and trade openness on energy intensity.
 The model is first validated by replicating the results in the original paper; not all findings are confirmed, and some choices regarding model construction and data treatment are re-assessed.
 The data set is then updated and processed according to the findings, and the model is applied to Bangladesh as well as to India and the UK, where the directions of industrialisation and technological innovation differ, to see if the original hypotheses continue to hold.
 The results of the original analysis are not replicated in any country, except for a possible link between economic growth and reductions in energy intensity.
@@ -72,7 +72,7 @@ Energy intensity, defined as the demand for energy per unit of output, is a crit
 Decreasing energy intensity is a necessary condition for the developing world's economic growth to continue through this century without overwhelming the world's limited resources, and for the developed world to maintain its quality of life while reducing their environmental impact.
 A better understanding of the drivers of energy intensity would benefit both developed and developing nations.
 
-\cite{panHowIndustrializationTrade2019} cite an extensive literature on energy intensity and its influencing factors, and extract four commonly described determinants of energy intensity: economic growth, industrialization, trade openness, and technological innovation.
+\cite{panHowIndustrializationTrade2019} cite an extensive literature on energy intensity and its influencing factors, and extract four commonly described determinants of energy intensity: economic growth, industrialisation, trade openness, and technological innovation.
 Economic growth, in both absolute and per-capita terms, frequently recurs as a forcing factor of energy intensity, as both increased population and production place pressure on limited energy sources.
 Industrialisation, while increasing absolute energy consumption, allows mass production and its attendant efficiencies, as human and agrarian energy sources cease to be limiting factors.
 Trade openness allows efficiency gains and substitution away from energy-intensive inputs as well as a focus on higher-productivity exports. 
@@ -83,7 +83,7 @@ These nature of these variables, and the specific economic data series used to r
 The authors note that due to the interdependence of these variables there may both direct and indirect effects, and propose four specific hypotheses for the interactions:
 \begin{enumerate}[label=\textbf{H.\arabic*}]
 \item Industrialisation has positive direct impact on energy intensity. 
-\item Industrialization has negative indirect impact on energy intensity through technological innovation.
+\item Industrialisation has negative indirect impact on energy intensity through technological innovation.
 \item Trade openness has negative direct impact on energy intensity, through input substitution.
 \item Trade openness has negative indirect impact on energy intensity through economic growth.
 \end{enumerate}
@@ -125,7 +125,7 @@ The precise unit definitions are summarised in the first part of \cref{tab:data_
    EIb & Energy intensity & Primary energy use in kg. of oil equivalent per (2019, PPP-adjusted) \$US of GDP (from WB WDI) \\ 
  EIc & Energy intensity & Primary energy use in kg. of oil equivalent per (2015, PPP-adjusted) \$US of GDP (from Enerdata) \\ 
  P\_GDPb & Economic output & GDP measured in ``current" (2018 or 2019, by vintage, PPP-adjusted) \$US, divided by mid-year population estimate\\ 
-
+ FX & Exchange rate &  Annual average based on monthly averages, in local currency units relative to \$US\\ 
  \bottomrule 
 \end{tabulary}
 \caption{Variable names and descriptions}
@@ -149,9 +149,10 @@ We can compare these results with Table 4 of \cite{panHowIndustrializationTrade2
 It is unclear in the original whether the correlations are of the raw or log data), but again, in either case, there is a close match in direction and magnitude on all measures, but not an exact one.
 
 For the model update, data was taken directly from the most recent update of the WDI database, \cite{theworldbankWorldDevelopmentIndicators2019}, and two countries were added for comparison: India (with a relatively constant level of industrialisation over the period) and the United Kingdom (de-industrialising). 
-PPP-adjusted measures of energy intensity and per-capita GDP were added, and were denoted EIb and P\_GDPb in the dataset. 
+PPP-adjusted measures of energy intensity and per-capita GDP were added, and were denoted EIb and P\_GDPb in the dataset.
+The foreign exchange rate, in local currency units relative to the United States dollar, was also downloaded from the WB WDI and denoted FX.
 In addition, a more up-to-date alternate energy intensity measure was added from \cite{enerdataGlobalEnergyStatistical2019} and denoted EIc in the dataset, for the countries for which it is available.
-These added data series are also described in the second part of \cref{tab:data_source}.
+These added data series are described in the second part of \cref{tab:data_source}.
 
 No distributional analysis or other inspection of the data is performed in \cite{panHowIndustrializationTrade2019}.
 consequently, we use the log-transformed data in the initial replication, and defer further detailed analysis of the data to \cref{sec:data_analysis}.
@@ -193,10 +194,7 @@ Path models\footnote{
 Some of this section is a summary of material in \cite{klinePrinciplesPracticeStructural2016}; the interested reader is directed to the source for more details.
 } are a subset of structural equation models that deal only with observed variables (as opposed to hidden, or latent variables), where between the exogenous and final endogenous variables there may be one or more mediating endogenous variables.
 
-In the case of \cite{panHowIndustrializationTrade2019}, the dependent variable is energy intensity (EI). The two exogenous independent variables are level of industrialization (ISG) and trade openness (TO), and the two intermediary variables are economic output (P\_GDP) and technological innovation (TI).
-
-
-In the case of this model, openness to trade and industrialisation are the exogenous variables. 
+In the case of \cite{panHowIndustrializationTrade2019}, the dependent variable is energy intensity (EI). The two exogenous independent variables are level of industrialisation (ISG) and trade openness (TO), and the two intermediary variables are economic output (P\_GDP) and technological innovation (TI). 
 Openness to trade directly affects energy intensity and economic growth, and economic growth in turn affects energy intensity. 
 Industrialisation directly affects  energy intensity and technological innovation, which in turn also affects energy intensity.
 This model is represented graphically in \cref{fig:original_model}. 
@@ -358,7 +356,7 @@ As a standardised graphical indication of this problem, the correlation residual
 \section{Data Analysis}\label{sec:data_analysis}
 For the same set of variables, we update the data set to the most recent vintage of WDI data, from \cite{theworldbankWorldDevelopmentIndicators2019}.
 We also expand the data set to include India, a comparable developing nation in terms of per capita GDP growth, and the United Kingdom, a de-industrialising nation.
-The four original variables are plotted in \cref{fig:data_plots} (in \cref{sec:graph_appendix}); we include the addition measure of energy intensity for India and the UK, but it is not available for Bangladesh.
+The five original variables (and the PPP-adjusted versions, where applicable) are plotted in \cref{fig:data_plots} (in \cref{sec:graph_appendix}); we include the addition measure of energy intensity for India and the UK, but it is not available for Bangladesh.
 Energy intensity, per-capita GDP, and number of patents are plotted on a logarithmic scale.
 Trade openness and industrial share are fractions, and plotted on a linear scale; applying a logistic transformation yields a visually indistinguishable result, as neither of these variables are at the extremes of the distribution and the logistic transformation is nearly linear over their ranges.
 The correlation structures of the data are plotted in \cref{fig:log_correlations}; distributions and scatter plots can be found in \cref{fig:log_scatterplot}.
@@ -479,17 +477,16 @@ SRMR     &  0.048 &      $<0.08$ \\
 \label{fig:updated_fit}
 \end{figure}
 
-\clearpage
-
 \section{Conclusion}\label{sec:conclusion}
 
 We are able to replicate the findings of \cite{panHowIndustrializationTrade2019} with regards to two of their hypotheses (industrialisation having positive direct impact on energy intensity, and trade openness has negative indirect impact on energy intensity through economic growth), but only on their chosen data set.
 Once the data series are differenced as suggested by the results of further testing, the effect disappears. 
 Running the analysis on two other countries (one mostly industrialised, one de-industrialising) yields only one other significant result, a negative relationship between energy intensity and growth, and that only on the other developing nation (India).
 In many ways, this is unsurprising.
-\cite{tibaIncomeTradeOpenness2018} regress energy consumption on a number of economic variables and find a significant relationship between GDP and energy consumption in less than half of the countries in their data set; it is worth noting that they also use a non-PPP-adjusted measure of GDP; however, their energy consumption measure is per capita rather than per unit of output, so currency fluctuations are likely to add omitted variable bias rather than spurious correlation.
+\cite{tibaIncomeTradeOpenness2018} regress energy consumption on a number of economic variables and find a significant relationship between GDP and energy consumption in less than half of the countries in their data set. 
+It is worth noting that they also use a non-PPP-adjusted measure of GDP; however, their energy consumption measure is per capita rather than per unit of output, so currency fluctuations are likely to add omitted variable bias rather than spurious correlation.
 While \cite{aydinDoesLevelEnergy2018} find significant interactions between energy intensity and growth using first differences of PPP-adjusted GDP and energy intensity measures, they do so with a panel of 12 countries.
-In summary, if the effect outlined in  \cite{panHowIndustrializationTrade2019} exist, demonstrations of their significance are likely to require data from a much larger set of countries, and, if possible, longer or more granular time series.
+In summary, if the effects outlined in  \cite{panHowIndustrializationTrade2019} do exist, demonstrations of their significance are likely to require data from a much larger set of countries, and, if possible, longer or more granular time series.
 
 \clearpage
 
@@ -815,7 +812,8 @@ SRMR     &  0.060 &      $<0.08$ \\
 \label{fig:gbr_fit}
 \end{figure}
 
-\clearpage
+\FloatBarrier
+
 \subsection{Program Output}\label{sec:program_output}
 
 A small selection of program output referred to in the main text is included in this section; all other program output associated with this project is presented in-line with the code in the repository described in \cref{sec:data_and_code}.
