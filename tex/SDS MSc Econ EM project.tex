@@ -337,6 +337,12 @@ This coefficient is negative (-1.120) and significant at the 5\% level, so we re
 \noindent 
 Based on the data available and the analysis above, we can only replicate the results regarding two of the four hypotheses: H.1 and H.4.
 
+\begin{figure}[tbp]
+\centering
+\includegraphics[width=0.6\textwidth]{./plots/original_correlation_residuals.pdf}
+\caption{Correlation residuals}
+\label{fig:original_corr_resid}
+\end{figure}
 
 We now turn our attention to model diagnostics.
 \cite{panHowIndustrializationTrade2019} only report goodness-of-fit measures at the single-equation level.
@@ -348,13 +354,6 @@ For the model $\chi^2$ (another badness-of-fit measure), we calculate 14.8, whic
 This indicates a large discrepancy between the sample and fitted covariance matrices, but this measure is sensitive to sample size, which at ($n=30$) is at the very lower bound of what might be considered acceptable.
 Another measure of this discrepancy is SRMR, which at 0.041 is below the cut-off value of 0.08, indicating that at least by one metric the covariance residuals may not be excessively large; however, with all these results taken together, it is clear that the model fit is not ideal.
 As a standardised graphical indication of this problem, the correlation residuals (sorted by size) are plotted in \cref{fig:original_corr_resid}; noting that all the major outliers are associated with the TI variable suggests that further investigation is warranted, and so we revisit the data set to consider any scaling or transformations that may be necessary.
-
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=0.6\textwidth]{./plots/original_correlation_residuals.pdf}
-\caption{Correlation residuals}
-\label{fig:original_corr_resid}
-\end{figure}
 
 \section{Data Analysis}\label{sec:data_analysis}
 For the same set of variables, we update the data set to the most recent vintage of WDI data, from \cite{theworldbankWorldDevelopmentIndicators2019}.
@@ -373,7 +372,9 @@ We can note some stylised facts about the data from these figures and their desc
 \item While India and the UK have a roughly similar levels of technological innovation if averaged over the period, India's is increasing, while the UK's is (if anything) falling.
 \item Energy intensity is falling through time across all three of these countries, regardless of the direction of the other variables.
 \item The scales of the data sometimes differ by orders of magnitude between countries, so pooling data would require additional transformation.
-\item The data series with \$US scaling are significantly more volatile than the PPP-adjusted \$US-scaled series, suggesting that EIb and P\_GDPb may be less noisy measures; noting that the energy use measure is the same between EI and EIb, but that the correlation between EIb and P\_GDPb is weaker than that between EI and P\_GDP, we conclude that part of the covariance between EI and P\_GDP may be driven by exchange rate fluctuations.
+\item The data series with \$US scaling are significantly more volatile than the PPP-adjusted \$US-scaled series, suggesting that EIb and P\_GDPb may be less noisy measures; noting that the energy use measure is the same between EI and EIb, but that the correlation between EIb and P\_GDPb is weaker than that between EI and P\_GDP, we conclude that part of the covariance between EI and P\_GDP may be driven by exchange rate fluctuations.\footnote{
+An analysis not described in this paper (but available in as described in \cref{sec:data_and_code} finds significant relationships between EI and FX, and P\_GDP and FX; however, even controlling for FX, there remains a relationship between EI and P\_GDP that disappears when using the PPP-adjusted EIb and P\_GDPb.
+}
 \end{itemize}
 It is clear to the naked eye that these series are non-stationary.
 Testing each series for a unit-root with an ADF test (with constant and trend) yields the test statistic and p-values in \cref{tab:adf_log}; we cannot reject the null hypothesis of a unit root in most of the series.
@@ -518,6 +519,13 @@ The SPSS Amos 23 output can be found at:
 
 \begin{adjustbox}{max width=\textwidth}
 \url{https://github.com/drakesiard/em-2020/blob/master/analysis/BGD\%20201805\%20SPSS\%20Amos\%2023.pdf}
+\end{adjustbox}
+
+\noindent
+All of the Python and R code and output are incorporated into Jupyter Notebooks, which have also been converted to HTML for ease of examination. For example, the FX analysis described in \cref{sec:data_analysis} can be found here:
+
+\begin{adjustbox}{max width=\textwidth}
+\url{https://htmlpreview.github.io/?https://github.com/drakesiard/em-2020/blob/master/analysis/8_FX_impact.html}
 \end{adjustbox}
 
 \subsection{Additional Figures}\label{sec:graph_appendix}
