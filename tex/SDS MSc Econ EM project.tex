@@ -45,7 +45,7 @@
 \title{\textbf{A path model of energy intensity}}
 \author{S. Drake Siard\\
 MSc Economics 2019-2020}
-\date{2020 May 5}
+\date{2020 May 18}
 \begin{document}
 
 \maketitle
@@ -70,21 +70,21 @@ Word count: \em{Don't forget to do this!}
 
 Energy intensity, defined as the demand for energy per unit of output, is a critical measure of economic efficiency; it becomes every more important as the world economy develops and world populations continue to rise.
 Decreasing energy intensity is a necessary condition for the developing world's economic growth to continue through this century without overwhelming the world's limited resources, and for the developed world to maintain its quality of life while reducing their environmental impact.
-A better understanding of the drivers of energy intensity would thus benefit both the developed and developing worlds.
+A better understanding of the drivers of energy intensity would benefit both developed and developing nations.
 
 \cite{panHowIndustrializationTrade2019} cite an extensive literature on energy intensity and its influencing factors, and extract four commonly described determinants of energy intensity: economic growth, industrialization, trade openness, and technological innovation.
 Economic growth, in both absolute and per-capita terms, frequently recurs as a forcing factor of energy intensity, as both increased population and production place pressure on limited energy sources.
-Industrialisation, while increasing absolute energy consumption, allows mass production and its attendant efficiencies.
-Trade openness allows substitution away from energy-intensive inputs as well as a focus on higher-productivity exports. 
-Finally, technological development (often spurred by foreign direct investment) allows increases in productivity across all input factors.
+Industrialisation, while increasing absolute energy consumption, allows mass production and its attendant efficiencies, as human and agrarian energy sources cease to be limiting factors.
+Trade openness allows efficiency gains and substitution away from energy-intensive inputs as well as a focus on higher-productivity exports. 
+Finally, technological development (often spurred by foreign direct investment) allows increases in productivity across all input factors, including energy.
 
 These nature of these variables, and the specific economic data series used to represent them, are described in greater detail in \cref{sec:data_sources}.
 \cite{panHowIndustrializationTrade2019} also cite a number of models and analyses that attempt to estimate the effect of these variables. 
 The authors note that due to the interdependence of these variables there may both direct and indirect effects, and propose four specific hypotheses for the interactions:
 \begin{enumerate}[label=\textbf{H.\arabic*}]
-\item Industrialisation has positive direct impact on energy intensity.
+\item Industrialisation has positive direct impact on energy intensity. 
 \item Industrialization has negative indirect impact on energy intensity through technological innovation.
-\item Trade openness has negative direct impact on energy intensity.
+\item Trade openness has negative direct impact on energy intensity, through input substitution.
 \item Trade openness has negative indirect impact on energy intensity through economic growth.
 \end{enumerate}
 
@@ -153,7 +153,8 @@ PPP-adjusted measures of energy intensity and per-capita GDP were added, and wer
 In addition, a more up-to-date alternate energy intensity measure was added from \cite{enerdataGlobalEnergyStatistical2019} and denoted EIc in the dataset, for the countries for which it is available.
 These added data series are also described in the second part of \cref{tab:data_source}.
 
-We defer further detailed analysis of the data to \cref{sec:data_analysis}, and use the log-transformed data in the initial replication, following \cite{panHowIndustrializationTrade2019}.
+No distributional analysis or other inspection of the data is performed in \cite{panHowIndustrializationTrade2019}.
+consequently, we use the log-transformed data in the initial replication, and defer further detailed analysis of the data to \cref{sec:data_analysis}.
 
 \begin{table}[tbp]
 \centering
@@ -255,7 +256,7 @@ The standardised coefficient estimates are given in \cref{tab:original_estimates
 p-values below 0.001 are marked with an asterisk; the $R^{2}$ values for the individual endogenous variables are given only for comparison purposes.
 Standard errors are not given in the original, but included here for clarity.
 
-The values for \cref{eq:ti} and \cref{eq:pgdp} match fairly closely, and the significance of the parameters and goodness of fit measure for \cref{eq:ei} match, but the actual estimates of the parameters differ significantly (by approximately 10 standard errors).
+The values for \cref{eq:ti} and \cref{eq:pgdp} match fairly closely, and the significance of the parameters and goodness of fit measure for \cref{eq:ei} match, but the actual estimates of the parameters differ significantly.
 To confirm that this was not an issue with the choice of estimation software, the model was also estimated with SPSS Amos 23, with identical results.\footnote{
 Output from SPSS Amos 23 is not included in this paper, but is available as described in \cref{sec:data_and_code}.}
 Without access to the original data set or regression software options, it is impossible to identify the source of the discrepancy.
@@ -307,12 +308,12 @@ P^{total}_{EI,TO} &=
 P_{EI,TO} + 
 P_{EI,P\_GDP} \times P_{P\_GDP,TO}
 \end{align}
-The results are given in \cref{tab:original_path_coeff} and used to assess the four hypotheses:
+The results for the path coefficients to the endogenous variable EI are given in \cref{tab:original_path_coeff} and used to assess the four hypotheses:
 
 \begin{enumerate}[label=\textbf{H.\arabic*}]
 \item Industrialisation has positive direct impact on energy intensity.
 
-The coefficient of this direct effect is $P_{EI,ISG}$, which is indeed estimated to be positive (at 0.122) but the p-value is 0.048, so at the 5\% level we (just) reject the null hypothesis (of industrialisation having no effect).
+The coefficient of this direct effect is $P_{EI,ISG}$, which is indeed estimated to be positive (at 0.122) and the p-value is 0.048, so at the 5\% level we (just) reject the null hypothesis (of industrialisation having no effect).
 In the original paper, the significance threshold is not given, but they accept the alternative hypothesis\footnote{
 The actual statement is: ``Thus, our first hypothesis is proved." 
 } with a p-value of 0.082, so we infer a threshold of 10\% in their case.
@@ -376,18 +377,19 @@ We can note some stylised facts about the data from these figures and their desc
 \end{itemize}
 It is clear to the naked eye that these series are non-stationary.
 Testing each series for a unit-root with an ADF test (with constant and trend) yields the test statistic and p-values in \cref{tab:adf_log}; we cannot reject the null hypothesis of a unit root in most of the series.
-This is unsurprising, and so we follow standard procedure in taking the first difference of all series, running the ADF test again to obtain the results in \cref{tab:adf_logdiff}: now we can reject the null hypothesis of a unit root in nearly all of the series.
-Running a Levin-Lin-Chu test across all the series in an individual country as a panel yields a similar result: for Bangladesh, the p-value of the test on the log data is $\approx0.29$, whereas that on the log-differenced data is $<0.01$, confirming the more imprecise results above.
+This is unsurprising, and so we take the first difference of all series, running the ADF test again to obtain the results in \cref{tab:adf_logdiff}: now we can reject the null hypothesis of a unit root in nearly all of the series.
+Running a Levin-Lin-Chu test across all the series in an individual country as a panel yields a similar result: for Bangladesh, the p-value of the test on the log data is $\approx0.29$, whereas that on the log-differenced data is $<0.01$, confirming the more imprecise general results of the individual tests.
 
 The correlation structures of the (log-differenced) data are plotted in \cref{fig:logdiff_correlations}; distributions and scatter plots can be found in \cref{fig:logdiff_scatterplot}.
 The distributions of the log-differenced data are better behaved, and appear closer to normality.
 \cref{tab:normality_test} shows the results of a Jarque-Bera test across the series, and we cannot reject the null hypothesis of normality in a majority of cases.
+Excluding the single outlier year of 1996 improves the results of the tests, and raises confidence in the near-normality of the data.
 
 The most striking fact about the log differenced data is that much of the correlation structure is no longer significant, suggesting the possibility that the previous findings of significant relationships may have been the result of spurious regressions between I(1) series.
 
 \section{Revised Model}\label{sec:revised_model}
 
-To test this theory, we run the model on the data for Bangladesh with the following modifications:
+To test the theories that the significance of the original results comes from failing to difference the data and use PPP-adjusted measures, we run the model on the data for Bangladesh with the following modifications:
 \begin{itemize}
 \item The most recent vintage of the data is used
 \item EI and P\_GDP are replaced with EIb and P\_GDPb, the PPP-adjusted versions
@@ -439,12 +441,15 @@ Causal variable & Coeff. & s.e. & p-value & Coeff. & s.e. & p-value & Coeff. & s
 Unsurprisingly, with such a weak correlation structure, no path coefficients to EI are significant, and we fail to reject the null for all four hypothesis H.1 through H.4.
 The only coefficient of any significance is $P_{P\_GDPb,TO}$, the effect of trade openness on economic development, which is positive, as expected by conventional economic theory. 
 Running the regression from 1986 onward, and imputing the missing EIb and P\_GDPb data, yields a similar result; running the regression on the non-PPP-adjusted data yields a significant coefficient of GDP against energy intensity ($P_{EI,P\_GDP}$), whereas $P_{EIb,P\_GDPb}$ in the regression on PPP-adjusted data above is not significant, suggesting that some of the correlation does indeed come from the currency conversion. 
-Running the regression on India, a comparable country with a longer energy intensity timeseries (from a different source, but in a similar unit: EIc) and a stronger correlation structure (\cref{fig:logdiff_correlations_india}), we do find a significant $P_{EIb,P\_GDPb}$; however, running the regression on the United Kingdom, that coefficient is not significant.\footnote{
+Overall,none of the fit statistics for the updated Bangladesh model (shown in \cref{tab:updated_fit_statistics}) necessarily indicate a bad fit; however, with such a weak correlation structure, there was little covariance to explain. Inspecting the correlation residuals in \cref{fig:updated_fit_residuals}, there are still outliers associated with the TI variable.\footnote{
+There appears to be several significant negative autocorrelations in the log-differenced TI data. 
+A detailed investigation of the effect is outside the scope of this paper, but can be found in the supplementary code as described in \cref{sec:data_and_code}.
+}
 
-\cref{tab:ind_path_coeff}
-\cref{tab:gbr_path_coeff}
-\cref{fig:ind_fit}
-\cref{fig:gbr_fit}
+It is possible that some effects are hidden by the noise due to the brevity of the timeseries (we now have well below the recommended 30 observations). 
+Running the regression on India, a comparable country with a longer energy intensity timeseries (from a different source, but in a similar unit: EIc) and a stronger correlation structure (\cref{fig:logdiff_correlations_india}), we do find a significant $P_{EIb,P\_GDPb}$; however, running the regression on the United Kingdom, that coefficient is not significant.\footnote{
+Coefficients and fit measures for India can be found in \cref{tab:ind_path_coeff} and \cref{fig:ind_fit},
+those for the United Kingdom in \cref{tab:gbr_path_coeff} \cref{fig:gbr_fit}.
 } 
 
 \begin{figure}[tbp]
@@ -473,16 +478,17 @@ SRMR     &  0.048 &      $<0.08$ \\
 \label{fig:updated_fit}
 \end{figure}
 
-Overall,none of the fit statistics for the updated Bangladesh model (shown in \cref{tab:updated_fit_statistics}) necessarily indicate a bad fit; however, with such a weak correlation structure, there was little covariance to explain. Inspecting the correlation residuals in \cref{fig:updated_fit_residuals}, there are still major outliers associated with the TI variable.
+\clearpage
 
 \section{Conclusion}\label{sec:conclusion}
 
-We are able to replicate the findings of \cite{panHowIndustrializationTrade2019} with regards to two of their hypothesis (industrialisation having positive direct impact on energy intensity, and trade openness has negative indirect impact on energy intensity through economic growth) on their chosen data set.
-However, once the data series are differenced as indicated by unit root tests, the effect disappears. 
-Running the analysis on two other countries (one, industrialised, one de-industrialising) yields only one other significant result, a negative relationship between energy intensity and growth, and that only on the other developing nation (India).
-\cite{tibaIncomeTradeOpenness2018} regress energy consumption on a number of economic variables and find a significant relationship between GDP and energy consumption in less than half of the countries in their data set; it is worth noting that they also use a non-PPP-adjusted measure of GDP, though their energy consumption measure is per capita rather than per unit of output, so it is possible some omitted variable bias currency fluctuations are likely to add noise rather than spurious .
+We are able to replicate the findings of \cite{panHowIndustrializationTrade2019} with regards to two of their hypotheses (industrialisation having positive direct impact on energy intensity, and trade openness has negative indirect impact on energy intensity through economic growth), but only on their chosen data set.
+Once the data series are differenced as suggested by the results of further testing, the effect disappears. 
+Running the analysis on two other countries (one mostly industrialised, one de-industrialising) yields only one other significant result, a negative relationship between energy intensity and growth, and that only on the other developing nation (India).
+In many ways, this is unsurprising.
+\cite{tibaIncomeTradeOpenness2018} regress energy consumption on a number of economic variables and find a significant relationship between GDP and energy consumption in less than half of the countries in their data set; it is worth noting that they also use a non-PPP-adjusted measure of GDP; however, their energy consumption measure is per capita rather than per unit of output, so currency fluctuations are likely to add omitted variable bias rather than spurious correlation.
 While \cite{aydinDoesLevelEnergy2018} find significant interactions between energy intensity and growth using first differences of PPP-adjusted GDP and energy intensity measures, they do so with a panel of 12 countries.
-
+In summary, if the effect outlined in  \cite{panHowIndustrializationTrade2019} exist, demonstrations of their significance are likely to require data from a much larger set of countries, and, if possible, longer or more granular time series.
 
 \clearpage
 
@@ -516,6 +522,8 @@ The SPSS Amos 23 output can be found at:
 
 \subsection{Additional Figures}\label{sec:graph_appendix}
 
+\listoffigures
+\listoftables
 
 \begin{figure}[htbp]
 \centering
@@ -659,7 +667,6 @@ country &    EI &   EIb &  EIc &   ISG &  P\_GDP &  P\_GDPb &    TI &  TO \\
 \label{tab:adf_logdiff}
 \end{table}
 
-
 \footnotetext{asterisk indicates p-value \textless 0.001}
 
 \begin{figure}[htbp]
@@ -680,6 +687,8 @@ country &    EI &   EIb &  EIc &   ISG &  P\_GDP &  P\_GDPb &    TI &  TO \\
 \caption{Updated data (log diff), correlation structure}
 \label{fig:logdiff_correlations}
 \end{figure}
+
+\clearpage
 
 \begin{figure}[htbp]
 \centering
@@ -703,7 +712,95 @@ country &    EI &   EIb &   EIc &   ISG &  P\_GDP &  P\_GDPb &    TI &    TO \\
 \label{tab:normality_test}
 \end{table}
 
+\begin{table}[htbp]
+\centering
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{l|rrr|rrr|rrr}
+\toprule
+ 				& \multicolumn{3}{c|}{Direct effect}  & \multicolumn{3}{c|}{Indirect effect} & \multicolumn{3}{c}{Total effect} \\
+Causal variable & Coeff. & s.e. & p-value & Coeff. & s.e. & p-value & Coeff. & s.e. & p-value \\
+\midrule
+            ISG &     0.255 &   0.170 &      0.134 &    -0.120 &   0.058 &      0.039 &     0.135 &   0.143 &      0.344 \\
+             TO &    -0.090 &   0.237 &      0.704 &     0.094 &   0.119 &      0.431 &     0.004 &   0.283 &      0.989 \\
+             TI &    -0.236 &   0.099 &      0.018 &           &         &            &    -0.236 &   0.099 &      0.018 \\
+        P\_GDPb &    -0.714 &   0.091 &          * &           &         &            &    -0.714 &   0.091 &          * \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\caption{Updated India model path coefficients (standardised)}
+\label{tab:ind_path_coeff}
+\end{table}
 
+\begin{figure}[htbp]
+\begin{subfigure}{0.4\textwidth}
+\centering
+\begin{tabular}{lrl}
+\toprule
+{} &  value &      cut-off \\
+\midrule
+$\chi^2$ &  0.589 &     $> 0.05$ \\
+RMSEA    &  0.000 &      $<0.08$ \\
+CFI      &  1.000 &  $\geq 0.90$ \\
+SRMR     &  0.066 &      $<0.08$ \\
+\bottomrule
+\end{tabular}
+\caption{Fit statistics}
+\label{tab:updated_fit_statistics}
+\end{subfigure}
+\begin{subfigure}{0.6\textwidth}
+\centering
+\includegraphics[width=\textwidth]{./plots/ind_correlation_residuals.pdf}
+\caption{Correlation residuals}
+\label{fig:updated_fit_residuals}
+\end{subfigure}
+\caption{Updated India model fit measures}
+\label{fig:ind_fit}
+\end{figure}
+
+\begin{table}[htbp]
+\centering
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{l|rrr|rrr|rrr}
+\toprule
+ 				& \multicolumn{3}{c|}{Direct effect}  & \multicolumn{3}{c|}{Indirect effect} & \multicolumn{3}{c}{Total effect} \\
+Causal variable & Coeff. & s.e. & p-value & Coeff. & s.e. & p-value & Coeff. & s.e. & p-value \\
+\midrule
+            ISG &     0.230 &   0.131 &      0.079 &    -0.001 &   0.029 &      0.976 &     0.229 &   0.131 &      0.082 \\
+             TO &     0.037 &   0.349 &      0.915 &    -0.047 &   0.072 &      0.517 &    -0.010 &   0.313 &      0.975 \\
+             TI &     0.006 &   0.183 &      0.976 &           &         &            &     0.006 &   0.183 &      0.976 \\
+        P\_GDPb &    -0.145 &   0.191 &      0.448 &           &         &            &    -0.145 &   0.191 &      0.448 \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\caption{Updated United Kingdom model path coefficients (standardised)}
+\label{tab:gbr_path_coeff}
+\end{table}
+
+\begin{figure}[htbp]
+\begin{subfigure}{0.4\textwidth}
+\centering
+\begin{tabular}{lrl}
+\toprule
+{} &  value &      cut-off \\
+\midrule
+$\chi^2$ &  0.360 &     $> 0.05$ \\
+RMSEA    &  0.053 &      $<0.08$ \\
+CFI      &  0.358 &  $\geq 0.90$ \\
+SRMR     &  0.060 &      $<0.08$ \\
+\bottomrule
+\end{tabular}
+\caption{Fit statistics}
+\label{tab:updated_fit_statistics}
+\end{subfigure}
+\begin{subfigure}{0.6\textwidth}
+\centering
+\includegraphics[width=\textwidth]{./plots/gbr_correlation_residuals.pdf}
+\caption{Correlation residuals}
+\label{fig:updated_fit_residuals}
+\end{subfigure}
+\caption{Updated United Kingdom model fit measures}
+\label{fig:gbr_fit}
+\end{figure}
 
 \clearpage
 \subsection{Program Output}\label{sec:program_output}
