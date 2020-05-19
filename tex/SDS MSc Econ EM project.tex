@@ -104,7 +104,8 @@ The energy use is aggregated as kilograms of oil equivalent, and the unit of out
 Industrialisation (ISG) is the total value added of industry (mining, manufacturing, construction, electricity, water, and gas) as a fraction of the total gross domestic product, and is therefore a unitless ratio (scaled in percent).
 The abbreviation ISG is due to the original paper labelling this as ``Industrial Share of Growth"; however, the measure actually used is industrial share of output, not of output growth.
 Trade openness (TO) is the total value of imported and exported goods and services as a fraction of total gross domestic product, and is likewise a unitless ratio scaled in percentage terms.
-For technological innovation (TI), we follow \cite{panHowIndustrializationTrade2019} in using total patent application count: resident patent applications are a measure of domestic innovation, and non-resident patent applications are a measure of technology deemed by foreign entities to be worth the effort of protection in that country, as would be the case with imported technology.
+For technological innovation (TI), we follow \cite{panHowIndustrializationTrade2019} in using total patent application count.
+Resident patent applications are a measure of domestic innovation, and non-resident patent applications are a measure of technology deemed by foreign entities to be worth the effort of protection in that country, as would be the case with imported technology, so we sum them to get a measure of the total technological progress.
 Economic development (P\_GDP) is measured as the per capita gross domestic product, in this case the GDP divided by the mid-year population estimate. 
 As with ISG, the variable P\_GDP is a measure of output, not of growth, though this will be addressed further in \cref{sec:data_analysis}. 
 All of the above data series are sampled at an annual frequency, with a multi-year reporting lag, and are revised series (not point-in-time).
@@ -315,7 +316,7 @@ The results for the path coefficients to the endogenous variable EI are given in
 
 The coefficient of this direct effect is $P_{EI,ISG}$, which is indeed estimated to be positive (at 0.122) and the p-value is 0.048, so at the 5\% level we (just) reject the null hypothesis (of industrialisation having no effect).
 In the original paper, the significance threshold is not given, but they accept the alternative hypothesis\footnote{
-The actual statement is: ``Thus, our first hypothesis is proved." 
+The actual statement from \cite{panHowIndustrializationTrade2019} reads: ``Thus, our first hypothesis is proved."
 } with a p-value of 0.082, so we infer a threshold of 10\% in their case.
 
 \item Industrialization has negative indirect impact on energy intensity through technological innovation.
@@ -373,8 +374,7 @@ We can note some stylised facts about the data from these figures and their desc
 \item Energy intensity is falling through time across all three of these countries, regardless of the direction of the other variables.
 \item The scales of the data sometimes differ by orders of magnitude between countries, so pooling data would require additional transformation.
 \item The data series with \$US scaling are significantly more volatile than the PPP-adjusted \$US-scaled series, suggesting that EIb and P\_GDPb may be less noisy measures; noting that the energy use measure is the same between EI and EIb, but that the correlation between EIb and P\_GDPb is weaker than that between EI and P\_GDP, we conclude that part of the covariance between EI and P\_GDP may be driven by exchange rate fluctuations.\footnote{
-An analysis not described in this paper (but available in as described in \cref{sec:data_and_code} finds significant relationships between EI and FX, and P\_GDP and FX.
-However, even controlling for FX, there remains a relationship between EI and P\_GDP that disappears when using the PPP-adjusted EIb and P\_GDPb; the relationship is also absent from the local-currency-denominated EIl and P\_GDPl.
+An analysis not described in this paper (but available in as described in \cref{sec:data_and_code} finds significant relationships between EI and FX, and P\_GDP and FX; however, even controlling for FX, there remains a relationship between EI and P\_GDP that disappears when using the PPP-adjusted EIb and P\_GDPb; the relationship is also absent from the local-currency-denominated EIl and P\_GDPl.
 }
 \end{itemize}
 It is clear to the naked eye that these series are non-stationary.
@@ -442,9 +442,10 @@ Causal variable & Coeff. & s.e. & p-value & Coeff. & s.e. & p-value & Coeff. & s
 
 Unsurprisingly, with such a weak correlation structure, no path coefficients to EI are significant, and we fail to reject the null for all four hypothesis H.1 through H.4.
 The only coefficient of any significance is $P_{P\_GDPb,TO}$, the effect of trade openness on economic development, which is positive, as expected by conventional economic theory. 
-Running the regression from 1986 onward, and imputing the missing EIb and P\_GDPb data, yields a similar result; running the regression on the non-PPP-adjusted data yields a significant coefficient of GDP against energy intensity ($P_{EI,P\_GDP}$), whereas $P_{EIb,P\_GDPb}$ in the regression on PPP-adjusted data above is not significant, suggesting that some of the correlation does indeed come from the currency conversion. 
+Running the regression from 1986 onward, and imputing the missing EIb and P\_GDPb data, yields a similar result.
+Running the regression on the non-PPP-adjusted data yields a significant coefficient of GDP against energy intensity ($P_{EI,P\_GDP}$), whereas $P_{EIb,P\_GDPb}$ in the regression on PPP-adjusted data above is not significant, suggesting that some of the correlation does indeed come from the currency conversion. 
 Overall,none of the fit statistics for the updated Bangladesh model (shown in \cref{tab:updated_fit_statistics}) necessarily indicate a bad fit; however, with such a weak correlation structure, there was little covariance to explain. Inspecting the correlation residuals in \cref{fig:updated_fit_residuals}, there are still outliers associated with the TI variable.\footnote{
-There appears to be several significant negative autocorrelations in the log-differenced TI data. 
+There appears to be significant negative autocorrelation in the log-differenced TI data. 
 A detailed investigation of the effect is outside the scope of this paper, but can be found in the supplementary code as described in \cref{sec:data_and_code}.
 }
 
