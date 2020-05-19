@@ -13131,6 +13131,7 @@ div#notebook {
     <span class="s1">&#39;NE.TRD.GNFS.ZS&#39;</span><span class="p">:</span> <span class="s1">&#39;TO&#39;</span><span class="p">,</span>
     <span class="s1">&#39;NY.GDP.PCAP.CD&#39;</span><span class="p">:</span> <span class="s1">&#39;P_GDP&#39;</span><span class="p">,</span>
     <span class="s1">&#39;NY.GDP.PCAP.PP.CD&#39;</span><span class="p">:</span> <span class="s1">&#39;P_GDPb&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;NY.GDP.PCAP.KN&#39;</span><span class="p">:</span> <span class="s1">&#39;P_GDPl&#39;</span><span class="p">,</span>
     <span class="s1">&#39;EG.USE.PCAP.KG.OE&#39;</span><span class="p">:</span> <span class="s1">&#39;kg oil per cap&#39;</span><span class="p">,</span>
     <span class="s1">&#39;IP.PAT.RESD&#39;</span><span class="p">:</span> <span class="s1">&#39;resident patents&#39;</span><span class="p">,</span>
     <span class="s1">&#39;IP.PAT.NRES&#39;</span><span class="p">:</span> <span class="s1">&#39;nonresident patents&#39;</span><span class="p">,</span>
@@ -13193,6 +13194,12 @@ div#notebook {
       <th>EG.USE.PCAP.KG.OE</th>
       <td>Energy use (kg of oil equivalent per capita)</td>
       <td>Energy use refers to use of primary energy before transformation to other end-use fuels, which i...</td>
+      <td>World Development Indicators</td>
+    </tr>
+    <tr>
+      <th>NY.GDP.PCAP.KN</th>
+      <td>GDP per capita (constant LCU)</td>
+      <td>GDP per capita is gross domestic product divided by midyear population. GDP at purchaser's price...</td>
       <td>World Development Indicators</td>
     </tr>
     <tr>
@@ -13396,6 +13403,8 @@ div#notebook {
     <span class="n">country_df</span><span class="p">[</span><span class="s1">&#39;EI&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">country_df</span><span class="p">[</span><span class="s1">&#39;kg oil per cap&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="n">country_df</span><span class="p">[</span><span class="s1">&#39;P_GDP&#39;</span><span class="p">]</span>
     <span class="c1"># and again for kg. oil equiv. per $GDP PPP-adjusted</span>
     <span class="n">country_df</span><span class="p">[</span><span class="s1">&#39;EIb&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">country_df</span><span class="p">[</span><span class="s1">&#39;kg oil per cap&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="n">country_df</span><span class="p">[</span><span class="s1">&#39;P_GDPb&#39;</span><span class="p">]</span>
+    <span class="c1"># and again for kg. oil equiv. per LCU GDP</span>
+    <span class="n">country_df</span><span class="p">[</span><span class="s1">&#39;EIl&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">country_df</span><span class="p">[</span><span class="s1">&#39;kg oil per cap&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="n">country_df</span><span class="p">[</span><span class="s1">&#39;P_GDPl&#39;</span><span class="p">]</span>
     <span class="n">country_df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;kg oil per cap&#39;</span><span class="p">],</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
     
@@ -13490,6 +13499,14 @@ div#notebook {
   </thead>
   <tbody>
     <tr>
+      <th>EIl</th>
+      <td>0.00</td>
+      <td>0.01</td>
+      <td>0.01</td>
+      <td>0.00</td>
+      <td>29.00</td>
+    </tr>
+    <tr>
       <th>EIb</th>
       <td>0.07</td>
       <td>0.14</td>
@@ -13552,6 +13569,14 @@ div#notebook {
       <td>1715.36</td>
       <td>757.89</td>
       <td>26.00</td>
+    </tr>
+    <tr>
+      <th>P_GDPl</th>
+      <td>20212.82</td>
+      <td>51169.84</td>
+      <td>30099.52</td>
+      <td>9327.16</td>
+      <td>30.00</td>
     </tr>
   </tbody>
 </table>
@@ -13722,6 +13747,14 @@ div#notebook {
   </thead>
   <tbody>
     <tr>
+      <th>EIl</th>
+      <td>0.008</td>
+      <td>0.014</td>
+      <td>0.011</td>
+      <td>0.002</td>
+      <td>44.000</td>
+    </tr>
+    <tr>
       <th>EIb</th>
       <td>0.112</td>
       <td>0.283</td>
@@ -13784,6 +13817,14 @@ div#notebook {
       <td>18629.658</td>
       <td>17300.132</td>
       <td>38.000</td>
+    </tr>
+    <tr>
+      <th>P_GDPl</th>
+      <td>16358.838</td>
+      <td>104076.635</td>
+      <td>37316.772</td>
+      <td>23434.595</td>
+      <td>59.000</td>
     </tr>
   </tbody>
 </table>
@@ -13854,6 +13895,14 @@ div#notebook {
       <td>26.000</td>
     </tr>
     <tr>
+      <th>EIl</th>
+      <td>0.094</td>
+      <td>0.311</td>
+      <td>0.205</td>
+      <td>0.069</td>
+      <td>56.000</td>
+    </tr>
+    <tr>
       <th>FX</th>
       <td>0.357</td>
       <td>0.779</td>
@@ -13883,6 +13932,14 @@ div#notebook {
       <td>50566.827</td>
       <td>19773.976</td>
       <td>16396.150</td>
+      <td>59.000</td>
+    </tr>
+    <tr>
+      <th>P_GDPl</th>
+      <td>9762.468</td>
+      <td>30354.101</td>
+      <td>19739.387</td>
+      <td>6769.344</td>
       <td>59.000</td>
     </tr>
     <tr>

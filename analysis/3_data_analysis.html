@@ -14993,8 +14993,8 @@ country &amp;    EI &amp;   EIb &amp;   EIc &amp;   ISG &amp;  P\_GDP &amp;  P\_
 <span class="n">library</span><span class="p">(</span><span class="n">plm</span><span class="p">)</span>
 <span class="n">library</span><span class="p">(</span><span class="n">MVN</span><span class="p">)</span>
 <span class="p">})</span>
-<span class="n">data</span><span class="o">.</span><span class="n">raw</span> <span class="o">&lt;-</span> <span class="n">read</span><span class="o">.</span><span class="n">csv</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">path</span><span class="p">(</span><span class="n">data_dir</span><span class="p">,</span> <span class="s1">&#39;WB_BGD_current.csv&#39;</span><span class="p">))</span>
-
+<span class="n">data</span><span class="o">.</span><span class="n">raw</span> <span class="o">&lt;-</span> <span class="n">subset</span><span class="p">(</span><span class="n">read</span><span class="o">.</span><span class="n">csv</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">path</span><span class="p">(</span><span class="n">data_dir</span><span class="p">,</span> <span class="s1">&#39;WB_BGD_current.csv&#39;</span><span class="p">)),</span>
+                   <span class="n">select</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="s1">&#39;year&#39;</span><span class="p">,</span> <span class="s1">&#39;ISG&#39;</span><span class="p">,</span> <span class="s1">&#39;TO&#39;</span><span class="p">,</span> <span class="s1">&#39;TI&#39;</span><span class="p">,</span> <span class="s1">&#39;P_GDP&#39;</span><span class="p">,</span> <span class="s1">&#39;P_GDPb&#39;</span><span class="p">,</span> <span class="s1">&#39;EI&#39;</span><span class="p">,</span> <span class="s1">&#39;EIb&#39;</span><span class="p">))</span>
 
 <span class="n">data</span><span class="o">.</span><span class="n">log</span> <span class="o">&lt;-</span> <span class="n">copy</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">raw</span><span class="p">)</span>
 <span class="n">data</span><span class="o">.</span><span class="n">log</span><span class="p">[</span><span class="n">log_cols</span><span class="p">[</span><span class="n">log_cols</span> <span class="o">!=</span> <span class="s1">&#39;EIc&#39;</span><span class="p">]]</span> <span class="o">&lt;-</span> <span class="n">log</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">raw</span><span class="p">[</span><span class="n">log_cols</span><span class="p">[</span><span class="n">log_cols</span> <span class="o">!=</span> <span class="s1">&#39;EIc&#39;</span><span class="p">]])</span>
@@ -15117,9 +15117,9 @@ alternative hypothesis: stationarity
 	<tr><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;fct&gt;</th></tr>
 </thead>
 <tbody>
-	<tr><td>Mardia Skewness</td><td>243.631341052644</td><td>1.82436470600429e-17</td><td>NO</td></tr>
-	<tr><td>Mardia Kurtosis</td><td>4.95920275537117</td><td>7.07830614787852e-07</td><td>NO</td></tr>
-	<tr><td>MVN            </td><td>NA              </td><td>NA                  </td><td>NO</td></tr>
+	<tr><td>Mardia Skewness</td><td>29.5959159047245 </td><td>0.999999994314765   </td><td>YES</td></tr>
+	<tr><td>Mardia Kurtosis</td><td>-5.15042313684307</td><td>2.59899429311261e-07</td><td>NO </td></tr>
+	<tr><td>MVN            </td><td>NA               </td><td>NA                  </td><td>NO </td></tr>
 </tbody>
 </table>
 </dd>
@@ -15133,11 +15133,11 @@ alternative hypothesis: stationarity
 <tbody>
 	<tr><th scope=row>1</th><td>Shapiro-Wilk</td><td>   ISG   </td><td>   0.8693</td><td>   0.0051</td><td>   NO    </td></tr>
 	<tr><th scope=row>2</th><td>Shapiro-Wilk</td><td>   TO    </td><td>   0.9188</td><td>   0.0550</td><td>   YES   </td></tr>
-	<tr><th scope=row>3</th><td>Shapiro-Wilk</td><td>  P_GDP  </td><td>   0.9455</td><td>   0.2165</td><td>   YES   </td></tr>
-	<tr><th scope=row>4</th><td>Shapiro-Wilk</td><td> P_GDPb  </td><td>   0.9305</td><td>   0.1002</td><td>   YES   </td></tr>
-	<tr><th scope=row>5</th><td>Shapiro-Wilk</td><td>   EI    </td><td>   0.9422</td><td>   0.1824</td><td>   YES   </td></tr>
-	<tr><th scope=row>6</th><td>Shapiro-Wilk</td><td>   EIb   </td><td>   0.9721</td><td>   0.7194</td><td>   YES   </td></tr>
-	<tr><th scope=row>7</th><td>Shapiro-Wilk</td><td>   TI    </td><td>   0.9615</td><td>   0.4683</td><td>   YES   </td></tr>
+	<tr><th scope=row>3</th><td>Shapiro-Wilk</td><td>   TI    </td><td>   0.9615</td><td>   0.4683</td><td>   YES   </td></tr>
+	<tr><th scope=row>4</th><td>Shapiro-Wilk</td><td>  P_GDP  </td><td>   0.9455</td><td>   0.2165</td><td>   YES   </td></tr>
+	<tr><th scope=row>5</th><td>Shapiro-Wilk</td><td> P_GDPb  </td><td>   0.9305</td><td>   0.1002</td><td>   YES   </td></tr>
+	<tr><th scope=row>6</th><td>Shapiro-Wilk</td><td>   EI    </td><td>   0.9422</td><td>   0.1824</td><td>   YES   </td></tr>
+	<tr><th scope=row>7</th><td>Shapiro-Wilk</td><td>   EIb   </td><td>   0.9721</td><td>   0.7194</td><td>   YES   </td></tr>
 </tbody>
 </table>
 </dd>
@@ -15183,9 +15183,9 @@ alternative hypothesis: stationarity
 	<tr><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;fct&gt;</th></tr>
 </thead>
 <tbody>
-	<tr><td>Mardia Skewness</td><td>63.869200592796  </td><td>0.950067501880247   </td><td>YES</td></tr>
-	<tr><td>Mardia Kurtosis</td><td>-3.52876251082606</td><td>0.000417507627799463</td><td>NO </td></tr>
-	<tr><td>MVN            </td><td>NA               </td><td>NA                  </td><td>NO </td></tr>
+	<tr><td>Mardia Skewness</td><td>64.0665482072958 </td><td>0.948155266497657  </td><td>YES</td></tr>
+	<tr><td>Mardia Kurtosis</td><td>-3.28195085291475</td><td>0.00103091571718483</td><td>NO </td></tr>
+	<tr><td>MVN            </td><td>NA               </td><td>NA                 </td><td>NO </td></tr>
 </tbody>
 </table>
 </dd>
@@ -15199,11 +15199,11 @@ alternative hypothesis: stationarity
 <tbody>
 	<tr><th scope=row>1</th><td>Shapiro-Wilk</td><td>   ISG   </td><td>   0.9759</td><td>   0.8252</td><td>   YES   </td></tr>
 	<tr><th scope=row>2</th><td>Shapiro-Wilk</td><td>   TO    </td><td>   0.9259</td><td>   0.0891</td><td>   YES   </td></tr>
-	<tr><th scope=row>3</th><td>Shapiro-Wilk</td><td>  P_GDP  </td><td>   0.9264</td><td>   0.0915</td><td>   YES   </td></tr>
-	<tr><th scope=row>4</th><td>Shapiro-Wilk</td><td> P_GDPb  </td><td>   0.9391</td><td>   0.1722</td><td>   YES   </td></tr>
-	<tr><th scope=row>5</th><td>Shapiro-Wilk</td><td>   EI    </td><td>   0.9621</td><td>   0.5068</td><td>   YES   </td></tr>
-	<tr><th scope=row>6</th><td>Shapiro-Wilk</td><td>   EIb   </td><td>   0.9756</td><td>   0.8199</td><td>   YES   </td></tr>
-	<tr><th scope=row>7</th><td>Shapiro-Wilk</td><td>   TI    </td><td>   0.9609</td><td>   0.4821</td><td>   YES   </td></tr>
+	<tr><th scope=row>3</th><td>Shapiro-Wilk</td><td>   TI    </td><td>   0.9609</td><td>   0.4821</td><td>   YES   </td></tr>
+	<tr><th scope=row>4</th><td>Shapiro-Wilk</td><td>  P_GDP  </td><td>   0.9264</td><td>   0.0915</td><td>   YES   </td></tr>
+	<tr><th scope=row>5</th><td>Shapiro-Wilk</td><td> P_GDPb  </td><td>   0.9391</td><td>   0.1722</td><td>   YES   </td></tr>
+	<tr><th scope=row>6</th><td>Shapiro-Wilk</td><td>   EI    </td><td>   0.9621</td><td>   0.5068</td><td>   YES   </td></tr>
+	<tr><th scope=row>7</th><td>Shapiro-Wilk</td><td>   EIb   </td><td>   0.9756</td><td>   0.8199</td><td>   YES   </td></tr>
 </tbody>
 </table>
 </dd>
@@ -15352,7 +15352,7 @@ alternative hypothesis: stationarity
 .dl-inline>dt, .dl-inline>dd {float: none; width: auto; display: inline-block}
 .dl-inline>dt::after {content: ":\0020"; padding-right: .5ex}
 .dl-inline>dt:not(:first-of-type) {padding-left: .5ex}
-</style><dl class=dl-inline><dt>ISG</dt><dd>-1.8969078792952</dd><dt>TO</dt><dd>-4.1316999540471</dd><dt>P_GDP</dt><dd>-0.0492504570896273</dd><dt>P_GDPb</dt><dd>0.0351079798145086</dd><dt>EI</dt><dd>-0.196222866192068</dd><dt>EIb</dt><dd>-0.0819290184900121</dd><dt>TI</dt><dd>-0.408575530522557</dd></dl>
+</style><dl class=dl-inline><dt>ISG</dt><dd>-1.8969078792952</dd><dt>TO</dt><dd>-4.1316999540471</dd><dt>TI</dt><dd>-0.408575530522557</dd><dt>P_GDP</dt><dd>-0.0492504570896273</dd><dt>P_GDPb</dt><dd>0.0351079798145086</dd><dt>EI</dt><dd>-0.196222866192068</dd><dt>EIb</dt><dd>-0.0819290184900121</dd></dl>
 
 </div>
 
@@ -15402,6 +15402,14 @@ data:  na.omit(x)
 X-squared = 8.3256, df = 2, p-value = 0.01556
 
 
+$TI
+
+	Jarque Bera Test
+
+data:  na.omit(x)
+X-squared = 0.48062, df = 2, p-value = 0.7864
+
+
 $P_GDP
 
 	Jarque Bera Test
@@ -15432,14 +15440,6 @@ $EIb
 
 data:  na.omit(x)
 X-squared = 0.22859, df = 2, p-value = 0.892
-
-
-$TI
-
-	Jarque Bera Test
-
-data:  na.omit(x)
-X-squared = 0.48062, df = 2, p-value = 0.7864
 
 </pre>
 </div>

@@ -13077,7 +13077,7 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="4.-Re-run-the-original-model-with-log-differenced-updated-data">4. Re-run the original model with log-differenced updated data<a class="anchor-link" href="#4.-Re-run-the-original-model-with-log-differenced-updated-data">&#182;</a></h1><p>(PPP-adjusted)</p>
+<h1 id="4.-Re-run-the-original-model-with-log-differenced-updated-data">4. Re-run the original model with log-differenced updated data<a class="anchor-link" href="#4.-Re-run-the-original-model-with-log-differenced-updated-data">&#182;</a></h1><p>(PPP-adjusted, inferring data pre-1990)</p>
 
 </div>
 </div>
@@ -13397,10 +13397,10 @@ F-statistic: 0.7248 on 4 and 19 DF,  p-value: 0.5858
                  <span class="s1">&#39;</span><span class="se">\\</span><span class="s1">end</span><span class="si">{verbatim}</span><span class="s1">&#39;</span><span class="p">),</span> <span class="n">con</span><span class="o">=</span><span class="n">file</span><span class="p">)</span>
 <span class="p">}</span>
 <span class="n">model</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">fit</span> <span class="o">&lt;-</span> <span class="n">sem</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">logdiff</span><span class="p">,</span> <span class="n">estimator</span><span class="o">=</span><span class="s1">&#39;MLR&#39;</span><span class="p">,</span> <span class="n">missing</span><span class="o">=</span><span class="s1">&#39;ML&#39;</span><span class="p">,</span> <span class="n">meanstructure</span><span class="o">=</span><span class="n">TRUE</span><span class="p">)</span>
-<span class="n">capture</span><span class="p">(</span><span class="n">summary</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">fit</span><span class="p">,</span> <span class="n">standardized</span><span class="o">=</span><span class="n">TRUE</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="n">TRUE</span><span class="p">,</span>  <span class="n">fit</span><span class="o">.</span><span class="n">measures</span><span class="o">=</span><span class="n">TRUE</span><span class="p">,</span> <span class="n">estimates</span><span class="o">=</span><span class="n">FALSE</span><span class="p">),</span>
-        <span class="s1">&#39;../tex/plots/model.logdiff.fit.summary.tex&#39;</span><span class="p">)</span>
-<span class="n">capture</span><span class="p">(</span><span class="n">summary</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">fit</span><span class="p">,</span> <span class="n">standardized</span><span class="o">=</span><span class="n">TRUE</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="n">FALSE</span><span class="p">,</span> <span class="n">estimates</span><span class="o">=</span><span class="n">TRUE</span><span class="p">),</span>
-        <span class="s1">&#39;../tex/plots/model.logdiff.fit.estimates.tex&#39;</span><span class="p">)</span>
+<span class="c1"># capture(summary(model.path.fit, standardized=TRUE, header=TRUE,  fit.measures=TRUE, estimates=FALSE),</span>
+<span class="c1">#         &#39;../tex/plots/model.logdiff.fit.summary.tex&#39;)</span>
+<span class="c1"># capture(summary(model.path.fit, standardized=TRUE, header=FALSE, estimates=TRUE),</span>
+<span class="c1">#         &#39;../tex/plots/model.logdiff.fit.estimates.tex&#39;)</span>
 <span class="n">summary</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">fit</span><span class="p">,</span> <span class="n">standardized</span><span class="o">=</span><span class="n">TRUE</span><span class="p">,</span> <span class="n">fit</span><span class="o">.</span><span class="n">measures</span><span class="o">=</span><span class="n">TRUE</span><span class="p">)</span>
 </pre></div>
 
@@ -14773,7 +14773,7 @@ height=420
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">plot_corr_resid</span><span class="p">(</span><span class="n">model_path_fit_resid</span><span class="p">)</span>
-<span class="n">save_fig</span><span class="p">(</span><span class="s1">&#39;updated_correlation_residuals.pdf&#39;</span><span class="p">)</span>
+<span class="c1"># save_fig(&#39;updated_correlation_residuals.pdf&#39;)</span>
 </pre></div>
 
     </div>

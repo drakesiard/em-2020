@@ -13611,7 +13611,7 @@ Variable data.logdiff is put to SoS as data_logdiff
 <div class="prompt input_prompt">In&nbsp;[11]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">sns</span><span class="o">.</span><span class="n">distplot</span><span class="p">(</span><span class="n">logdiff_data</span><span class="p">[</span><span class="s1">&#39;TI&#39;</span><span class="p">])</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="n">sns</span><span class="o">.</span><span class="n">distplot</span><span class="p">(</span><span class="n">logdiff_data</span><span class="p">[</span><span class="s1">&#39;TI&#39;</span><span class="p">]);</span>
 </pre></div>
 
     </div>
@@ -13621,19 +13621,6 @@ Variable data.logdiff is put to SoS as data_logdiff
 <div class="output_wrapper">
 <div class="output">
 
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[11]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>&lt;matplotlib.axes._subplots.AxesSubplot at 0x7f721d3de390&gt;</pre>
-</div>
-
-</div>
 
 <div class="output_area">
 
@@ -14403,7 +14390,7 @@ height=420
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[19]:</div>
+<div class="prompt input_prompt">In&nbsp;[13]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="p">(</span><span class="n">arima</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="mi">1</span> <span class="o">&lt;-</span> <span class="n">Arima</span><span class="p">(</span><span class="n">ti</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;ML&#39;</span><span class="p">))</span>
@@ -15716,7 +15703,7 @@ height=420
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[17]:</div>
+<div class="prompt input_prompt">In&nbsp;[15]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">summary</span><span class="p">(</span><span class="n">arima</span><span class="o">.</span><span class="n">model</span><span class="p">)</span>
@@ -15760,7 +15747,7 @@ Training set -0.005301665 0.1606761 0.1172297 -Inf  Inf 0.4582689 0.04966678
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[21]:</div>
+<div class="prompt input_prompt">In&nbsp;[16]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">plot</span><span class="p">(</span><span class="n">arima</span><span class="o">.</span><span class="n">model</span><span class="p">)</span>
