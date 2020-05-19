@@ -126,6 +126,8 @@ The precise unit definitions are summarised in the first part of \cref{tab:data_
  EIc & Energy intensity & Primary energy use in kg. of oil equivalent per (2015, PPP-adjusted) \$US of GDP (from Enerdata) \\ 
  P\_GDPb & Economic output & GDP measured in ``current" (2018 or 2019, by vintage, PPP-adjusted) \$US, divided by mid-year population estimate\\ 
  FX & Exchange rate &  Annual average based on monthly averages, in local currency units relative to \$US\\ 
+   EIl & Energy intensity & Primary energy use in kg. of oil equivalent per ``current'' (2018 or 2019, by vintage) local currency units of GDP (from WB WDI) \\ 
+ P\_GDPl & Economic output & GDP measured in ``current" (2018 or 2019, by vintage) local currency units, divided by mid-year population estimate\\ 
  \bottomrule 
 \end{tabulary}
 \caption{Variable names and descriptions}
@@ -149,8 +151,8 @@ We can compare these results with Table 4 of \cite{panHowIndustrializationTrade2
 It is unclear in the original whether the correlations are of the raw or log data), but again, in either case, there is a close match in direction and magnitude on all measures, but not an exact one.
 
 For the model update, data was taken directly from the most recent update of the WDI database, \cite{theworldbankWorldDevelopmentIndicators2019}, and two countries were added for comparison: India (with a relatively constant level of industrialisation over the period) and the United Kingdom (de-industrialising). 
-PPP-adjusted measures of energy intensity and per-capita GDP were added, and were denoted EIb and P\_GDPb in the dataset.
-The foreign exchange rate, in local currency units relative to the United States dollar, was also downloaded from the WB WDI and denoted FX.
+PPP-adjusted measures of energy intensity and per-capita GDP were added, and were denoted EIb and P\_GDPb in the dataset. 
+For analysis of FX-related issues, local currency unit-denominated versions were added and denoted EIl ad P\_GDPl, and the foreign exchange rate (in local currency units relative to the United States dollar) was also downloaded from the WB WDI and denoted FX.
 In addition, a more up-to-date alternate energy intensity measure was added from \cite{enerdataGlobalEnergyStatistical2019} and denoted EIc in the dataset, for the countries for which it is available.
 These added data series are described in the second part of \cref{tab:data_source}.
 
@@ -371,7 +373,8 @@ We can note some stylised facts about the data from these figures and their desc
 \item Energy intensity is falling through time across all three of these countries, regardless of the direction of the other variables.
 \item The scales of the data sometimes differ by orders of magnitude between countries, so pooling data would require additional transformation.
 \item The data series with \$US scaling are significantly more volatile than the PPP-adjusted \$US-scaled series, suggesting that EIb and P\_GDPb may be less noisy measures; noting that the energy use measure is the same between EI and EIb, but that the correlation between EIb and P\_GDPb is weaker than that between EI and P\_GDP, we conclude that part of the covariance between EI and P\_GDP may be driven by exchange rate fluctuations.\footnote{
-An analysis not described in this paper (but available in as described in \cref{sec:data_and_code} finds significant relationships between EI and FX, and P\_GDP and FX; however, even controlling for FX, there remains a relationship between EI and P\_GDP that disappears when using the PPP-adjusted EIb and P\_GDPb.
+An analysis not described in this paper (but available in as described in \cref{sec:data_and_code} finds significant relationships between EI and FX, and P\_GDP and FX.
+However, even controlling for FX, there remains a relationship between EI and P\_GDP that disappears when using the PPP-adjusted EIb and P\_GDPb; the relationship is also absent from the local-currency-denominated EIl and P\_GDPl.
 }
 \end{itemize}
 It is clear to the naked eye that these series are non-stationary.
