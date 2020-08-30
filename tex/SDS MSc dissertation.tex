@@ -1,0 +1,139 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage{natbib}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{mathtools}
+\usepackage{enumitem}
+\usepackage{setspace}
+\usepackage{adjustbox}
+\usepackage{placeins}
+\usepackage{booktabs}
+\usepackage{tabulary}
+\usepackage{hyperref}
+\usepackage[capitalise,noabbrev]{cleveref}
+\usepackage[a4paper, total={6in, 9in}]{geometry}
+\usepackage{tikz}
+\usepackage{tocloft}
+\usetikzlibrary{shapes,arrows,positioning}
+
+\renewcommand\cftlottitlefont{\large}
+\renewcommand\cftloftitlefont{\large}
+
+\bibliographystyle{plainnat}
+\setcitestyle{authoryear,open={(},close={)}}
+
+\newcommand{\pkg}[1]{{\fontseries{b}\selectfont #1}} 
+
+
+\title{\Large{\textbf{Trade openness does cause energy efficiency}}\\
+\small{(with apologies to Acemoglu \emph{et alia})}}
+\author{S. Drake Siard\\
+MSc Economics 2019-2020 Dissertation}
+\date{}
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+Declining energy intensity is a stylised fact common to nearly all economies, but its interactions with other economic factors are still a subject of research.
+This paper builds on previous work examining the direct and indirect impacts of growth, industrialisation, technological innovation, and trade openness on energy intensity, focusing specifically on trade openness. 
+We provide evidence that trade openness has a positive effect on energy efficiency, using a dynamic panel strategy controlling for country fixed effects.
+This effect is robust to alternate specifications of trade openness. 
+
+
+
+Programs used: Python (\pkg{statsmodels}, \pkg{scipy}); R (\pkg{panelvar}, \pkg{pdynmc})
+
+Word count: \emph{!! TODO !!}
+ 
+\end{abstract}
+
+\pagebreak
+
+\tableofcontents
+
+\pagebreak
+
+\section{Introduction}\label{sec:introduction}
+
+Energy intensity, defined as the total energy consumption per unit of economic output, is a critical measure of overall economic efficiency and sustainability.
+For developing countries' economic growth to continue through this century without overwhelming the world's limited resources, their energy intensity must fall as their economies grow and they transition through the stages of industrialisation.
+For the developed countries to maintain their quality of life while reducing their environmental impact, their transition to a post-industrial economy must be accompanied by decreasing energy use.
+A better understanding of the drivers of energy intensity would benefit developed and developing nations alike.
+
+\cite{ederAnalysisEnergyIntensity2018} describe the most significant feature of energy intensity, its consistent downward trend across nearly all nations. 
+
+
+\cite{panHowIndustrializationTrade2019} cite an extensive literature on energy intensity and its influencing factors, and extract four commonly described determinants of energy intensity: economic growth, industrialisation, trade openness, and technological innovation.
+Economic growth, in both absolute and per-capita terms, frequently recurs as a forcing factor of energy intensity, as both increased population and production place pressure on limited energy sources.
+Industrialisation, while increasing absolute energy consumption, allows mass production and its attendant efficiencies, as human and agrarian energy sources cease to be limiting factors.
+Trade openness allows efficiency gains and substitution away from energy-intensive inputs as well as a focus on higher-productivity exports. 
+Finally, technological development (often spurred by foreign direct investment) allows increases in productivity across all input factors, including energy.
+
+These nature of these variables, and the specific economic data series used to represent them, are described in greater detail in \cref{sec:data_sources}.
+\cite{panHowIndustrializationTrade2019} also cite a number of models and analyses that attempt to estimate the effect of these variables. 
+The authors note that due to the interdependence of these variables there may both direct and indirect effects, and propose four specific hypotheses for the interactions:
+\begin{enumerate}[label=\textbf{H.\arabic*}]
+\item Industrialisation has positive direct impact on energy intensity. 
+\item Industrialisation has negative indirect impact on energy intensity through technological innovation.
+\item Trade openness has negative direct impact on energy intensity, through input substitution.
+\item Trade openness has negative indirect impact on energy intensity through economic growth.
+\end{enumerate}
+
+\cite{panHowIndustrializationTrade2019} then propose a path model (which they describe as novel) to analyse these effects, and apply it to the specific situation of Bangladesh, 1986-2015.
+This model is outlined and the results analysed in \cref{sec:original_model}.
+The results of the original analysis are (partially) replicated, but some questions are raised regarding the significance of the results and the goodness of fit.
+
+To answer these questions, \cref{sec:data_analysis} then revisits the original data, noting some characteristics that suggest model misspecification; most worrying is the strong possibility of spurious correlation.
+These characteristics are then used to inform alternative transformations and model specifications.
+These updated models are then described and evaluated in \cref{sec:revised_model}, and the results are summarised in \cref{sec:conclusion}.
+
+\section{Data}\label{sec:data}
+
+
+\clearpage
+
+\appendix
+
+\renewcommand{\refname}{\section{References}\label{sec:references}}.
+\bibliography{project}
+
+\clearpage
+
+\newgeometry{margin=2cm}
+\section{Appendices}
+
+\subsection{Data and Code}\label{sec:data_and_code}
+
+All of the data and code used to download and process it is available in the Github repository at the following URL:
+
+\url{https://github.com/drakesiard/em-2020}
+
+\noindent
+The whole project may be downloaded at:
+
+\url{https://github.com/drakesiard/em-2020/archive/v2.0.zip}
+
+\noindent
+The repository structure is described at:
+
+\url{https://github.com/drakesiard/em-2020/blob/v2.0/README.md}
+
+\noindent
+All of the Python and R code and output are incorporated into Jupyter Notebooks, which have also been converted to HTML for ease of examination. For example, the FX analysis described in \cref{sec:data_analysis} can be found here:
+
+\begin{adjustbox}{max width=\textwidth}
+\url{https://htmlpreview.github.io/?https://github.com/drakesiard/em-2020/blob/v1.0/analysis/8_FX_impact.html}
+\end{adjustbox}
+
+\clearpage
+\subsection{Additional Figures}\label{sec:graph_appendix}
+
+\listoffigures
+\listoftables
+
+\restoregeometry{}
+
+\end{document}
