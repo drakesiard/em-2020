@@ -21,7 +21,7 @@
 \renewcommand\cftlottitlefont{\large}
 \renewcommand\cftloftitlefont{\large}
 
-\bibliographystyle{plainnat}
+\bibliographystyle{agsm}
 \setcitestyle{authoryear,open={(},close={)}}
 
 \newcommand{\pkg}[1]{{\fontseries{b}\selectfont #1}} 
@@ -63,35 +63,67 @@ For developing countries' economic growth to continue through this century witho
 For the developed countries to maintain their quality of life while reducing their environmental impact, their transition to a post-industrial economy must be accompanied by decreasing energy use.
 A better understanding of the drivers of energy intensity would benefit developed and developing nations alike.
 
-\cite{ederAnalysisEnergyIntensity2018} describe the most significant feature of energy intensity, its consistent downward trend across nearly all nations. 
+One frequently recurring economic variable investigated in the literature on energy intensity is trade openness, often measured as the ratio of imports and exports to total economic activity.
+There are several theoretical reasons why increased trade openness should lead to decreased energy intensity.
+First, it may allow efficiency gains through substitution away from energy-intensive domestic
+inputs as well as a focus on higher-factor-productivity exports. 
+Second, in developing nations increased integration into the world economy may increase penetration of technological innovation into domestic industries, increasing overall productivity.
+However, the existing literature does not agree on either the sign or the significance of the empirical relationship.
+
+This paper briefly explores the literature on trade openness and energy intensity (\cref{sec:literature}) and describes the measures in question more precisely in \cref{sec:data}.
+The relationship is then empirically estimated using a linear dynamic panel data model, derived from \cite{arellanoTestsSpecificationPanel1991}, which is described and justified in \cref{sec:methodology}.
+The detailed results of the analysis are presented in \cref{sec:results}. \cref{sec:conclusion} summarises and concludes the paper.
+
+\section{Literature Survey}\label{sec:literature}
+
+\cite{ederAnalysisEnergyIntensity2018} describe the two most significant features of energy intensity. First, they note its persistent downward trend across nearly all countries.
+Second, despite widely varying initial levels of energy intensity and different energy intensity reduction rates, there is convergence of the series of energy intensity between economies.
+We can take some comfort regarding future energy use from both of these features; however, as the authors note, the developing regions ``are not expected to reach the level of the economically developed countries by 2040" \citep[p. 1971]{ederAnalysisEnergyIntensity2018}.
+In addition, while useful for forecasting, such univariate analyses offer no information to policymakers wishing to accelerate the trend of energy intensity reduction. 
+Analyses using decomposition methods, such in \cite{liuEightMethodsDecomposing2003}, can attribute changes in aggregate energy intensity to changes in total production, sectoral energy intensity and sector production share. While these could guide industrial policy aimed at rebalancing between sectors to achieve the desired effect, they still leave the open the question of which underlying factors affect energy intensity.
+
+\cite{panHowIndustrializationTrade2019} begin with a broad survey of the literature on energy intensity and extract four commonly described determinants of energy intensity: economic growth, industrialisation, trade openness, and technological innovation.
+They also cite a number of models and analyses that attempt to estimate the effect of these variables, noting that many such analyses explore only direct impacts of these factors, whereas interdependence between macroeconomic variables means many may have only indirect impacts on energy intensity, and the interactions may be bidirectional.
+Finally, they propose a path model (a subset of recursive structural equation models) to analyse both the direct and indirect effects, and apply it to the specific situation of Bangladesh, 1986-2015.
+They find a negative direct impact of trade openness on energy intensity, as well as an indirect negative impact mediated via economic growth (trade openness positively affects growth, which in turn negatively affects energy intensity).
+However, using a similar model, \cite{siardPathModelEnergy2020} fails to replicate their results, and finds no significant relationship between the two either in Bangladesh or in several other countries.  
+
+\cite{rafiqUrbanizationOpennessEmissions2016}, using linear and non-linear panel estimation models, introduce another development indicator (urbanization) and 
 
 
-\cite{panHowIndustrializationTrade2019} cite an extensive literature on energy intensity and its influencing factors, and extract four commonly described determinants of energy intensity: economic growth, industrialisation, trade openness, and technological innovation.
-Economic growth, in both absolute and per-capita terms, frequently recurs as a forcing factor of energy intensity, as both increased population and production place pressure on limited energy sources.
-Industrialisation, while increasing absolute energy consumption, allows mass production and its attendant efficiencies, as human and agrarian energy sources cease to be limiting factors.
-Trade openness allows efficiency gains and substitution away from energy-intensive inputs as well as a focus on higher-productivity exports. 
-Finally, technological development (often spurred by foreign direct investment) allows increases in productivity across all input factors, including energy.
+ and trade openness on emissions and energy intensity in twenty-
+two increasingly urbanized emerging economies. We employ three second-generation heterogeneous linear
+panel models as well as recently developed nonlinear panel estimation techniques allowing for cross-sectional
+dependence. The empirical results show that population density and affluence increase emissions and energy in-
+tensity while renewable energy seems to be dormant in these emerging economies, but non-renewable energy
+increases both CO 2 emissions and energy intensity. In addition, openness significantly reduces both pollutant
+emissions and energy intensity whereas urbanization significantly increases energy intensity, but it is insignifi-
+cant in increasing emissions. This may be, in part, due to the recent increasing trend in adopting cleaner technol-
+ogies in these increasingly urbanized developing economies.
 
-These nature of these variables, and the specific economic data series used to represent them, are described in greater detail in \cref{sec:data_sources}.
-\cite{panHowIndustrializationTrade2019} also cite a number of models and analyses that attempt to estimate the effect of these variables. 
-The authors note that due to the interdependence of these variables there may both direct and indirect effects, and propose four specific hypotheses for the interactions:
-\begin{enumerate}[label=\textbf{H.\arabic*}]
-\item Industrialisation has positive direct impact on energy intensity. 
-\item Industrialisation has negative indirect impact on energy intensity through technological innovation.
-\item Trade openness has negative direct impact on energy intensity, through input substitution.
-\item Trade openness has negative indirect impact on energy intensity through economic growth.
-\end{enumerate}
 
-\cite{panHowIndustrializationTrade2019} then propose a path model (which they describe as novel) to analyse these effects, and apply it to the specific situation of Bangladesh, 1986-2015.
-This model is outlined and the results analysed in \cref{sec:original_model}.
-The results of the original analysis are (partially) replicated, but some questions are raised regarding the significance of the results and the goodness of fit.
 
-To answer these questions, \cref{sec:data_analysis} then revisits the original data, noting some characteristics that suggest model misspecification; most worrying is the strong possibility of spurious correlation.
-These characteristics are then used to inform alternative transformations and model specifications.
-These updated models are then described and evaluated in \cref{sec:revised_model}, and the results are summarised in \cref{sec:conclusion}.
+such as \cite{tibaIncomeTradeOpenness2018}, does find effects of growth and trade openness on energy consumption across a wide range of countries, using a similar structural equation modelling technique.
+
+
+
+
+
+
+
+In contrast, using the Arellano-Bond dynamic GMM model and a sample of four Andean countries, \cite{koengkanPositiveImpactTrade2018} find that an increase in trade openness is associated with an 
+\emph{increase} in per capita energy consumption. 
+
+
+
 
 \section{Data}\label{sec:data}
 
+\section{Methodology}\label{sec:methodology}
+
+\section{Results}\label{sec:results}
+
+\section{Conclusion}\label{sec:conclusion}
 
 \clearpage
 
