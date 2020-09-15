@@ -40,8 +40,8 @@ MSc Economics 2019-2020 Dissertation}
 \maketitle
 
 \begin{abstract}
-Declining energy intensity is a stylised fact common to nearly all economies, but its interactions with other economic factors are still a subject of research.
-This paper builds on previous work examining the direct and indirect impacts of growth, industrialisation, technological innovation, and trade openness on energy intensity, focusing specifically on trade openness. 
+Declining energy intensity is a stylised fact common to nearly all economies, but its interactions with other economic factors are still a topic of active debate.
+This paper builds on previous work examining the direct and indirect impacts of growth, industrialisation, technological innovation, urbanisation, and trade openness on energy intensity, focusing specifically on trade openness. 
 We provide evidence that composite trade share, an alternate specification of trade openness, has a positive effect on energy efficiency, using a dynamic panel strategy controlling for country fixed effects. 
 
 Programs used: Python (\pkg{statsmodels}, \pkg{scipy}); R (\pkg{panelvar}, \pkg{pdynmc})
@@ -90,7 +90,7 @@ However, using a similar model, \cite{siardPathModelEnergy2020} fails to replica
 \cite{tibaIncomeTradeOpenness2018} use a similar structural equation modelling technique, with a larger selection of countries, but without investigating energy intensity; they are concerned instead with energy consumption per capita. 
 They report an effect with mixed signs across countries: in their model trade openness causes increased energy consumption per capita in Sweden and Canada, and decreased energy consumption in Portugal and Spain.
 Interestingly, they also find that the arrow of causality occasionally runs in the opposite direction: energy consumption per capita causes increased trade openness in Switzerland, and decrease trade openness in the United Kingdom.
-Their results for panels of high- and middle-income countries both show that the aggregate relationship from trade openness to energy consumption is insignificant. 
+Their results for panels of high- and middle-income countries both show that the relationship between trade openness to energy consumption is insignificant when considered in aggregate. 
 
 \cite{shahbazDynamicLinksEnergy2013} introduce another variable, the provision of domestic credit to the private sector, as a proxy for financial development. Limiting their investigation to China and using an ARDL bounds testing approach, they find bidirectional causality and a significant positive relationship between trade openness and energy consumption per capita; however, also they do not investigate energy intensity.
 
@@ -108,13 +108,13 @@ In their investigation, \cite{rafiqUrbanizationOpennessEmissions2016} examine th
 Noting that their panel consists of countries from substantially different economic, social,
 and cultural backgrounds, they use three linear (and one nonlinear) heterogenous panel estimation techniques.
 The three linear estimators of the heterogeneous slope coefficients are the ``mean group estimator" of \cite{pesaranRoleEconomicTheory1997} and \cite{pesaranEstimatingLongrunRelationships1995}, the ``Common Correlated Effects Mean Group" (CCEMG) estimator from \cite{pesaranEstimationInferenceLarge2006}, 
-and the ``Augmented Mean Group" (AMG) of \cite{eberhardtCrosssectionDependenceNonstationary2009} and \cite{eberhardtProductivityAnalysisGlobal2010}.
+and the ``Augmented Mean Group" (AMG) of \cite{eberhardtCrosssectionDependenceNonstationary2009} and \mbox{\cite{eberhardtProductivityAnalysisGlobal2010}}.
 The non-linear estimator is that of \cite{kapetaniosNonlinearPanelData2014}.
 They find that trade openness significantly reduces energy intensity in all four of the heterogenous panel
 analyses that they apply, and verify the robustness of their results against endogeneity among the regressors with the GMM panel estimation of \cite{arellanoTestsSpecificationPanel1991}.
 \cite{koengkanPositiveImpactTrade2018} also use the \cite{arellanoTestsSpecificationPanel1991} estimator with a different model specification but some more comprehensive diagnostics; again, however, the sample set is quite limited (a set of 4 Andean countries) and the dependent variable is energy consumption, not energy intensity.
 
-\cite{coleDoesTradeLiberalization2006}\footnotemark note that the effect of trade liberalization on energy intensity depends on whether countries are they are importers or exporters of energy intensive output, which in turn depends on comparative advantage, driven by factor endowments. 
+\cite{coleDoesTradeLiberalization2006}\footnotemark{} note that the effect of trade liberalization on energy intensity depends on whether countries are they are importers or exporters of energy intensive output, which in turn depends on comparative advantage, driven by factor endowments. 
 They use a fixed-effect panel methodology to estimate a model with interactions, and find that trade is positively related to energy use.
 However, the only economic variables in their model are the capital-labor ratio, energy intensity, and trade, where the capital-labor ratio stands as a proxy for overall relative factor abundance.
 \footnotetext{Building on \citep{antweilerFreeTradeGood2001}, who lay out the economic justification for the model and apply the analysis to various air pollutants.}
@@ -134,7 +134,8 @@ The relationship of the current paper to the existing literature given above can
 \item We use as a base the final model (Model IV, EKC-type) given in \cite{rafiqUrbanizationOpennessEmissions2016}, with energy intensity as the dependent variable. We include trade openness, population density, urbanisation, and affluence as explanatory variables.
 \item We then add as regressors:
 \begin{itemize}
-\item technological innovation, as measured by total patent application count, following \cite{panHowIndustrializationTrade2019}
+\item technological innovation, as measured by total resident and non-resident patent application count, following \cite{panHowIndustrializationTrade2019}. 
+However, rather than an absolute number, we use a per-capita metric, as in \cite{maradanaDoesInnovationPromote2017}
 \item financial openness, as measured by the Chinn-Ito index \citep{chinnWhatMattersFinancial2006}, following \cite{koengkanPositiveImpactTrade2018}
 \end{itemize}
 \item We substitute the composite trade share metric of \cite{squalliNewMeasureTrade2011} for the naive trade share of GDP as a measure of trade openness.
@@ -149,12 +150,14 @@ The following variables were primarily drawn from the World Bank World Developme
 \item $ENI$ (energy intensity): total energy used, measured in kilograms of oil calorific equivalent, divided by gross domestic product, measured in 2017 constant international dollars (using purchasing power parity rates).
 The WDI field used is \texttt{EG.GDP.PUSE.KO.PP.KD}, inverted, as the source data is supplied in GDP per unit of energy.
 \item $POP$ (population density): midyear population, counting all residents, divided by land surface area in square kilometers. The WDI field used is \texttt{EN.POP.DNST}.
-\item $AFL$ (affluence/GDP per capita): gross domestic product, measured in 2017 constant international dollars, divided by midyear population, counting all residents. The WDI field used is \texttt{NY.GDP.PCAP.PP.KD}.
 \item $URB$ (urbanisation): population living in urban areas, divided by total population estimate. The WDI field used is \texttt{SP.URB.TOTL.IN.ZS}.
-\item $TI$ (technological innovation): total annual patent application count per country, both directly and through the international patent process, by both residents and non-residents. The WDI fields used are \texttt{IP.PAT.RESD} and \texttt{IP.PAT.NRES}, which are added together.
+\item $AFL$ (affluence/GDP per capita): gross domestic product, measured in 2017 constant international dollars, divided by midyear population, counting all residents. The WDI field used is \texttt{NY.GDP.PCAP.PP.KD}.
+\item $TI$ (technological innovation): total annual patent application count per country, both directly and through the international patent process, by both residents and non-residents. The WDI fields used are \texttt{IP.PAT.RESD} and \texttt{IP.PAT.NRES}, which are added together, divided by \texttt{SP.POP.TOTL}.
+
 Patent data was also retrieved directly from the WIPO Statistics Database via the IP Statistics Data Center, \cite{wipoWIPOStatisticsDatabase2020}, and used to fill in gaps in the WDI data where necessary; the field used was ``Total patent applications (direct and PCT national phase entries)".
  
 \end{itemize}
+Trade openness is one measure of the integration of a country into the world economy. 
 For a measure of trade openness, we replace the simple trade share measure ($OPN$ in \citealt{rafiqUrbanizationOpennessEmissions2016}) with the Comprehensive Trade Share  ($CTS$) measure of \cite{squalliNewMeasureTrade2011}.
 This is constructed as follows:
 \begin{enumerate}
@@ -170,41 +173,43 @@ Explicitly, this can be written:
 \begin{equation*}
 TS_i = \frac{X_i + M_i}{GDP_i}
 \qquad
-WTS_i = \frac{X_i + M_i}{\sum_j ( X_j + M_j )}
+WTS_i = \frac{X_i + M_i}{\sum_{j=1}^{n} ( X_j + M_j )}
 \end{equation*}
 \begin{equation*}
-\overline{WTS} = \frac{\sum_j WTS_j}{n}
+\overline{WTS} = \frac{\sum_{j=1}^{n} WTS_j}{n}
 \qquad
 CTS_i = \left( \frac{WTS_i}{\overline{WTS}} \right) TS_i
 \end{equation*}
 And can be simplified to:
 \begin{equation}
-CTS_i = \frac{X_i + M_i}{\sum_j ( X_j + M_j )} \frac{X_i + M_i}{GDP_i}
+CTS_i = \frac{X_i + M_i}{\frac{1}{n} \sum_{j=1}^{n} ( X_j + M_j )} \frac{X_i + M_i}{GDP_i}
 \end{equation}
 \cite{squalliNewMeasureTrade2011} carry out several robustness tests on the $CTS$ measure, and find it satisfactory; intuitively, it also succeeds in ranking both large trading countries (e.g. USA, Germany) and small open economies (e.g. Hong Kong, Singapore) highly, which neither $TS$ nor $WTS$ accomplish on their own.
 We therefore substitute $CTS$ for $TS$ (a.k.. $OPN$) in the original model.
 
 As another measure of financial integration into the world economy, we use the Chinn-Ito capital openness index, from \cite{chinnWhatMattersFinancial2006}.
-This index, described in greater detail in \cite{chinnNewMeasureFinancial2008}, is the first standardised pricnipal component of the binary dummy variables coding for financial restrictions supplied in the IMF's Annual Report on Exchange Arrangements and Exchange Restrictions (AREAER).
-We use the most recent update of the index, based on the data in \cite{imfAnnualReportExchange2019}, and notate it as $KOP$.
+This index, described in greater detail in \cite{chinnNewMeasureFinancial2008}, is based on the binary variables coding for financial restrictions supplied in the IMF's Annual Report on Exchange Arrangements and Exchange Restrictions (AREAER).
+The avlue of the index is the first standardised principal component of the variables coding for the presence of multiple exchange rates, restrictions on current and capital account transactions, and export proceeds confiscations.
+The direction of the index is the reverse of the variables, and takes higher values in more financially open countries, with a mean of zero by construction.
+We use the most recent update of the index, based on the data in \cite{imfAnnualReportExchange2019}, and notate it as $KAOPEN$.
 
 These data definitions are summarised in \cref{tab:data_source}.
 All of the included data series are sampled at an annual frequency, with a multi-year reporting lag, and are revised series (not point-in-time).
 
-
+\renewcommand{\arraystretch}{1.5}
 \begin{table}[htbp]
 \centering
 \begin{tabulary}{\textwidth}{l l L} 
 \toprule 
 Measure & Economic variable & Description and units \\ [1ex] 
 \midrule 
-ENI & Energy intensity & Primary energy use in kg. of oil equivalent per (constant 2017 PPP-adjusted) \$US of GDP \\
-POP & Population density & Population per square kilometer of land \\ 
-AFL & Affluence & GDP measured in (constant 2017 PPP-adjusted) \$US, divided by mid-year population estimate \\
-URB & Urbanisation & Population in urban areas as a fraction of total population \\
-TI & Technological innovation & Total number of patent applications (both direct and PCT national phase entries) \\ 
-CTS & Trade openness & Total trade as \% of GDP, scaled proportionally to global trade \\
-KOP & Capital openness & Composite measure of relative financial openness, a weighted sum of financial restriction indicators from the IMF AREAER \\
+$ENI$ & Energy intensity & Primary energy use in kg. of oil equivalent per (constant 2017 PPP-adjusted) \$US of GDP \\
+$POP$ & Population density & Population per square kilometer of land \\ 
+$AFL$ & Affluence & GDP measured in (constant 2017 PPP-adjusted) \$US, divided by mid-year population estimate \\
+$URB$ & Urbanisation & Population in urban areas as a fraction of total population \\
+$TI$ & Technological innovation & Total number of patent applications (both direct and PCT national phase entries) divided by mid-year population estimate \\ 
+$CTS$ & Trade openness & Total trade as \% of GDP, scaled proportionally to global trade \\
+$KAOPEN$ & Capital openness & Composite measure of relative financial openness, a weighted sum of financial restriction indicators from the IMF 2019 AREAER \\
 \bottomrule 
 \end{tabulary}
 \caption{Variable names and descriptions}
@@ -217,7 +222,7 @@ KOP & Capital openness & Composite measure of relative financial openness, a wei
 
 This is indeed a thing, behold!
 \begin{multline}\label{eq:model}
-\ln ENI_{it} = \delta_0 + \delta_1 \ln POP_{it} + \delta_2 \ln AFL_{it} + \delta_3 \left( \ln AFL_{it} \right)^2 + \delta_4 \ln URB_{it} \\ + \delta_5 \ln TI_{it} + \delta_6 \ln CTS_{it} + \delta_6 \ln KOP_{it} + \varepsilon_{it}
+\ln ENI_{it} = \delta_0 + \delta_1 \ln POP_{it} + \delta_2 \ln AFL_{it} + \delta_3 \left( \ln AFL_{it} \right)^2 + \delta_4 \ln URB_{it} \\ + \delta_5 \ln TI_{it} + \delta_6 \ln CTS_{it} + \delta_6 \ln KAOPEN_{it} + \varepsilon_{it}
 \end{multline}
 
 Note that the specification for $AFL$ in \cref{eq:model} differs from Equation (4) in \cite{rafiqUrbanizationOpennessEmissions2016}, who have the following:
@@ -225,11 +230,11 @@ Note that the specification for $AFL$ in \cref{eq:model} differs from Equation (
 \ln ENI_{it} = \delta_0 + \delta_1 \ln POP_{it} + \delta_2 \ln AFL_{it} + \delta_3 \ln AFL_{it}^2 + \delta_4 \ln URB_{it} + \cdots
 \end{equation*}
 
-This is, as others have mildly put it, "rather strange" \cite[p. 4936]{moosaEconometricsEnvironmentalKuznets2017}, since $\ln AFL_{it}^2 = 2 \ln AFL_{it}$; however, as they go on to add, this would not be the first appearance of the $\ln \left( x^n_{it} \right)$ form in the literature.
-In theory, the model of \cite{rafiqUrbanizationOpennessEmissions2016} cannot be estimated, as there is perfect colinearity between between the $\ln AFL_{it}$ and $\ln AFL_{it}^2$ terms, but looking into their data appendices\footnotemark we see that decimal truncation results in their corresponding \texttt{afl} and \texttt{afl2} fields being almost but not exactly colinear.
+This is, as others have diplomatically put it, "rather strange" \cite[p. 4936]{moosaEconometricsEnvironmentalKuznets2017}, since $\ln AFL_{it}^2 = 2 \ln AFL_{it}$; however, as they go on to add, this would not be the first appearance of the $\ln \left( x^n_{it} \right)$ form in the literature.
+In theory, the model of \cite{rafiqUrbanizationOpennessEmissions2016} cannot be estimated, as there is perfect colinearity between between the $\ln AFL_{it}$ and $\ln AFL_{it}^2$ terms, but looking into their data appendices\footnotemark{} we see that decimal truncation results in their corresponding \texttt{afl} and \texttt{afl2} fields being almost but not exactly collinear.
 
 \urldef\rafiqdata\url{https://www.sciencedirect.com/science/article/pii/S0140988316300202?via%3Dihub#s0055}
-\footnotetext{Made available for download at \\
+\footnotetext{Available for download at \\
 \begin{adjustbox}{max width=\textwidth}
 \rafiqdata
 \end{adjustbox}
