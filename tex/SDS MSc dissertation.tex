@@ -78,7 +78,7 @@ The detailed results of the analysis are presented in \cref{sec:results}, and \c
 
 \cite{ederAnalysisEnergyIntensity2018} describe the two most significant features of energy intensity. First, they describe its persistent downward trend across nearly all countries.
 Second, despite widely varying initial levels of energy intensity and different energy intensity reduction rates, they demonstrate convergence of the series of energy intensity between economies.
-We can take some comfort regarding future energy use from both of these features; however, as the authors note, the developing regions ``are not expected to reach the level of the economically developed countries by 2040" \citep[p. 1971]{ederAnalysisEnergyIntensity2018}.
+We can take some comfort regarding future energy use from both of these features; however, as the authors note, the developing regions ``are not expected to reach the level of the economically developed countries by 2040" \citep[p.1971]{ederAnalysisEnergyIntensity2018}.
 In addition, while useful for forecasting, such univariate analyses offer no information to policymakers wishing to accelerate the trend of energy intensity reduction. 
 Analyses using decomposition methods, such in \cite{liuEightMethodsDecomposing2003}, can attribute changes in aggregate energy intensity to changes in total production, sectoral energy intensity and sector production share. While these could guide industrial policy aimed at rebalancing between sectors to achieve the desired effect, they still leave the open the question of which underlying factors affect energy intensity.
 
@@ -150,11 +150,13 @@ The following variables were primarily drawn from the World Bank World Developme
 \item $ENI$ (energy intensity): total energy used, measured in kilograms of oil calorific equivalent, divided by gross domestic product, measured in 2017 constant international dollars (using purchasing power parity rates).
 The WDI field used is \texttt{EG.GDP.PUSE.KO.PP.KD}, inverted, as the source data is supplied in GDP per unit of energy.
 \item $POP$ (population density): midyear population, counting all residents, divided by land surface area in square kilometers. The WDI field used is \texttt{EN.POP.DNST}.
-\item $URB$ (urbanisation): population living in urban areas, divided by total population estimate. The WDI field used is \texttt{SP.URB.TOTL.IN.ZS}.
 \item $AFL$ (affluence/GDP per capita): gross domestic product, measured in 2017 constant international dollars, divided by midyear population, counting all residents. The WDI field used is \texttt{NY.GDP.PCAP.PP.KD}.
+\item $URB$ (urbanisation): population living in urban areas, divided by total population estimate. The WDI field used is \texttt{SP.URB.TOTL.IN.ZS}.
 \item $TI$ (technological innovation): total annual patent application count per country, both directly and through the international patent process, by both residents and non-residents. The WDI fields used are \texttt{IP.PAT.RESD} and \texttt{IP.PAT.NRES}, which are added together, divided by \texttt{SP.POP.TOTL}.
 
 Patent data was also retrieved directly from the WIPO Statistics Database via the IP Statistics Data Center, \cite{wipoWIPOStatisticsDatabase2020}, and used to fill in gaps in the WDI data where necessary; the field used was ``Total patent applications (direct and PCT national phase entries)".
+
+The final value was scaled to represent the number of patents per 100,000 inhabitants.\footnote{A common scale in other innovation literature, e.g. \cite{ocampo-corralesKnowledgeFlowsTechnologies2020}.}
  
 \end{itemize}
 Trade openness is one measure of the integration of a country into the world economy. 
@@ -185,16 +187,21 @@ And can be simplified to:
 CTS_i = \frac{X_i + M_i}{\frac{1}{n} \sum_{j=1}^{n} ( X_j + M_j )} \frac{X_i + M_i}{GDP_i}
 \end{equation}
 \cite{squalliNewMeasureTrade2011} carry out several robustness tests on the $CTS$ measure, and find it satisfactory; intuitively, it also succeeds in ranking both large trading countries (e.g. USA, Germany) and small open economies (e.g. Hong Kong, Singapore) highly, which neither $TS$ nor $WTS$ accomplish on their own.
-We therefore substitute $CTS$ for $TS$ (a.k.. $OPN$) in the original model.
+We therefore substitute $CTS$ for $TS$ (denoted $OPN$ in the original model).
 
 As another measure of financial integration into the world economy, we use the Chinn-Ito capital openness index, from \cite{chinnWhatMattersFinancial2006}.
 This index, described in greater detail in \cite{chinnNewMeasureFinancial2008}, is based on the binary variables coding for financial restrictions supplied in the IMF's Annual Report on Exchange Arrangements and Exchange Restrictions (AREAER).
-The avlue of the index is the first standardised principal component of the variables coding for the presence of multiple exchange rates, restrictions on current and capital account transactions, and export proceeds confiscations.
-The direction of the index is the reverse of the variables, and takes higher values in more financially open countries, with a mean of zero by construction.
+The value of the index is the first standardised principal component of the variables coding for the presence of multiple exchange rates, restrictions on current and capital account transactions, and export proceeds confiscations.
+The direction of the index is the reverse of the variables, taking higher values in more financially open countries, with a mean of zero by construction.
 We use the most recent update of the index, based on the data in \cite{imfAnnualReportExchange2019}, and notate it as $KAOPEN$.
 
 These data definitions are summarised in \cref{tab:data_source}.
 All of the included data series are sampled at an annual frequency, with a multi-year reporting lag, and are revised series (not point-in-time).
+
+For the country selection, we use the two panels from \cite{tibaIncomeTradeOpenness2018}: one of high-income (p.805) countries and one of middle-income (p.807) countries.
+We exclude Venezuela from the middle-income countries as it does not have patent data available. 
+The ``increasingly urbanized emerging economies" of \cite[p.22]{rafiqUrbanizationOpennessEmissions2016} likewise do not have enough data for the extended model.
+The countries and panel abbreviations are specified in \cref{tab:countries}.
 
 \renewcommand{\arraystretch}{1.5}
 \begin{table}[htbp]
@@ -207,8 +214,8 @@ $ENI$ & Energy intensity & Primary energy use in kg. of oil equivalent per (cons
 $POP$ & Population density & Population per square kilometer of land \\ 
 $AFL$ & Affluence & GDP measured in (constant 2017 PPP-adjusted) \$US, divided by mid-year population estimate \\
 $URB$ & Urbanisation & Population in urban areas as a fraction of total population \\
-$TI$ & Technological innovation & Total number of patent applications (both direct and PCT national phase entries) divided by mid-year population estimate \\ 
-$CTS$ & Trade openness & Total trade as \% of GDP, scaled proportionally to global trade \\
+$TI$ & Technological innovation & Total number of patent applications (both direct and PCT national phase entries) divided by mid-year population estimate, scaled by 100k \\ 
+$CTS$ & Trade openness & Total trade as \% of GDP, scaled proportionally to share of world trade \\
 $KAOPEN$ & Capital openness & Composite measure of relative financial openness, a weighted sum of financial restriction indicators from the IMF 2019 AREAER \\
 \bottomrule 
 \end{tabulary}
@@ -216,7 +223,30 @@ $KAOPEN$ & Capital openness & Composite measure of relative financial openness, 
 \label{tab:data_source}
 \end{table}
 
-
+\renewcommand{\arraystretch}{1}
+\begin{table}[htbp]
+\centering
+\begin{tabular}{ll}
+\toprule
+\texttt{ttiba2018\_middle} &   \texttt{tiba2018\_high} \\
+\midrule
+        Algeria &       Australia \\
+      Argentina &          Canada \\
+         Brazil &          France \\
+       Bulgaria &         Germany \\
+          Chile &           Japan \\
+          China &     Netherlands \\
+       Colombia &        Portugal \\
+       Malaysia &           Spain \\
+         Mexico &          Sweden \\
+       Thailand &     Switzerland \\
+         Turkey &  United Kingdom \\
+                &   United States \\
+\bottomrule
+\end{tabular}
+\caption{Country panels}
+\label{tab:countries}
+\end{table}
 
 \section{Methodology}\label{sec:methodology}
 
@@ -230,10 +260,10 @@ Note that the specification for $AFL$ in \cref{eq:model} differs from Equation (
 \ln ENI_{it} = \delta_0 + \delta_1 \ln POP_{it} + \delta_2 \ln AFL_{it} + \delta_3 \ln AFL_{it}^2 + \delta_4 \ln URB_{it} + \cdots
 \end{equation*}
 
-This is, as others have diplomatically put it, "rather strange" \cite[p. 4936]{moosaEconometricsEnvironmentalKuznets2017}, since $\ln AFL_{it}^2 = 2 \ln AFL_{it}$; however, as they go on to add, this would not be the first appearance of the $\ln \left( x^n_{it} \right)$ form in the literature.
+This is, as others have diplomatically put it, "rather strange" \cite[p.4936]{moosaEconometricsEnvironmentalKuznets2017}, since $\ln AFL_{it}^2 = 2 \ln AFL_{it}$; however, as they go on to add, this would not be the first appearance of the $\ln \left( x^n_{it} \right)$ form in the literature.
 In theory, the model of \cite{rafiqUrbanizationOpennessEmissions2016} cannot be estimated, as there is perfect colinearity between between the $\ln AFL_{it}$ and $\ln AFL_{it}^2$ terms, but looking into their data appendices\footnotemark{} we see that decimal truncation results in their corresponding \texttt{afl} and \texttt{afl2} fields being almost but not exactly collinear.
 
-\urldef\rafiqdata\url{https://www.sciencedirect.com/science/article/pii/S0140988316300202?via%3Dihub#s0055}
+\urldef{\rafiqdata}\url{https://www.sciencedirect.com/science/article/pii/S0140988316300202?via%3Dihub#s0055}
 \footnotetext{Available for download at \\
 \begin{adjustbox}{max width=\textwidth}
 \rafiqdata
