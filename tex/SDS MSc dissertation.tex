@@ -56,6 +56,11 @@ Word count: \emph{!! TODO !!}
 
 \pagebreak
 
+\listoffigures
+\listoftables
+
+\pagebreak
+
 \section{Introduction}\label{sec:introduction}
 
 Energy intensity, defined as the total energy consumption per unit of economic output, is a critical measure of overall economic efficiency and sustainability.
@@ -145,10 +150,10 @@ However, rather than an absolute number, we use a per-capita metric, as in \cite
 
 \section{Data}\label{sec:data}
 Where appropriate, we follow the naming convention of \cite{rafiqUrbanizationOpennessEmissions2016}, otherwise, we use abbreviations from the sources cited in \cref{sec:literature}.
-The following variables were primarily drawn from the World Bank World Development Indicators database \citep{theworldbankWorldDevelopmentIndicators2019}:
+The following variables were primarily drawn from the World Bank World Development Indicators database \citep{theworldbankWorldDevelopmentIndicators2020}:
 \begin{itemize}
-\item $ENI$ (energy intensity): total energy used, measured in kilograms of oil calorific equivalent, divided by gross domestic product, measured in 2017 constant international dollars (using purchasing power parity rates).
-The WDI field used is \texttt{EG.GDP.PUSE.KO.PP.KD}, inverted, as the source data is supplied in GDP per unit of energy.
+\item $ENI$ (energy intensity): total energy used, measured in kilograms of oil calorific equivalent, divided by gross domestic product, measured in current international dollars using purchasing power parity rates based on the 2017 ICP round \citep{theworldbankPurchasingPowerParities2020}.
+The WDI field used is \texttt{EG.GDP.PUSE.KO.PP}, inverted, as the source data is supplied in GDP per unit of energy.
 \item $POP$ (population density): midyear population, counting all residents, divided by land surface area in square kilometers. The WDI field used is \texttt{EN.POP.DNST}.
 \item $AFL$ (affluence/GDP per capita): gross domestic product, measured in 2017 constant international dollars, divided by midyear population, counting all residents. The WDI field used is \texttt{NY.GDP.PCAP.PP.KD}.
 \item $URB$ (urbanisation): population living in urban areas, divided by total population estimate. The WDI field used is \texttt{SP.URB.TOTL.IN.ZS}.
@@ -195,14 +200,6 @@ The value of the index is the first standardised principal component of the vari
 The direction of the index is the reverse of the variables, taking higher values in more financially open countries, with a mean of zero by construction.
 We use the most recent update of the index, based on the data in \cite{imfAnnualReportExchange2019}, and notate it as $KAOPEN$.
 
-These data definitions are summarised in \cref{tab:data_source}.
-All of the included data series are sampled at an annual frequency, with a multi-year reporting lag, and are revised series (not point-in-time).
-
-For the country selection, we use the two panels from \cite{tibaIncomeTradeOpenness2018}: one of high-income (p.805) countries and one of middle-income (p.807) countries.
-We exclude Venezuela from the middle-income countries as it does not have patent data available. 
-The ``increasingly urbanized emerging economies" of \cite[p.22]{rafiqUrbanizationOpennessEmissions2016} likewise do not have enough data for the extended model.
-The countries and panel abbreviations are specified in \cref{tab:countries}.
-
 \renewcommand{\arraystretch}{1.5}
 \begin{table}[htbp]
 \centering
@@ -210,9 +207,9 @@ The countries and panel abbreviations are specified in \cref{tab:countries}.
 \toprule 
 Measure & Economic variable & Description and units \\ [1ex] 
 \midrule 
-$ENI$ & Energy intensity & Primary energy use in kg. of oil equivalent per (constant 2017 PPP-adjusted) \$US of GDP \\
+$ENI$ & Energy intensity & Primary energy use in kg. of oil equivalent per (current PPP-adjusted) \$US of GDP \\
 $POP$ & Population density & Population per square kilometer of land \\ 
-$AFL$ & Affluence & GDP measured in (constant 2017 PPP-adjusted) \$US, divided by mid-year population estimate \\
+$AFL$ & Affluence & GDP measured in (current PPP-adjusted) \$US, divided by mid-year population estimate \\
 $URB$ & Urbanisation & Population in urban areas as a fraction of total population \\
 $TI$ & Technological innovation & Total number of patent applications (both direct and PCT national phase entries) divided by mid-year population estimate, scaled by 100k \\ 
 $CTS$ & Trade openness & Total trade as \% of GDP, scaled proportionally to share of world trade \\
@@ -223,36 +220,75 @@ $KAOPEN$ & Capital openness & Composite measure of relative financial openness, 
 \label{tab:data_source}
 \end{table}
 
+These data definitions are summarised in \cref{tab:data_source}.
+All of the included data series are sampled at an annual frequency, with a multi-year reporting lag, and are revised series (not point-in-time).
+
+For the country selection, we use the two panels from \cite{tibaIncomeTradeOpenness2018}: one of high-income (p.805) countries and one of middle-income (p.807) countries.
+For nearly all high-income countries and most middle-income countries, all data points are available over the date range of 1990 to 2015; the limiting factor is often $ENI$, which starts no sooner than 1990 for any country and ends in 2014 or 2015.
+Restricting date ranges to data availability results in different observation periods for each country, resulting in unbalanced panels.
+The countries and their respective observation date ranges are specified in \cref{tab:countries}; the only remaining missing data is the $TI$ series for Algeria, with observations absent in 2008 and 2009.
+
 \renewcommand{\arraystretch}{1}
 \begin{table}[htbp]
 \centering
+\begin{subtable}{0.45\textwidth}
+\centering
 \begin{tabular}{ll}
 \toprule
-\texttt{ttiba2018\_middle} &   \texttt{tiba2018\_high} \\
+   Country & Date range \\
 \midrule
-        Algeria &       Australia \\
-      Argentina &          Canada \\
-         Brazil &          France \\
-       Bulgaria &         Germany \\
-          Chile &           Japan \\
-          China &     Netherlands \\
-       Colombia &        Portugal \\
-       Malaysia &           Spain \\
-         Mexico &          Sweden \\
-       Thailand &     Switzerland \\
-         Turkey &  United Kingdom \\
-                &   United States \\
+   Algeria &  1990-2014 \\
+ Argentina &  1990-2014 \\
+    Brazil &  1990-2014 \\
+  Bulgaria &  1994-2014 \\
+     Chile &  1990-2015 \\
+     China &  1990-2014 \\
+  Colombia &  1994-2014 \\
+  Malaysia &  1990-2014 \\
+    Mexico &  1990-2015 \\
+  Thailand &  1990-2014 \\
+    Turkey &  1990-2015 \\
+ Venezuela &  2002-2011 \\
 \bottomrule
 \end{tabular}
+\caption{High-income}
+\end{subtable}
+\begin{subtable}{0.45\textwidth}
+\centering
+\begin{tabular}{ll}
+\toprule
+        Country & Date range \\
+\midrule
+      Australia &  1995-2015 \\
+         Canada &  1990-2015 \\
+         France &  1990-2015 \\
+        Germany &  1990-2015 \\
+          Japan &  1990-2015 \\
+    Netherlands &  1990-2015 \\
+       Portugal &  1990-2015 \\
+          Spain &  1990-2015 \\
+         Sweden &  1990-2015 \\
+    Switzerland &  1996-2014 \\
+ United Kingdom &  1990-2015 \\
+  United States &  1990-2015 \\
+\bottomrule
+\end{tabular}
+\caption{High-income}
+\end{subtable}
 \caption{Country panels}
 \label{tab:countries}
 \end{table}
+
+\cref{fig:data_dists} in \cref{sec:graph_appendix} shows histograms and kernel density plots of the data.
+Examining the distribution of the data, we find that the standard log-transformation of all but the $KAOPEN$ variable bring the distributions generally closer to normality and bring all variables into roughly the same order of magnitude in scale.
+$KAOPEN$ has already been normalised by construction, so we leave it unchanged
+
 
 \section{Methodology}\label{sec:methodology}
 
 This is indeed a thing, behold!
 \begin{multline}\label{eq:model}
-\ln ENI_{it} = \delta_0 + \delta_1 \ln POP_{it} + \delta_2 \ln AFL_{it} + \delta_3 \left( \ln AFL_{it} \right)^2 + \delta_4 \ln URB_{it} \\ + \delta_5 \ln TI_{it} + \delta_6 \ln CTS_{it} + \delta_6 \ln KAOPEN_{it} + \varepsilon_{it}
+\ln ENI_{it} = \delta_0 + \delta_1 \ln POP_{it} + \delta_2 \ln AFL_{it} + \delta_3 \left( \ln AFL_{it} \right)^2 + \delta_4 \ln URB_{it} \\ + \delta_5 \ln TI_{it} + \delta_6 \ln CTS_{it} + \delta_6 KAOPEN_{it} + \varepsilon_{it}
 \end{multline}
 
 Note that the specification for $AFL$ in \cref{eq:model} differs from Equation (4) in \cite{rafiqUrbanizationOpennessEmissions2016}, who have the following:
@@ -323,9 +359,78 @@ All of the Python and R code and output are incorporated into Jupyter Notebooks,
 
 \clearpage
 \subsection{Additional Figures}\label{sec:graph_appendix}
+Foo.
 
-\listoffigures
-\listoftables
+\begin{figure}[htbp]
+\centering
+\begin{subfigure}{0.45\textwidth}
+\includegraphics[width=\textwidth]{./plots/dis/distplot_ENI.pdf}
+\caption{$ENI$}
+\end{subfigure}
+\begin{subfigure}{0.45\textwidth}
+\includegraphics[width=\textwidth]{./plots/dis/distplot_lnENI.pdf}
+\caption{$\ln ENI$}
+\end{subfigure}
+\begin{subfigure}{0.45\textwidth}
+\includegraphics[width=\textwidth]{./plots/dis/distplot_POP.pdf}
+\caption{$POP$}
+\end{subfigure}
+\begin{subfigure}{0.45\textwidth}
+\includegraphics[width=\textwidth]{./plots/dis/distplot_lnPOP.pdf}
+\caption{$\ln POP$}
+\end{subfigure}
+\begin{subfigure}{0.45\textwidth}
+\includegraphics[width=\textwidth]{./plots/dis/distplot_AFL.pdf}
+\caption{$AFL$}
+\end{subfigure}
+\begin{subfigure}{0.45\textwidth}
+\includegraphics[width=\textwidth]{./plots/dis/distplot_lnAFL.pdf}
+\caption{$\ln AFL$}
+\end{subfigure}
+\caption{Data histograms and density plots}
+\label{fig:data_dists}
+\end{figure}
+
+\begin{figure}[htbp]\ContinuedFloat
+\centering
+\begin{subfigure}{0.45\textwidth}
+\includegraphics[width=\textwidth]{./plots/dis/distplot_URB.pdf}
+\caption{$ENI$}
+\end{subfigure}
+\begin{subfigure}{0.45\textwidth}
+\includegraphics[width=\textwidth]{./plots/dis/distplot_lnENI.pdf}
+\caption{$\ln ENI$}
+\end{subfigure}
+\begin{subfigure}{0.45\textwidth}
+\includegraphics[width=\textwidth]{./plots/dis/distplot_POP.pdf}
+\caption{$POP$}
+\end{subfigure}
+\begin{subfigure}{0.45\textwidth}
+\includegraphics[width=\textwidth]{./plots/dis/distplot_lnPOP.pdf}
+\caption{$\ln POP$}
+\end{subfigure}
+\begin{subfigure}{0.45\textwidth}
+\includegraphics[width=\textwidth]{./plots/dis/distplot_AFL.pdf}
+\caption{$AFL$}
+\end{subfigure}
+\begin{subfigure}{0.45\textwidth}
+\includegraphics[width=\textwidth]{./plots/dis/distplot_lnAFL.pdf}
+\caption{$\ln AFL$}
+\end{subfigure}
+\caption{Data histograms and density plots}
+\end{figure}
+
+\begin{figure}[htbp]\ContinuedFloat
+\centering
+\begin{subfigure}{0.45\textwidth}
+\includegraphics[width=\textwidth]{./plots/dis/distplot_KAOPEN.pdf}
+\caption{KAOPEN}
+\end{subfigure}
+\caption{Data histograms and density plots}
+\end{figure}
+
+
+
 
 \restoregeometry{}
 
