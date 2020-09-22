@@ -396,7 +396,7 @@ In addition, specification tests for over-identifying restrictions, such as the 
 While recent innovations exist to address this issue, such as principal component analysis on the instrument matrix as in \cite{bontempiImplementingStrategyReduce2015}, the simple expedients of truncating the number of lags and ``collapsing" the blocks of the instrument matrix as in \cite{roodmanNoteThemeToo2009} remain two of the most effective and easily implemented.
 
 The Stata package \pkg{xtabond2}, as described in \cite{roodmanHowXtabond2Introduction2009}, implements both of these estimators, as do the R package \pkg{plm} as described in \cite{croissantPanelDataEconometrics2008} and the R package \pkg{pdynmc} as described in \cite{fritschPdynmcPackageEstimating2019}.
-For ease of integration with existing work we use the R packages, preferring \pkg{pdynmc} where possible as both slightly easier to use and better numerically behaved when $T \rightarrow N$, as in our case.\footnote{
+For ease of integration with existing work we use the R packages, preferring \pkg{pdynmc} where possible as both slightly easier to use and better numerically behaved when $T \rightarrow N$, as in our small panel case.\footnote{
 See \cref{sec:data_and_code} for further details.
 }
 
@@ -405,14 +405,20 @@ See \cref{sec:data_and_code} for further details.
 
 %TC:ignore
 \vspace{1cm}
-How to do Xtabond2: An Introduction to Difference and System GMM in Stata: \cite{roodmanHowXtabond2Introduction2009}
-
-These two tests also allow us to check the validity of nested subsets of moment conditions.These  tests  are  referred  to  as  ‘difference-in-Hansen’/‘difference-in-Sargan’  tests  (see,  e.g.,Roodman 2009), ‘incremental Hansen’/‘incremental Sargan’ tests (see, e.g., Arellano 2003), orC-statistics (see, e.g., Hayashi 2000).  
+\noindent\textbf{TODO}
+\begin{quote}
+\cite{roodmanNoteThemeToo2009}
+These two tests also allow us to check the validity of nested subsets of moment conditions.These  tests  are  referred  to  as  `difference-in-Hansen'/`difference-in-Sargan'  tests  (see,  e.g.,Roodman 2009), ‘incremental Hansen’/‘incremental Sargan’ tests (see, e.g., Arellano 2003), orC-statistics (see, e.g., Hayashi 2000).  
 The test statistic is obtained by first estimating the nullmodel with a restricted set of moment conditions and the full model with more moment con-ditions than in the null model.  Then, one computes eitherTSorTJfor both models, and thentake the difference of these two test statistics.  This difference is asymptotically $\chi^2$-distributed with degrees of freedom equal to the difference in the number of moment conditions underthe full model and the null model (see Hayashi 2000).
+\end{quote}
 
 \vspace{1cm}
 \noindent\textbf{TODO}
 \begin{quote}
+mtest.fct tests for serial correlation in the error terms \cite{arellanoTestsSpecificationPanel1991}
+
+
+
 "correction of Windmeijer 2005 was employed by this argument" https://cran.r-project.org/web/packages/pdynmc/vignettes/pdynmc.pdf
 \end{quote}
 
