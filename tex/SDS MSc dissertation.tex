@@ -72,13 +72,14 @@ A better understanding of the drivers of energy intensity would benefit develope
 
 One frequently recurring economic variable investigated in the literature on energy intensity is trade openness, often measured as the ratio of imports and exports to total economic activity.
 There are several theoretical reasons why increased trade openness should lead to decreased energy intensity.
-First, it may allow efficiency gains through substitution away from energy-intensive domestic
-inputs as well as a focus on higher-factor-productivity exports. 
-Second, in developing nations increased integration into the world economy may increase penetration of technological innovation into domestic industries, increasing overall productivity.
-However, the existing literature does not agree on either the sign or the significance of the empirical relationship.
+First, in developing nations increased integration into the world economy may increase penetration of technological innovation into domestic industries, increasing factor productivity.
+Second, it may allow efficiency gains through substitution away from energy-intensive domestic
+inputs as well as a focus on higher-productivity exports. 
+However, increased trade may also allow developing nations with weaker environmental regulation to export high-pollution goods (effectively, importing pollution from developed nations). 
+Unsurprisingly, the existing literature does not agree on either the sign or the significance of the empirical relationship.
 
 This paper briefly explores the literature on trade openness and energy intensity (\cref{sec:literature}) and describes the economic variables in question more precisely in \cref{sec:data}.
-The relationship is then empirically estimated using a linear dynamic panel data model, derived from \cite{arellanoTestsSpecificationPanel1991}, which is described and justified in \cref{sec:methodology}.
+The relationship is then empirically estimated using several linear dynamic panel data models, which are described and justified in \cref{sec:methodology}.
 The detailed results of the analysis are presented in \cref{sec:results}, and \cref{sec:conclusion} summarises and concludes the paper.
 
 \section{Literature Survey}\label{sec:literature}
@@ -139,13 +140,13 @@ They combine these two to produce a measure they call composite trade share (CTS
 The relationship of the current paper to the existing literature given above can be summed up as follows: 
 \begin{itemize}
 \item We use as a base the final model (Model IV, EKC-type) given in \cite{rafiqUrbanizationOpennessEmissions2016}, with energy intensity as the dependent variable. We include trade openness, population density, urbanisation, and affluence as explanatory variables.
-\item We then add as regressors:
+\item We then add as further explanatory variables:
 \begin{itemize}
 \item technological innovation, as measured by total resident and non-resident patent application count, following \cite{panHowIndustrializationTrade2019}. 
 However, rather than an absolute number, we use a per-capita metric, as in \cite{maradanaDoesInnovationPromote2017}
 \item financial openness, as measured by the Chinn-Ito index \citep{chinnWhatMattersFinancial2006}, following \cite{koengkanPositiveImpactTrade2018}
 \end{itemize}
-\item We substitute the composite trade share metric of \cite{squalliNewMeasureTrade2011} for the naive trade share of GDP as a measure of trade openness.
+\item We substitute the composite trade share metric of \cite{squalliNewMeasureTrade2011} as a measure of trade openness, rather than use the naive trade share of GDP.
 \end{itemize}
 
 
@@ -354,7 +355,7 @@ Note that the specification for $AFL$ in \cref{eq:model} differs from \cite[Equa
 \end{equation*}
 
 This is, as others have diplomatically put it, "rather strange" \cite[p.4936]{moosaEconometricsEnvironmentalKuznets2017}, since $\ln AFL_{it}^2 = 2 \ln AFL_{it}$; however, as they go on to add, this would not be the first appearance of the $\ln \left( x^n_{it} \right)$ form in the literature.
-In theory, the model of \cite{rafiqUrbanizationOpennessEmissions2016} cannot be estimated, as there is perfect colinearity between between the $\ln AFL_{it}$ and $\ln AFL_{it}^2$ terms, but looking into their data appendices\footnotemark{} we see that decimal truncation results in their corresponding \texttt{afl} and \texttt{afl2} fields being almost but not exactly collinear.
+In theory, the model of \cite{rafiqUrbanizationOpennessEmissions2016} cannot be estimated with ordinary procedures, as there is perfect colinearity between between the $\ln AFL_{it}$ and $\ln AFL_{it}^2$ terms, but looking into their data appendices\footnotemark{} we see that decimal truncation results in their corresponding \texttt{afl} and \texttt{afl2} fields being almost but not exactly collinear.
 
 %TC:ignore
 \urldef{\rafiqdata}\url{https://www.sciencedirect.com/science/article/pii/S0140988316300202?via%3Dihub#s0055}
@@ -372,65 +373,61 @@ First, omitted variable bias almost unavoidable when attempting to reduce the co
 Potential endogeneity between our variable of interest and the regressors is a problem, as \cite{shahbazDynamicLinksEnergy2013} demonstrate in the case of trade and \cite{nayanRevisitingEnergyConsumption2013} cover in the case of growth; there is also likely to be endogeneity among the regressors, as \cite{rodriguezTradePolicyEconomic2001} demonstrate between trade and growth.
 There is likely to be unobserved unit-specific heterogeneity, between countries from different economic, social, and cultural backgrounds.
 In addition, there is also likely to be unobserved time-varying heterogeneity, as countries face common geopolitical, economic, and financial shocks, but with responses of varying degrees.
-
 We can use the fact that we have multiple observations across both countries and time periods to model both dimensions of heterogeneity.
-If leave aside for a moment the time-heterogeneity, and assume common time-specific effects, we can use one of the most commonly applied dynamic panel data models, the GMM estimator most often cited as \cite{arellanoTestsSpecificationPanel1991}\footnote{
-Though, as pointed out in \cite{fritschGMMEstimationLinear2019}, originally proposed in \cite{holtz-eakinEstimatingVectorAutoregressions1988}.} and often referred to as difference GMM.
-
-Following the notation of \cite{fritschGMMEstimationLinear2019}, the basic construction of the linear dynamic panel data model can be described as:
+If we leave aside for a moment the time-heterogeneity, and assume common time-specific effects, the generalised construction of the linear dynamic panel data model can be described as:
 \begin{align}
 y_{i,t} &= \rho_1 y_{i,t-1} + \dots + \rho_p y_{i,t-p)} 
 	+ \boldsymbol{x}^\prime_{i,t} \boldsymbol{\beta}_0 + \dots + \boldsymbol{x}^\prime_{i,t-q} \boldsymbol{\beta}_q 
 	+ u_{i,t} \label{eq:panel} \\
 u_{i,t} &= a_i + \lambda_t + \varepsilon_{i,t}
 \end{align}
-where $i$ and $t$ identify individuals and time periods, $y$ is the endogenous variable with up to $p$ lags, $\boldsymbol{x}$ are explanatory variables with up to $q$ lags, and the error term $u$ is composed of an individual-specific effect $a_i$, a time-specific effect $\lambda_t$ and an observation-specific  idiosyncratic remainder $\varepsilon_{i,t}$.
+following the notation of \cite{fritschGMMEstimationLinear2019}, where $i$ and $t$ identify individuals and time periods, $y$ is the endogenous variable with up to $p$ lags, $\boldsymbol{x}$ are explanatory variables with up to $q$ lags, and the error term $u$ is composed of an individual-specific effect $a_i$, a time-specific effect $\lambda_t$ and an observation-specific  idiosyncratic remainder $\varepsilon_{i,t}$.
 
-The difference GMM estimator acquires its name via its method of dealing with the individual-specific effect $a_i$ by differencing \cref{eq:panel}.
+One of the most commonly applied estimators of dynamic panel data models is known as the difference GMM estimator.
+It is most often cited as \cite{arellanoTestsSpecificationPanel1991}, though, as has been often pointed out, it owes its origins to \cite{holtz-eakinEstimatingVectorAutoregressions1988}.
+It acquired its name via its method of dealing with the individual-specific effect $a_i$ by differencing \cref{eq:panel}.
+The underlying assumptions and corresponding moment conditions that extend the difference GMM into a family of models are laid out in detail in \cite{fritschGMMEstimationLinear2019}.
+By assuming that first differences of instrument variables are uncorrelated with the fixed effects, futher moment conditions can be added, as in \cite{arellanoAnotherLookInstrumental1995} and \cite{blundellInitialConditionsMoment1998}.
+This estimator uses a system of two equations, one of the original levels and in addition to the differences, and is known as the system GMM.
 
-\cite{blundellInitialConditionsMoment1998} and is known as the system GMM.
-
-
-
-
-
+While the additional instruments of the system GMM can improve efficiency over the difference GMM, this is a trade-off that may introduce bias.
 \cite{bontempiImplementingStrategyReduce2015} review literature documenting a wide variety of problems with instrument proliferation in GMM estimation, primarily related to overfitting, especially where the instruments are weak.
-In addition, the specification tests for over-identifying restrictions is more likely to fail to reject the null of validity.
+In addition, specification tests for over-identifying restrictions, such as the commonly used Sargan-Hansen test of \cite{sarganEstimationEconomicRelationships1958} and \cite{hansenLargeSampleProperties1982}, are more likely to fail to reject the null of validity.
 While recent innovations exist to address this issue, such as principal component analysis on the instrument matrix as in \cite{bontempiImplementingStrategyReduce2015}, the simple expedients of truncating the number of lags and ``collapsing" the blocks of the instrument matrix as in \cite{roodmanNoteThemeToo2009} remain two of the most effective and easily implemented.
 
+The Stata package \pkg{xtabond2}, as described in \cite{roodmanHowXtabond2Introduction2009}, implements both of these estimators, as do the R package \pkg{plm} as described in \cite{croissantPanelDataEconometrics2008} and the R package \pkg{pdynmc} as described in \cite{fritschPdynmcPackageEstimating2019}.
+For ease of integration with existing work we use the R packages, preferring \pkg{pdynmc} where possible as both slightly easier to use and better numerically behaved when $T \rightarrow N$, as in our case.\footnote{
+See \cref{sec:data_and_code} for further details.
+}
 
 
 
 
+%TC:ignore
+\vspace{1cm}
 How to do Xtabond2: An Introduction to Difference and System GMM in Stata: \cite{roodmanHowXtabond2Introduction2009}
 
+These two tests also allow us to check the validity of nested subsets of moment conditions.These  tests  are  referred  to  as  ‘difference-in-Hansen’/‘difference-in-Sargan’  tests  (see,  e.g.,Roodman 2009), ‘incremental Hansen’/‘incremental Sargan’ tests (see, e.g., Arellano 2003), orC-statistics (see, e.g., Hayashi 2000).  
+The test statistic is obtained by first estimating the nullmodel with a restricted set of moment conditions and the full model with more moment con-ditions than in the null model.  Then, one computes eitherTSorTJfor both models, and thentake the difference of these two test statistics.  This difference is asymptotically $\chi^2$-distributed with degrees of freedom equal to the difference in the number of moment conditions underthe full model and the null model (see Hayashi 2000).
 
-
-
+\vspace{1cm}
 \noindent\textbf{TODO}
 \begin{quote}
-
 "correction of Windmeijer 2005 was employed by this argument" https://cran.r-project.org/web/packages/pdynmc/vignettes/pdynmc.pdf
 \end{quote}
 
+\vspace{1cm}
 \noindent\textbf{TODO}
 \begin{quote}\cite{petrovicUnderlyingCausalFactors2018}
-
 Dynamic panel data models: a guide to micro data methods and practice \cite{bondDynamicPanelData2002}
 
-
-
-
-A good package: \pkg{pdynmc} \cite{fritschPdynmcPackageEstimating2019}
-
-How to do Xtabond2: An Introduction to Difference and System GMM in Stata: \cite{roodmanHowXtabond2Introduction2009}
 
 Democracy Does Cause Growth \cite{acemogluDemocracyDoesCause2019}
 
 
 GMM Estimation from Incomplete and Rotating Panels \cite{albarranGMMEstimationIncomplete2019}
-
 \end{quote}
+%TC:endignore
 
 \section{Results}\label{sec:results}
 
