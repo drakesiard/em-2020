@@ -8,6 +8,7 @@ from matplotlib import pyplot as plt
 plt.rcParams['figure.figsize'] = [9, 6]
 
 DATA_DIR = os.path.abspath('../data')
+ANALYSIS_DIR = os.path.abspath('../analysis')
 PLOT_DIR = os.path.abspath('../tex/plots/dis')
 
 RAW_DATASET = os.path.join(DATA_DIR, 'combined_dataset_raw.csv')
@@ -32,3 +33,11 @@ def save_fig(file, save=False, **kwargs):
     if save:
         path = os.path.join(PLOT_DIR, file)
         plt.savefig(path, metadata={'CreationDate': None})
+
+def reindex_Rdata(r_data):
+    return dict(
+        (k, v.set_index('index'))
+        if isinstance(v, pd.DataFrame) and 'index' in v.columns
+        else (k, v)
+        for (k, v) in r_data.items()
+    )
