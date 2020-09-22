@@ -15,6 +15,7 @@
 \usepackage[capitalise,noabbrev]{cleveref}
 \usepackage[a4paper, total={6in, 9in}]{geometry}
 \usepackage{tikz}
+\usepackage{bm}
 \usepackage{tocloft}
 \usepackage[sc]{mathpazo}
 \usetikzlibrary{shapes,arrows,positioning}
@@ -22,7 +23,8 @@
 \renewcommand\cftlottitlefont{\large}
 \renewcommand\cftloftitlefont{\large}
 
-\bibliographystyle{agsm}
+%\bibliographystyle{agsm}
+\bibliographystyle{apalike}
 \setcitestyle{authoryear,open={(},close={)}}
 
 \newcommand{\pkg}[1]{{\fontseries{b}\selectfont #1}} 
@@ -42,9 +44,9 @@ MSc Economics 2019-2020 Dissertation}
 \begin{abstract}
 Declining energy intensity is a stylised fact common to nearly all economies, but its interactions with other economic factors are still a topic of active debate.
 This paper builds on previous work examining the direct and indirect impacts of growth, industrialisation, technological innovation, urbanisation, and trade openness on energy intensity, focusing specifically on trade openness. 
-We provide evidence that composite trade share, an alternate specification of trade openness, has a positive effect on energy efficiency, using a dynamic panel strategy controlling for country fixed effects. 
+We provide evidence that composite trade share, an alternate specification of trade openness, has a positive effect on energy efficiency, with an effect robust to using multiple specifications and country panel selections. 
 
-Programs used: Python (\pkg{statsmodels}, \pkg{scipy}); R (\pkg{panelvar}, \pkg{pdynmc})
+Programs used: Python (\pkg{statsmodels}, \pkg{scipy}); R (\pkg{plm}, \pkg{pdynmc})
 
 Word count: \emph{!! TODO !!}
  
@@ -223,10 +225,11 @@ $KAOPEN$ & Capital openness & Composite measure of relative financial openness, 
 These data definitions are summarised in \cref{tab:data_source}.
 All of the included data series are sampled at an annual frequency, with a multi-year reporting lag, and are revised series (not point-in-time).
 
-For the country selection, we use the two panels from \cite{tibaIncomeTradeOpenness2018}: one of high-income (p.805) countries and one of middle-income (p.807) countries.
+For the country selection, we begin with the two panels from \cite{tibaIncomeTradeOpenness2018}: one of high-income (p.805) countries and one of middle-income (p.807) countries.
 For nearly all high-income countries and most middle-income countries, all data points are available over the date range of 1990 to 2015; the limiting factor is often $ENI$, which starts no sooner than 1990 for any country and ends in 2014 or 2015.
-Restricting date ranges to data availability results in different observation periods for each country, resulting in unbalanced panels.
+Restricting date ranges to data availability results in different observation periods for each country, yielding unbalanced panels.
 The countries and their respective observation date ranges are specified in \cref{tab:countries}; the only remaining missing data is the $TI$ series for Algeria, with observations absent in 2008 and 2009.
+This gives a panel of $n=24$ and $10 \leq T_i \leq 25$.
 
 \renewcommand{\arraystretch}{1}
 \begin{table}[htbp]
@@ -251,7 +254,7 @@ The countries and their respective observation date ranges are specified in \cre
  Venezuela &  2002-2011 \\
 \bottomrule
 \end{tabular}
-\caption{High-income}
+\caption{Middle-income}
 \end{subtable}
 \begin{subtable}{0.45\textwidth}
 \centering
@@ -279,19 +282,73 @@ The countries and their respective observation date ranges are specified in \cre
 \label{tab:countries}
 \end{table}
 
-\cref{fig:data_dists} in \cref{sec:graph_appendix} shows histograms and kernel density plots of the data.
-Examining the distribution of the data, we find that the standard log-transformation of all but the $KAOPEN$ variable bring the distributions generally closer to normality and bring all variables into roughly the same order of magnitude in scale.
-$KAOPEN$ has already been normalised by construction, so we leave it unchanged
+\cref{fig:data_dists} in \cref{sec:graph_appendix} shows histograms and kernel density plots of the data for the combined set of countries in both panels, along with p-values of \cite{dagostinoTestsDepartureNormality1973} normality tests.
+Examining the distribution of the data, we find that the standard log-transformation of all but the $KAOPEN$ variable bring the distributions generally closer to normality in broad appearance (though still far from normal, statistically speaking) and bring all variables into roughly the same order of magnitude in scale.
+$KAOPEN$ has already been normalised by construction, so we leave it unchanged.
+
+For robustness checks at the conclusion of the analysis, we also prepare an unbalanced, rotating panel of all countries that have at least ten years of consecutive observations of the variables of interest; those countries and their data ranges can be found in \cref{tab:all_countries}.
+
+Our first exploratory analysis is to check for non-stationarity in our data series. 
+As we have an unbalanced panel, the Levin-Lin-Chu test of \cite{levinUnitRootTests2002} cannot be applied.
+Instead, we use the cross-sectionally augmented\footnote{The standard version yields near-identical results, cross-section dependence is unlikely to be responsible for any difference.} version of the Im-Pesaran-Shin test of \cite{pesaranSimplePanelUnit2007}.
+As time trends are apparent in the data, we apply the Case III ("trend") variant of the test.
+The results of the test are found in \cref{tab:ips}; we fail to reject the null hypothesis of unit root for all tested variables.
+However, applying the inverse chi-squared test of \cite{maddalaComparativeStudyUnit1999}, we get a completely different result, as can be seen in \cref{tab:madwu}.
+
+\begin{table}[htbp]
+\centering
+\begin{subtable}{0.45\textwidth}
+\centering
+\begin{tabular}{llr}
+\toprule
+{} & statistic &      p-value \\
+\midrule
+ENI &     -1.68 &  $\geq 0.10$ \\
+POP &     -1.30 &  $\geq 0.10$ \\
+URB &     -1.60 &  $\geq 0.10$ \\
+AFL &     -1.75 &  $\geq 0.10$ \\
+TI  &     -1.86 &  $\geq 0.10$ \\
+CTS &     -1.61 &  $\geq 0.10$ \\
+\bottomrule
+\end{tabular}
+\caption{Im-Pesaran-Shin}
+\label{tab:ips}
+\end{subtable}
+\begin{subtable}{0.45\textwidth}
+\centering
+\begin{tabular}{llr}
+\toprule
+{} & statistic &      p-value \\
+\midrule
+ENI &    103.22 &  $\leq 0.01$ \\
+POP &    125.09 &  $\leq 0.01$ \\
+URB &    343.22 &  $\leq 0.01$ \\
+AFL &     77.88 &  $\leq 0.01$ \\
+TI  &     70.23 &  $\leq 0.01$ \\
+CTS &    156.45 &  $\leq 0.01$ \\
+\bottomrule
+\end{tabular}
+\caption{inverse chi-squared}
+\label{tab:madwu}
+\end{subtable}
+\caption{Panel unit root test results}
+\end{table}
+
+Note that for both of these tests we have excluded Venezuela and Algeria from the panel, as the former has has too few observations for the first test and the latter has a short period of missing data mid-series for the $TI$ which is an issue for the second test.
+
+In summary, we have evidence both in support of and rejection of a unit root.
+Fortunately, the dynamic panel models we propose in \cref{sec:methodology} allow for both the stationary and unit root case; the only assumption made regarding stationarity is that the process is not explosive \cite[p.5, A.2.1]{fritschGMMEstimationLinear2019}.
 
 
 \section{Methodology}\label{sec:methodology}
 
-This is indeed a thing, behold!
+
+The STIRPAT-inspired EKC-type model outlined at the end of \cref{sec:literature} combines the variables described in \cref{sec:data} in the following equation, where $i$ is country and $t$ is year:
 \begin{multline}\label{eq:model}
 \ln ENI_{it} = \delta_0 + \delta_1 \ln POP_{it} + \delta_2 \ln AFL_{it} + \delta_3 \left( \ln AFL_{it} \right)^2 + \delta_4 \ln URB_{it} \\ + \delta_5 \ln TI_{it} + \delta_6 \ln CTS_{it} + \delta_6 KAOPEN_{it} + \varepsilon_{it}
 \end{multline}
 
-Note that the specification for $AFL$ in \cref{eq:model} differs from Equation (4) in \cite{rafiqUrbanizationOpennessEmissions2016}, who have the following:
+Note that the specification for $AFL$ in \cref{eq:model} differs from \cite[Equation 4]{rafiqUrbanizationOpennessEmissions2016}, who have the following:
 \begin{equation*}\label{eq:rafiqmodel}
 \ln ENI_{it} = \delta_0 + \delta_1 \ln POP_{it} + \delta_2 \ln AFL_{it} + \delta_3 \ln AFL_{it}^2 + \delta_4 \ln URB_{it} + \cdots
 \end{equation*}
@@ -299,24 +356,81 @@ Note that the specification for $AFL$ in \cref{eq:model} differs from Equation (
 This is, as others have diplomatically put it, "rather strange" \cite[p.4936]{moosaEconometricsEnvironmentalKuznets2017}, since $\ln AFL_{it}^2 = 2 \ln AFL_{it}$; however, as they go on to add, this would not be the first appearance of the $\ln \left( x^n_{it} \right)$ form in the literature.
 In theory, the model of \cite{rafiqUrbanizationOpennessEmissions2016} cannot be estimated, as there is perfect colinearity between between the $\ln AFL_{it}$ and $\ln AFL_{it}^2$ terms, but looking into their data appendices\footnotemark{} we see that decimal truncation results in their corresponding \texttt{afl} and \texttt{afl2} fields being almost but not exactly collinear.
 
+%TC:ignore
 \urldef{\rafiqdata}\url{https://www.sciencedirect.com/science/article/pii/S0140988316300202?via%3Dihub#s0055}
+%TC:endignore
 \footnotetext{Available for download at \\
 \begin{adjustbox}{max width=\textwidth}
 \rafiqdata
 \end{adjustbox}
 }
 
+Returning to \cref{eq:model}, there are many characteristics of the data that would prevent an ordinary least-squares estimation from returning consistent estimates.\footnote{
+The following discussion draws from \cite{fritschGMMEstimationLinear2019} and \cite{rashidDynamicPanelData2018}.
+}
+First, omitted variable bias almost unavoidable when attempting to reduce the complexity of national economic systems to a handful of one-dimensional variables.
+Potential endogeneity between our variable of interest and the regressors is a problem, as \cite{shahbazDynamicLinksEnergy2013} demonstrate in the case of trade and \cite{nayanRevisitingEnergyConsumption2013} cover in the case of growth; there is also likely to be endogeneity among the regressors, as \cite{rodriguezTradePolicyEconomic2001} demonstrate between trade and growth.
+There is likely to be unobserved unit-specific heterogeneity, between countries from different economic, social, and cultural backgrounds.
+In addition, there is also likely to be unobserved time-varying heterogeneity, as countries face common geopolitical, economic, and financial shocks, but with responses of varying degrees.
+
+We can use the fact that we have multiple observations across both countries and time periods to model both dimensions of heterogeneity.
+If leave aside for a moment the time-heterogeneity, and assume common time-specific effects, we can use one of the most commonly applied dynamic panel data models, the GMM estimator most often cited as \cite{arellanoTestsSpecificationPanel1991}\footnote{
+Though, as pointed out in \cite{fritschGMMEstimationLinear2019}, originally proposed in \cite{holtz-eakinEstimatingVectorAutoregressions1988}.} and often referred to as difference GMM.
+
+Following the notation of \cite{fritschGMMEstimationLinear2019}, the basic construction of the linear dynamic panel data model can be described as:
+\begin{align}
+y_{i,t} &= \rho_1 y_{i,t-1} + \dots + \rho_p y_{i,t-p)} 
+	+ \boldsymbol{x}^\prime_{i,t} \boldsymbol{\beta}_0 + \dots + \boldsymbol{x}^\prime_{i,t-q} \boldsymbol{\beta}_q 
+	+ u_{i,t} \label{eq:panel} \\
+u_{i,t} &= a_i + \lambda_t + \varepsilon_{i,t}
+\end{align}
+where $i$ and $t$ identify individuals and time periods, $y$ is the endogenous variable with up to $p$ lags, $\boldsymbol{x}$ are explanatory variables with up to $q$ lags, and the error term $u$ is composed of an individual-specific effect $a_i$, a time-specific effect $\lambda_t$ and an observation-specific  idiosyncratic remainder $\varepsilon_{i,t}$.
+
+The difference GMM estimator acquires its name via its method of dealing with the individual-specific effect $a_i$ by differencing \cref{eq:panel}.
+
+\cite{blundellInitialConditionsMoment1998} and is known as the system GMM.
+
+
+
+
+
+\cite{bontempiImplementingStrategyReduce2015} review literature documenting a wide variety of problems with instrument proliferation in GMM estimation, primarily related to overfitting, especially where the instruments are weak.
+In addition, the specification tests for over-identifying restrictions is more likely to fail to reject the null of validity.
+While recent innovations exist to address this issue, such as principal component analysis on the instrument matrix as in \cite{bontempiImplementingStrategyReduce2015}, the simple expedients of truncating the number of lags and ``collapsing" the blocks of the instrument matrix as in \cite{roodmanNoteThemeToo2009} remain two of the most effective and easily implemented.
+
+
+
+
+
+How to do Xtabond2: An Introduction to Difference and System GMM in Stata: \cite{roodmanHowXtabond2Introduction2009}
+
+
+
+
 \noindent\textbf{TODO}
 \begin{quote}
-Endogeneity between trade and growth: \cite{rodriguezTradePolicyEconomic2001}
 
 "correction of Windmeijer 2005 was employed by this argument" https://cran.r-project.org/web/packages/pdynmc/vignettes/pdynmc.pdf
-
-Roodman too many instruments
 \end{quote}
 
+\noindent\textbf{TODO}
+\begin{quote}\cite{petrovicUnderlyingCausalFactors2018}
+
+Dynamic panel data models: a guide to micro data methods and practice \cite{bondDynamicPanelData2002}
 
 
+
+
+A good package: \pkg{pdynmc} \cite{fritschPdynmcPackageEstimating2019}
+
+How to do Xtabond2: An Introduction to Difference and System GMM in Stata: \cite{roodmanHowXtabond2Introduction2009}
+
+Democracy Does Cause Growth \cite{acemogluDemocracyDoesCause2019}
+
+
+GMM Estimation from Incomplete and Rotating Panels \cite{albarranGMMEstimationIncomplete2019}
+
+\end{quote}
 
 \section{Results}\label{sec:results}
 
@@ -324,6 +438,7 @@ Roodman too many instruments
 
 \clearpage
 
+%TC:ignore
 \appendix
 
 \renewcommand{\refname}{\section{References}\label{sec:references}}.
@@ -417,7 +532,7 @@ Foo.
 \includegraphics[width=\textwidth]{./plots/dis/distplot_lnAFL.pdf}
 \caption{$\ln AFL$}
 \end{subfigure}
-\caption{Data histograms and density plots}
+\caption[]{Data histograms and density plots}
 \end{figure}
 
 \begin{figure}[htbp]\ContinuedFloat
@@ -426,12 +541,128 @@ Foo.
 \includegraphics[width=\textwidth]{./plots/dis/distplot_KAOPEN.pdf}
 \caption{KAOPEN}
 \end{subfigure}
-\caption{Data histograms and density plots}
+\caption[]{Data histograms and density plots}
 \end{figure}
 
+\FloatBarrier
+
+\renewcommand{\arraystretch}{1}
+\begin{table}[htbp]
+\centering
+\begin{subtable}{0.45\textwidth}
+\centering
+\begin{tabular}{ll}
+\toprule
+   Country & Date range \\
+\midrule
+                   Albania &  1995-2011 \\
+                   Algeria &  1990-2007 \\
+                 Argentina &  1990-2014 \\
+                   Armenia &  2005-2014 \\
+                 Australia &  1995-2015 \\
+                   Austria &  1990-2015 \\
+                Azerbaijan &  2001-2014 \\
+                Bangladesh &  1990-2014 \\
+                   Belarus &  1996-2014 \\
+                   Belgium &  2000-2015 \\
+                    Brazil &  1990-2014 \\
+                  Bulgaria &  1994-2014 \\
+                    Canada &  1990-2015 \\
+                     Chile &  1990-2015 \\
+                     China &  1990-2014 \\
+                  Colombia &  1991-2014 \\
+                   Croatia &  1996-2014 \\
+                    Cyprus &  1999-2014 \\
+                   Czechia &  1996-2015 \\
+                   Denmark &  1990-2015 \\
+        Dominican Republic &  2000-2014 \\
+                   Ecuador &  1991-2010 \\
+                     Egypt &  1998-2014 \\
+                   Estonia &  1996-2015 \\
+                   Finland &  1990-2015 \\
+                    France &  1990-2015 \\
+                   Georgia &  1996-2014 \\
+                   Germany &  1990-2015 \\
+                    Greece &  1990-2015 \\
+                 Guatemala &  1990-2014 \\
+                  Honduras &  2005-2014 \\
+                 Hong Kong &  1990-2014 \\
+                   Hungary &  1991-2015 \\
+                   Iceland &  1990-2015 \\
+                     India &  1990-2014 \\
+                 Indonesia &  1991-2011 \\
+					  Iran &  1993-2014 \\
+                   Ireland &  1990-2015 \\
+                    Israel &  1990-2015 \\
+                     Italy &  1990-2015 \\
+                   Jamaica &  2000-2014 \\
+                     Japan &  1990-2015 \\
+                    Jordan &  2000-2014 \\
+                Kazakhstan &  1996-2011 \\
+                     Kenya &  2002-2014 \\
+\bottomrule
+\end{tabular}
+\end{subtable}
+\begin{subtable}{0.45\textwidth}
+\centering
+\begin{tabular}{ll}
+\toprule
+        Country & Date range \\
+\midrule
+        Korea, Republic of &  1990-2015 \\
+                Kyrgyzstan &  1997-2014 \\
+                    Latvia &  1996-2014 \\
+                 Lithuania &  1996-2014 \\
+                  Malaysia &  1990-2014 \\
+                     Malta &  1990-2002 \\
+                    Mexico &  1990-2015 \\
+                   Moldova &  1996-2014 \\
+                   Morocco &  2004-2014 \\
+                Mozambique &  1999-2014 \\
+               Netherlands &  1990-2015 \\
+               New Zealand &  1990-2015 \\
+           North Macedonia &  1997-2013 \\
+                    Norway &  1990-2015 \\
+                  Pakistan &  1990-2014 \\
+                    Panama &  2000-2014 \\
+                  Paraguay &  2000-2010 \\
+                      Peru &  1999-2014 \\
+               Philippines &  1990-2014 \\
+                    Poland &  1995-2015 \\
+                  Portugal &  1990-2015 \\
+                   Romania &  1990-2014 \\
+        Russian Federation &  1996-2014 \\
+              Saudi Arabia &  1990-2007 \\
+                 Singapore &  1995-2014 \\
+                  Slovakia &  1996-2015 \\
+                  Slovenia &  1996-2011 \\
+              South Africa &  1990-2014 \\
+                     Spain &  1990-2015 \\
+                 Sri Lanka &  1990-2013 \\
+                    Sweden &  1990-2015 \\
+               Switzerland &  1996-2015 \\
+                Tajikistan &  1997-2006 \\
+                  Tanzania &  2001-2011 \\
+                  Thailand &  1990-2014 \\
+                   Tunisia &  1990-2014 \\
+                    Turkey &  1990-2015 \\
+                   Ukraine &  1996-2014 \\
+            United Kingdom &  1990-2015 \\
+             United States &  1990-2015 \\
+                   Uruguay &  1991-2012 \\
+                Uzbekistan &  1997-2013 \\
+                 Venezuela &  2002-2011 \\
+                   Vietnam &  1990-2013 \\
+                    Zambia &  2001-2013 \\
+\bottomrule
+\end{tabular}
+\end{subtable}
+\caption{Full width country panel}
+\label{tab:all_countries}
+\end{table}
 
 
-
+%TC:endignore
 \restoregeometry{}
 
 \end{document}

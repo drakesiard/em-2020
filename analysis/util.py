@@ -7,8 +7,8 @@ from matplotlib import pyplot as plt
 
 plt.rcParams['figure.figsize'] = [9, 6]
 
-DATA_DIR = '../data'
-PLOT_DIR = '../tex/plots/dis'
+DATA_DIR = os.path.abspath('../data')
+PLOT_DIR = os.path.abspath('../tex/plots/dis')
 
 RAW_DATASET = os.path.join(DATA_DIR, 'combined_dataset_raw.csv')
 DATASET_SUBSET = os.path.join(DATA_DIR, 'combined_dataset_subset.csv')
