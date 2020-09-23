@@ -229,8 +229,10 @@ All of the included data series are sampled at an annual frequency, with a multi
 For the country selection, we begin with the two panels from \cite{tibaIncomeTradeOpenness2018}: one of high-income (p.805) countries and one of middle-income (p.807) countries.
 For nearly all high-income countries and most middle-income countries, all data points are available over the date range of 1990 to 2015; the limiting factor is often $ENI$, which starts no sooner than 1990 for any country and ends in 2014 or 2015.
 Restricting date ranges to data availability results in different observation periods for each country, yielding unbalanced panels.
-The countries and their respective observation date ranges are specified in \cref{tab:countries}; the only remaining missing data is the $TI$ series for Algeria, with observations absent in 2008 and 2009.
-This gives a panel of $n=24$ and $10 \leq T_i \leq 25$.
+The countries and their respective observation date ranges are specified in \cref{tab:countries}.
+
+Note that we have excluded Venezuela and Algeria from the panel; the former has has too few valid observations and the latter has a short period of missing data mid-series for the number of patents.
+This gives a panel of $n=22$ and $19 \leq T_i \leq 26$ (which for some analyses we will truncate to 1995-2015, so that $T < N$).
 
 \renewcommand{\arraystretch}{1}
 \begin{table}[htbp]
@@ -241,7 +243,6 @@ This gives a panel of $n=24$ and $10 \leq T_i \leq 25$.
 \toprule
    Country & Date range \\
 \midrule
-   Algeria &  1990-2014 \\
  Argentina &  1990-2014 \\
     Brazil &  1990-2014 \\
   Bulgaria &  1994-2014 \\
@@ -252,7 +253,6 @@ This gives a panel of $n=24$ and $10 \leq T_i \leq 25$.
     Mexico &  1990-2015 \\
   Thailand &  1990-2014 \\
     Turkey &  1990-2015 \\
- Venezuela &  2002-2011 \\
 \bottomrule
 \end{tabular}
 \caption{Middle-income}
@@ -287,9 +287,27 @@ This gives a panel of $n=24$ and $10 \leq T_i \leq 25$.
 Examining the distribution of the data, we find that the standard log-transformation of all but the $KAOPEN$ variable bring the distributions generally closer to normality in broad appearance (though still far from normal, statistically speaking) and bring all variables into roughly the same order of magnitude in scale.
 $KAOPEN$ has already been normalised by construction, so we leave it unchanged.
 
-For robustness checks at the conclusion of the analysis, we also prepare an unbalanced, rotating panel of all countries that have at least ten years of consecutive observations of the variables of interest; those countries and their data ranges can be found in \cref{tab:all_countries}.
+For robustness checks at the conclusion of the analysis, we also prepare an unbalanced panel of all countries that have at least ten years of consecutive observations of the variables of interest; those countries and their data ranges can be found in \cref{tab:all_countries}.
 
-Our first exploratory analysis is to check for non-stationarity in our data series. 
+Our first exploratory analysis is to plot the timeseries of $\ln ENI$ (\cref{fig:ENI_timeseries}) and confirm the stylised facts outlined above.
+We can see that for the vast majority of the countries in the panel, $ENI$ is following a similar log-linear trend, confirming both the downward path and convergence (in absolute terms).
+
+\begin{figure}[htbp]
+\centering
+\begin{subfigure}{\textwidth}
+\includegraphics[height=10cm]{./plots/dis/timeseries_ENI_subset.pdf}
+\caption{$\ln ENI$, restricted panel}
+\end{subfigure}
+\begin{subfigure}{\textwidth}
+\includegraphics[height=10cm]{./plots/dis/timeseries_ENI_all.pdf}
+\caption{$\ln ENI$, full panel}
+\end{subfigure}
+\caption{Energy intensity through time}
+\label{fig:ENI_timeseries}
+\end{figure}
+
+
+Next, we check for non-stationarity in our data series. 
 As we have an unbalanced panel, the Levin-Lin-Chu test of \cite{levinUnitRootTests2002} cannot be applied.
 Instead, we use the cross-sectionally augmented\footnote{The standard version yields near-identical results, cross-section dependence is unlikely to be responsible for any difference.} version of the Im-Pesaran-Shin test of \cite{pesaranSimplePanelUnit2007}.
 As time trends are apparent in the data, we apply the Case III ("trend") variant of the test.
@@ -312,6 +330,8 @@ TI  &     -1.86 &  $\geq 0.10$ \\
 CTS &     -1.61 &  $\geq 0.10$ \\
 \bottomrule
 \end{tabular}
+
+
 \caption{Im-Pesaran-Shin}
 \label{tab:ips}
 \end{subtable}
@@ -335,12 +355,10 @@ CTS &    156.45 &  $\leq 0.01$ \\
 \caption{Panel unit root test results}
 \end{table}
 
-Note that for both of these tests we have excluded Venezuela and Algeria from the panel, as the former has has too few observations for the first test and the latter has a short period of missing data mid-series for the $TI$ which is an issue for the second test.
-
 In summary, we have evidence both in support of and rejection of a unit root.
 Fortunately, the dynamic panel models we propose in \cref{sec:methodology} allow for both the stationary and unit root case; the only assumption made regarding stationarity is that the process is not explosive \cite[p.5, A.2.1]{fritschGMMEstimationLinear2019}.
 
-
+\clearpage
 \section{Methodology}\label{sec:methodology}
 
 
@@ -389,16 +407,18 @@ It acquired its name via its method of dealing with the individual-specific effe
 The underlying assumptions and corresponding moment conditions that extend the difference GMM into a family of models are laid out in detail in \cite{fritschGMMEstimationLinear2019}.
 By assuming that first differences of instrument variables are uncorrelated with the fixed effects, futher moment conditions can be added, as in \cite{arellanoAnotherLookInstrumental1995} and \cite{blundellInitialConditionsMoment1998}.
 This estimator uses a system of two equations, one of the original levels and in addition to the differences, and is known as the system GMM.
+In our case, we avoid system GMM due to the additional assumptions required, that the ``individuals sampled are not too far from steady states, in the sense that deviations from long-run means are not
+systematically related to fixed effects." \cite[p.128]{roodmanHowXtabond2Introduction2009}
+The variety of countries at different levels of technological and economic development in our panel prevent us from being able to make assumptions of that kind.
 
-While the additional instruments of the system GMM can improve efficiency over the difference GMM, this is a trade-off that may introduce bias.
+While the additional instruments of extensions to the difference GMM can improve efficiency, this is a trade-off that may introduce bias.
 \cite{bontempiImplementingStrategyReduce2015} review literature documenting a wide variety of problems with instrument proliferation in GMM estimation, primarily related to overfitting, especially where the instruments are weak.
 In addition, specification tests for over-identifying restrictions, such as the commonly used Sargan-Hansen test of \cite{sarganEstimationEconomicRelationships1958} and \cite{hansenLargeSampleProperties1982}, are more likely to fail to reject the null of validity.
 While recent innovations exist to address this issue, such as principal component analysis on the instrument matrix as in \cite{bontempiImplementingStrategyReduce2015}, the simple expedients of truncating the number of lags and ``collapsing" the blocks of the instrument matrix as in \cite{roodmanNoteThemeToo2009} remain two of the most effective and easily implemented.
 
-The Stata package \pkg{xtabond2}, as described in \cite{roodmanHowXtabond2Introduction2009}, implements both of these estimators, as do the R package \pkg{plm} as described in \cite{croissantPanelDataEconometrics2008} and the R package \pkg{pdynmc} as described in \cite{fritschPdynmcPackageEstimating2019}.
-For ease of integration with existing work we use the R packages, preferring \pkg{pdynmc} where possible as both slightly easier to use and better numerically behaved when $T \rightarrow N$, as in our small panel case.\footnote{
-See \cref{sec:data_and_code} for further details.
-}
+The Stata package \pkg{xtabond2}, as described in \cite{roodmanHowXtabond2Introduction2009}, implements the difference GMM estimator, as do the R package \pkg{plm} as described in \cite{croissantPanelDataEconometrics2008} and the R package \pkg{pdynmc} as described in \cite{fritschPdynmcPackageEstimating2019}.
+For ease of integration with existing work we use the R packages, preferring \pkg{pdynmc} where possible as both slightly easier to use and better numerically behaved than \pkg{plm} when $T \rightarrow N$, as in our small panel case.
+However, \pkg{plm} is the only one to support collapsing instruments and extracting certain fitted model variables for specification and goodness-of-fit-tests.
 
 
 
@@ -417,6 +437,8 @@ The test statistic is obtained by first estimating the nullmodel with a restrict
 \begin{quote}
 mtest.fct tests for serial correlation in the error terms \cite{arellanoTestsSpecificationPanel1991}
 
+
+As a goodness of fit measure, we also present the squared correlation of , as in \cite{bloomUncertaintyInvestmentDynamics2007}.
 
 
 "correction of Windmeijer 2005 was employed by this argument" https://cran.r-project.org/web/packages/pdynmc/vignettes/pdynmc.pdf
@@ -546,6 +568,9 @@ Foo.
 \end{subfigure}
 \caption[]{Data histograms and density plots}
 \end{figure}
+
+
+
 
 \FloatBarrier
 
