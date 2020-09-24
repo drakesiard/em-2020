@@ -150,7 +150,12 @@ However, rather than an absolute number, we use a per-capita metric, as in \cite
 \end{itemize}
 \item We substitute the composite trade share metric of \cite{squalliNewMeasureTrade2011} as a measure of trade openness, rather than use the naive trade share of GDP.
 \end{itemize}
-
+Our hypotheses for this model are:
+\begin{itemize}
+\item Energy intensity will decrease as population density increases. 
+\item Energy intensity will increase with affluence up to a certain point, and then decrease (the EKC hypothesis).
+The model postulates this in quadratic terms. In terms of coefficients in the model, this should translate to a positive relationship to GDP per capita and a negative relationship to the square of GDP per capita.
+\end{itemize}
 
 
 \section{Data}\label{sec:data}
@@ -418,7 +423,7 @@ While the additional instruments of extensions to the difference GMM can improve
 In addition, specification tests for over-identifying restrictions, such as the commonly used Sargan-Hansen test of \cite{sarganEstimationEconomicRelationships1958} and \cite{hansenLargeSampleProperties1982}, are more likely to fail to reject the null of validity.
 While recent innovations exist to address this issue, such as principal component analysis on the instrument matrix as in \cite{bontempiImplementingStrategyReduce2015}, the simple expedients of truncating the number of lags and ``collapsing" the blocks of the instrument matrix as in \cite{roodmanNoteThemeToo2009} remain two of the most effective and easily implemented.
 
-The Stata package \pkg{xtabond2}, as described in \cite{roodmanHowXtabond2Introduction2009}, is possibly the most commonly used implementation of the difference GMM estimator.
+The Stata package \pkg{xtabond2}, as described in \cite{roodmanHowXtabond2Introduction2009}, is possibly the more commonly mentioned implementations of the difference GMM estimator.
 For ease of integration with existing work we use the R packages \pkg{plm} as described in \cite{croissantPanelDataEconometrics2008} and \pkg{pdynmc} as described in \cite{fritschPdynmcPackageEstimating2019}.
 We prefer to use \pkg{pdynmc} where possible as both slightly easier to use and better numerically behaved than \pkg{plm} when $T \rightarrow N$, as in our small panel case.
 However, \pkg{plm} is the only one to support collapsing instruments and extracting certain fitted model variables for specification and goodness-of-fit-tests.
@@ -427,38 +432,16 @@ For GMM model verification, we use the Sargan-Hansen specification test describe
 We also test model misspecification with the residual serial correlation test of \cite{arellanoTestsSpecificationPanel1991}.
 When calculating standard errors of parameter estimates we rely on the finite sample variance correction of \cite{windmeijerFiniteSampleCorrection2005}, and for joint hypothesis testing against the null of zero parameters, we use the Wald test, whose statistic in this case is attributed to \cite{hayashiEconometrics2000}.
 
-%TC:ignore
-
-\vspace{1cm}
-\noindent\textbf{TODO}
-\begin{quote}
-mtest.fct tests for serial correlation in the error terms \cite{arellanoTestsSpecificationPanel1991}
-
-
-As a goodness of fit measure, we also present the squared correlation of , as in \cite{bloomUncertaintyInvestmentDynamics2007}.
-
-
-"correction of Windmeijer 2005 was employed by this argument" https://cran.r-project.org/web/packages/pdynmc/vignettes/pdynmc.pdf
-\end{quote}
-
-\vspace{1cm}
-\noindent\textbf{TODO}
-\begin{quote}\cite{petrovicUnderlyingCausalFactors2018}
-Dynamic panel data models: a guide to micro data methods and practice \cite{bondDynamicPanelData2002}
-
-
-Democracy Does Cause Growth \cite{acemogluDemocracyDoesCause2019}
-
-
-GMM Estimation from Incomplete and Rotating Panels \cite{albarranGMMEstimationIncomplete2019}
-\end{quote}
-%TC:endignore
-
 \section{Results}\label{sec:results}
 
+We incrementally test each of our additions to the with the final EKC-type Model IV of \cite{rafiqUrbanizationOpennessEmissions2016} by running a difference GMM with two lags of the exogenous variable on the original model (with the original trade share $TS$, so for shorthand we designate this model TS).
+We then substitute the composite trade share $CTS$ of of \cite{squalliNewMeasureTrade2011} into the model (and denote it CTS).
+We then add the technological innovation measure $TI$ of \cite{maradanaDoesInnovationPromote2017} and the 
+financial openness measure $KAOPEN$ of \citep{chinnWhatMattersFinancial2006} and denote these models CTS+TI and CTS+TI+KAOPEN, respectively.
+\cref{tab:diffgmm_coeff_subset} shows the results of these regressions are 
 
-\cref{tab:diffgmm_coeff_subset}
-
+Arellano-Bond test for serial correlation
+as the test ``depends on the assumption that N is large. Large has no precise definition, but applying it to panels with N = 20, for instance, seems worrisome" \cite{roodmanHowXtabond2Introduction2009}.
 
 \cref{tab:diffgmm_coeff_all} shows coefficient estimates and test results from the same models run on the extended panel over the same years.
 
@@ -480,6 +463,7 @@ GMM Estimation from Incomplete and Rotating Panels \cite{albarranGMMEstimationIn
 \label{tab:diffgmm_coeff_all}
 \end{table}
 \renewcommand{\arraystretch}{1}
+
 
 
 
