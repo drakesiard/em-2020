@@ -228,13 +228,13 @@ $KAOPEN$ & Capital openness & Composite measure of relative financial openness, 
 These data definitions are summarised in \cref{tab:data_source}.
 All of the included data series are sampled at an annual frequency, with a multi-year reporting lag, and are revised series (not point-in-time).
 
-For the country selection, we begin with the two panels from \cite{tibaIncomeTradeOpenness2018}: one of high-income (p.805) countries and one of middle-income (p.807) countries.
+For the country selection, we replicate the two panels from \cite{tibaIncomeTradeOpenness2018}: one of high-income (p.805) countries and one of middle-income (p.807) countries.
 For nearly all high-income countries and most middle-income countries, all data points are available over the date range of 1990 to 2015; the limiting factor is often $ENI$, which starts no sooner than 1990 for any country and ends in 2014 or 2015.
 Restricting date ranges to data availability results in different observation periods for each country, yielding unbalanced panels.
 The countries and their respective observation date ranges are specified in \cref{tab:countries}.
 
 Note that we have excluded Venezuela and Algeria from the panel; the former has has too few valid observations and the latter has a short period of missing data mid-series for the number of patents.
-This gives a panel of $n=22$ and $19 \leq T_i \leq 26$ (which for some analyses we will truncate to 1995-2015, so that $T < N$).
+This gives a panel of $n=22$ and $19 \leq T_i \leq 26$ (where necessary for our analyses, we will truncate this to 1996-2015, so that $T < N$).
 
 \renewcommand{\arraystretch}{1}
 \begin{table}[htbp]
@@ -289,7 +289,7 @@ This gives a panel of $n=22$ and $19 \leq T_i \leq 26$ (which for some analyses 
 Examining the distribution of the data, we find that the standard log-transformation of all but the $KAOPEN$ variable bring the distributions generally closer to normality in broad appearance (though still far from normal, statistically speaking) and bring all variables into roughly the same order of magnitude in scale.
 $KAOPEN$ has already been normalised by construction, so we leave it unchanged.
 
-For robustness checks at the conclusion of the analysis, we also prepare an unbalanced panel of all countries that have at least ten years of consecutive observations of the variables of interest; those countries and their data ranges can be found in \cref{tab:all_countries}.
+For robustness checks, we also prepare an unbalanced panel of all countries that have at least ten years of consecutive observations of the variables of interest; those countries and their data ranges can be found in \cref{tab:all_countries}.
 
 Our first exploratory analysis is to plot the timeseries of $\ln ENI$ (\cref{fig:ENI_timeseries}) and confirm the stylised facts outlined above.
 We can see that for the vast majority of the countries in the panel, $ENI$ is following a similar log-linear trend, confirming both the downward path and convergence (in absolute terms).
@@ -403,14 +403,14 @@ u_{i,t} &= a_i + \lambda_t + \varepsilon_{i,t}
 \end{align}
 following the notation of \cite{fritschGMMEstimationLinear2019}, where $i$ and $t$ identify individuals and time periods, $y$ is the endogenous variable with up to $p$ lags, $\boldsymbol{x}$ are explanatory variables with up to $q$ lags, and the error term $u$ is composed of an individual-specific effect $a_i$, a time-specific effect $\lambda_t$ and an observation-specific  idiosyncratic remainder $\varepsilon_{i,t}$.
 
-One of the most commonly applied estimators of dynamic panel data models is known as the difference GMM estimator.
+One of the most commonly applied estimators of dynamic panel data models of this form is known as the difference GMM estimator.
 It is most often cited as \cite{arellanoTestsSpecificationPanel1991}, though, as has been often pointed out, it owes its origins to \cite{holtz-eakinEstimatingVectorAutoregressions1988}.
 It acquired its name via its method of dealing with the individual-specific effect $a_i$ by differencing \cref{eq:panel}.
 The underlying assumptions and corresponding moment conditions that extend the difference GMM into a family of models are laid out in detail in \cite{fritschGMMEstimationLinear2019}.
 By assuming that first differences of instrument variables are uncorrelated with the fixed effects, futher moment conditions can be added, as in \cite{arellanoAnotherLookInstrumental1995} and \cite{blundellInitialConditionsMoment1998}.
-This estimator uses a system of two equations, one of the original levels and in addition to the differences, and is known as the system GMM.
-In our case, we avoid system GMM due to the additional assumptions required, that the ``individuals sampled are not too far from steady states, in the sense that deviations from long-run means are not
-systematically related to fixed effects." \cite[p.128]{roodmanHowXtabond2Introduction2009}
+This second estimator uses a system of two equations, one of the original levels and in addition to the differences, and is known as the system GMM.
+In our case, we avoid system GMM due to the additional assumptions required, which can be intuitively understood as needing that the ``individuals sampled are not too far from steady states, in the sense that deviations from long-run means are not
+systematically related to fixed effects" \cite[p.128]{roodmanHowXtabond2Introduction2009}.
 The variety of countries at different levels of technological and economic development in our panel prevent us from being able to make assumptions of that kind.
 
 While the additional instruments of extensions to the difference GMM can improve efficiency, this is a trade-off that may introduce bias.
@@ -418,39 +418,16 @@ While the additional instruments of extensions to the difference GMM can improve
 In addition, specification tests for over-identifying restrictions, such as the commonly used Sargan-Hansen test of \cite{sarganEstimationEconomicRelationships1958} and \cite{hansenLargeSampleProperties1982}, are more likely to fail to reject the null of validity.
 While recent innovations exist to address this issue, such as principal component analysis on the instrument matrix as in \cite{bontempiImplementingStrategyReduce2015}, the simple expedients of truncating the number of lags and ``collapsing" the blocks of the instrument matrix as in \cite{roodmanNoteThemeToo2009} remain two of the most effective and easily implemented.
 
-The Stata package \pkg{xtabond2}, as described in \cite{roodmanHowXtabond2Introduction2009}, implements the difference GMM estimator, as do the R package \pkg{plm} as described in \cite{croissantPanelDataEconometrics2008} and the R package \pkg{pdynmc} as described in \cite{fritschPdynmcPackageEstimating2019}.
-For ease of integration with existing work we use the R packages, preferring \pkg{pdynmc} where possible as both slightly easier to use and better numerically behaved than \pkg{plm} when $T \rightarrow N$, as in our small panel case.
+The Stata package \pkg{xtabond2}, as described in \cite{roodmanHowXtabond2Introduction2009}, is possibly the most commonly used implementation of the difference GMM estimator.
+For ease of integration with existing work we use the R packages \pkg{plm} as described in \cite{croissantPanelDataEconometrics2008} and \pkg{pdynmc} as described in \cite{fritschPdynmcPackageEstimating2019}.
+We prefer to use \pkg{pdynmc} where possible as both slightly easier to use and better numerically behaved than \pkg{plm} when $T \rightarrow N$, as in our small panel case.
 However, \pkg{plm} is the only one to support collapsing instruments and extracting certain fitted model variables for specification and goodness-of-fit-tests.
 
-\renewcommand{\arraystretch}{3}
-\begin{table}[htbp]
-\centering
-\input{./plots/dis/diffGMM_subset_reg_result.tex}
-\label{tab:diffgmmcoeff}
-\caption{Difference-GMM regression results, restricted panel}
-\end{table}
-\renewcommand{\arraystretch}{1}
-
-\renewcommand{\arraystretch}{3}
-\begin{table}[htbp]
-\centering
-\input{./plots/dis/diffGMM_full_reg_result.tex}
-\label{tab:diffgmmcoeff}
-\caption{Difference-GMM regression results, restricted panel}
-\end{table}
-\renewcommand{\arraystretch}{1}
-
-
-
+For GMM model verification, we use the Sargan-Hansen specification test described above for over-identifying restrictions. 
+We also test model misspecification with the residual serial correlation test of \cite{arellanoTestsSpecificationPanel1991}.
+When calculating standard errors of parameter estimates we rely on the finite sample variance correction of \cite{windmeijerFiniteSampleCorrection2005}, and for joint hypothesis testing against the null of zero parameters, we use the Wald test, whose statistic in this case is attributed to \cite{hayashiEconometrics2000}.
 
 %TC:ignore
-\vspace{1cm}
-\noindent\textbf{TODO}
-\begin{quote}
-\cite{roodmanNoteThemeToo2009}
-These two tests also allow us to check the validity of nested subsets of moment conditions.These  tests  are  referred  to  as  `difference-in-Hansen'/`difference-in-Sargan'  tests  (see,  e.g.,Roodman 2009), ‘incremental Hansen’/‘incremental Sargan’ tests (see, e.g., Arellano 2003), orC-statistics (see, e.g., Hayashi 2000).  
-The test statistic is obtained by first estimating the nullmodel with a restricted set of moment conditions and the full model with more moment con-ditions than in the null model.  Then, one computes eitherTSorTJfor both models, and thentake the difference of these two test statistics.  This difference is asymptotically $\chi^2$-distributed with degrees of freedom equal to the difference in the number of moment conditions underthe full model and the null model (see Hayashi 2000).
-\end{quote}
 
 \vspace{1cm}
 \noindent\textbf{TODO}
@@ -478,6 +455,35 @@ GMM Estimation from Incomplete and Rotating Panels \cite{albarranGMMEstimationIn
 %TC:endignore
 
 \section{Results}\label{sec:results}
+
+
+\cref{tab:diffgmm_coeff_subset}
+
+
+\cref{tab:diffgmm_coeff_all} shows coefficient estimates and test results from the same models run on the extended panel over the same years.
+
+
+\renewcommand{\arraystretch}{3}
+\begin{table}[htbp]
+\centering
+\input{./plots/dis/diffGMM_subset_reg_result.tex}
+\caption{Difference-GMM regression results, restricted panel}
+\label{tab:diffgmm_coeff_subset}
+\end{table}
+\renewcommand{\arraystretch}{1}
+
+\renewcommand{\arraystretch}{3}
+\begin{table}[htbp]
+\centering
+\input{./plots/dis/diffGMM_full_reg_result.tex}
+\caption{Difference-GMM regression results, all countries}
+\label{tab:diffgmm_coeff_all}
+\end{table}
+\renewcommand{\arraystretch}{1}
+
+
+
+
 
 \section{Conclusion}\label{sec:conclusion}
 
@@ -518,6 +524,8 @@ All of the Python and R code and output are incorporated into Jupyter Notebooks,
 \end{adjustbox}
 
 \subsection{Additional Figures}\label{sec:graph_appendix}
+
+\cref{fig:gmm_residual_plot}
 
 \renewcommand{\arraystretch}{1}
 \begin{table}[htbp]
@@ -716,7 +724,8 @@ All of the Python and R code and output are incorporated into Jupyter Notebooks,
 \includegraphics[width=\textwidth]{./plots/dis/diffGMM_residual_plot_all.pdf}
 \caption{Residual plot, all countries}
 \end{subfigure}
-\caption[]{Residuals versus fitted values}
+\caption{Residuals versus fitted values}
+\label{fig:gmm_residual_plot}
 \end{figure}
 
 
