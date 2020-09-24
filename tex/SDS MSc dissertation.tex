@@ -10,6 +10,8 @@
 \usepackage{adjustbox}
 \usepackage{placeins}
 \usepackage{booktabs}
+\usepackage{makecell}
+\usepackage{tabularx}
 \usepackage{tabulary}
 \usepackage{hyperref}
 \usepackage[capitalise,noabbrev]{cleveref}
@@ -420,6 +422,24 @@ The Stata package \pkg{xtabond2}, as described in \cite{roodmanHowXtabond2Introd
 For ease of integration with existing work we use the R packages, preferring \pkg{pdynmc} where possible as both slightly easier to use and better numerically behaved than \pkg{plm} when $T \rightarrow N$, as in our small panel case.
 However, \pkg{plm} is the only one to support collapsing instruments and extracting certain fitted model variables for specification and goodness-of-fit-tests.
 
+\renewcommand{\arraystretch}{3}
+\begin{table}[htbp]
+\centering
+\input{./plots/dis/diffGMM_subset_reg_result.tex}
+\label{tab:diffgmmcoeff}
+\caption{Difference-GMM regression results, restricted panel}
+\end{table}
+\renewcommand{\arraystretch}{1}
+
+\renewcommand{\arraystretch}{3}
+\begin{table}[htbp]
+\centering
+\input{./plots/dis/diffGMM_full_reg_result.tex}
+\label{tab:diffgmmcoeff}
+\caption{Difference-GMM regression results, restricted panel}
+\end{table}
+\renewcommand{\arraystretch}{1}
+
 
 
 
@@ -497,82 +517,7 @@ All of the Python and R code and output are incorporated into Jupyter Notebooks,
 \url{https://htmlpreview.github.io/?https://github.com/drakesiard/em-2020/blob/v1.0/analysis/8_FX_impact.html}
 \end{adjustbox}
 
-\clearpage
 \subsection{Additional Figures}\label{sec:graph_appendix}
-Foo.
-
-\begin{figure}[htbp]
-\centering
-\begin{subfigure}{0.45\textwidth}
-\includegraphics[width=\textwidth]{./plots/dis/distplot_ENI.pdf}
-\caption{$ENI$}
-\end{subfigure}
-\begin{subfigure}{0.45\textwidth}
-\includegraphics[width=\textwidth]{./plots/dis/distplot_lnENI.pdf}
-\caption{$\ln ENI$}
-\end{subfigure}
-\begin{subfigure}{0.45\textwidth}
-\includegraphics[width=\textwidth]{./plots/dis/distplot_POP.pdf}
-\caption{$POP$}
-\end{subfigure}
-\begin{subfigure}{0.45\textwidth}
-\includegraphics[width=\textwidth]{./plots/dis/distplot_lnPOP.pdf}
-\caption{$\ln POP$}
-\end{subfigure}
-\begin{subfigure}{0.45\textwidth}
-\includegraphics[width=\textwidth]{./plots/dis/distplot_AFL.pdf}
-\caption{$AFL$}
-\end{subfigure}
-\begin{subfigure}{0.45\textwidth}
-\includegraphics[width=\textwidth]{./plots/dis/distplot_lnAFL.pdf}
-\caption{$\ln AFL$}
-\end{subfigure}
-\caption{Data histograms and density plots}
-\label{fig:data_dists}
-\end{figure}
-
-\begin{figure}[htbp]\ContinuedFloat
-\centering
-\begin{subfigure}{0.45\textwidth}
-\includegraphics[width=\textwidth]{./plots/dis/distplot_URB.pdf}
-\caption{$ENI$}
-\end{subfigure}
-\begin{subfigure}{0.45\textwidth}
-\includegraphics[width=\textwidth]{./plots/dis/distplot_lnENI.pdf}
-\caption{$\ln ENI$}
-\end{subfigure}
-\begin{subfigure}{0.45\textwidth}
-\includegraphics[width=\textwidth]{./plots/dis/distplot_POP.pdf}
-\caption{$POP$}
-\end{subfigure}
-\begin{subfigure}{0.45\textwidth}
-\includegraphics[width=\textwidth]{./plots/dis/distplot_lnPOP.pdf}
-\caption{$\ln POP$}
-\end{subfigure}
-\begin{subfigure}{0.45\textwidth}
-\includegraphics[width=\textwidth]{./plots/dis/distplot_AFL.pdf}
-\caption{$AFL$}
-\end{subfigure}
-\begin{subfigure}{0.45\textwidth}
-\includegraphics[width=\textwidth]{./plots/dis/distplot_lnAFL.pdf}
-\caption{$\ln AFL$}
-\end{subfigure}
-\caption[]{Data histograms and density plots}
-\end{figure}
-
-\begin{figure}[htbp]\ContinuedFloat
-\centering
-\begin{subfigure}{0.45\textwidth}
-\includegraphics[width=\textwidth]{./plots/dis/distplot_KAOPEN.pdf}
-\caption{KAOPEN}
-\end{subfigure}
-\caption[]{Data histograms and density plots}
-\end{figure}
-
-
-
-
-\FloatBarrier
 
 \renewcommand{\arraystretch}{1}
 \begin{table}[htbp]
@@ -688,6 +633,92 @@ Foo.
 \caption{Full width country panel}
 \label{tab:all_countries}
 \end{table}
+
+
+\begin{figure}[htbp]
+\centering
+\begin{subfigure}{0.45\textwidth}
+\includegraphics[width=\textwidth]{./plots/dis/distplot_ENI.pdf}
+\caption{$ENI$}
+\end{subfigure}
+\begin{subfigure}{0.45\textwidth}
+\includegraphics[width=\textwidth]{./plots/dis/distplot_lnENI.pdf}
+\caption{$\ln ENI$}
+\end{subfigure}
+\begin{subfigure}{0.45\textwidth}
+\includegraphics[width=\textwidth]{./plots/dis/distplot_POP.pdf}
+\caption{$POP$}
+\end{subfigure}
+\begin{subfigure}{0.45\textwidth}
+\includegraphics[width=\textwidth]{./plots/dis/distplot_lnPOP.pdf}
+\caption{$\ln POP$}
+\end{subfigure}
+\begin{subfigure}{0.45\textwidth}
+\includegraphics[width=\textwidth]{./plots/dis/distplot_AFL.pdf}
+\caption{$AFL$}
+\end{subfigure}
+\begin{subfigure}{0.45\textwidth}
+\includegraphics[width=\textwidth]{./plots/dis/distplot_lnAFL.pdf}
+\caption{$\ln AFL$}
+\end{subfigure}
+\caption{Data histograms and density plots}
+\label{fig:data_dists}
+\end{figure}
+
+\begin{figure}[htbp]\ContinuedFloat
+\centering
+\begin{subfigure}{0.45\textwidth}
+\includegraphics[width=\textwidth]{./plots/dis/distplot_URB.pdf}
+\caption{$ENI$}
+\end{subfigure}
+\begin{subfigure}{0.45\textwidth}
+\includegraphics[width=\textwidth]{./plots/dis/distplot_lnENI.pdf}
+\caption{$\ln ENI$}
+\end{subfigure}
+\begin{subfigure}{0.45\textwidth}
+\includegraphics[width=\textwidth]{./plots/dis/distplot_POP.pdf}
+\caption{$POP$}
+\end{subfigure}
+\begin{subfigure}{0.45\textwidth}
+\includegraphics[width=\textwidth]{./plots/dis/distplot_lnPOP.pdf}
+\caption{$\ln POP$}
+\end{subfigure}
+\begin{subfigure}{0.45\textwidth}
+\includegraphics[width=\textwidth]{./plots/dis/distplot_AFL.pdf}
+\caption{$AFL$}
+\end{subfigure}
+\begin{subfigure}{0.45\textwidth}
+\includegraphics[width=\textwidth]{./plots/dis/distplot_lnAFL.pdf}
+\caption{$\ln AFL$}
+\end{subfigure}
+\caption[]{Data histograms and density plots}
+\end{figure}
+
+\begin{figure}[htbp]\ContinuedFloat
+\centering
+\begin{subfigure}{0.45\textwidth}
+\includegraphics[width=\textwidth]{./plots/dis/distplot_KAOPEN.pdf}
+\caption{KAOPEN}
+\end{subfigure}
+\caption[]{Data histograms and density plots}
+\end{figure}
+
+\FloatBarrier
+
+
+\begin{figure}[htbp]
+\centering
+\begin{subfigure}{0.90\textwidth}
+\includegraphics[width=\textwidth]{./plots/dis/diffGMM_residual_plot_subset.pdf}
+\caption{Residual plot, restricted panel}
+\end{subfigure}
+\begin{subfigure}{0.90\textwidth}
+\includegraphics[width=\textwidth]{./plots/dis/diffGMM_residual_plot_all.pdf}
+\caption{Residual plot, all countries}
+\end{subfigure}
+\caption[]{Residuals versus fitted values}
+\end{figure}
+
 
 
 %TC:endignore
