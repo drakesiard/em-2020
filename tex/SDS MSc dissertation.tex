@@ -32,7 +32,7 @@
 \newcommand{\pkg}[1]{{\fontseries{b}\selectfont #1}} 
 
 
-\title{Composite trade share and energy intensity}
+\title{Composite trade share and energy intensity and failing to search for TODOs in an otherwise finished document}
 \author{S. Drake Siard\\
 MSc Economics 2019-2020 Dissertation}
 \date{}
@@ -46,9 +46,10 @@ MSc Economics 2019-2020 Dissertation}
 \begin{abstract}
 Declining energy intensity is a stylised fact common to nearly all economies, but its interactions with other economic factors are still a topic of active debate.
 This paper builds on previous work examining the direct and indirect impacts of growth, industrialisation, technological innovation, urbanisation, and trade openness on energy intensity, focusing specifically on trade openness. 
-We provide evidence that composite trade share, an alternate specification of trade openness, has a positive effect on energy efficiency, with an effect robust to using multiple specifications and country panel selections. 
+We provide evidence that composite trade share, an alternate specification of trade openness, has a positive effect on energy intensity, unlike the more commonly used ratio of trade share of GDP.
+The effect is robust to using multiple model specifications but not to country selection. 
 
-Programs used: Python (\pkg{statsmodels}, \pkg{scipy}); R (\pkg{plm}, \pkg{pdynmc})
+Programs used: Python (\pkg{scipy}); R (\pkg{plm}, \pkg{pdynmc})
 
 Word count: \emph{!! TODO !!}
  
@@ -102,9 +103,11 @@ They report an effect with mixed signs across countries: in their model trade op
 Interestingly, they also find that the arrow of causality occasionally runs in the opposite direction: energy consumption per capita causes increased trade openness in Switzerland, and decrease trade openness in the United Kingdom.
 Their results for panels of high- and middle-income countries both show that the relationship between trade openness to energy consumption is insignificant when considered in aggregate. 
 
-\cite{shahbazDynamicLinksEnergy2013} introduce another variable, the provision of domestic credit to the private sector, as a proxy for financial development. Limiting their investigation to China and using an ARDL bounds testing approach, they find bidirectional causality and a significant positive relationship between trade openness and energy consumption per capita; however, also they do not investigate energy intensity.
+\cite{shahbazDynamicLinksEnergy2013} introduce another variable, the provision of domestic credit to the private sector, as a proxy for financial development, separating integration into the global financial system from integration into world trading structures. Limiting their investigation to China and using an ARDL bounds testing approach, they also find bidirectional causality and a significant positive relationship between trade openness and energy consumption per capita; however, also they do not investigate energy intensity.
 
-\cite{kasmanCO2EmissionsEconomic2015} add urbanisation, measured as the share of the population living in urban areas, to their analysis.
+Urbanisation is another economic process that drives significant changes in energy use.  
+\cite{madlenerImpactsUrbanizationUrban2011} outline many pathways by which urbanisation impacts energy intensity, among them changes in transport infrastructure, concentration of the labor force, substitution away from traditional and inefficient energy sources.
+On this premise \cite{kasmanCO2EmissionsEconomic2015} introduce the share of the population living in urban areas as an explanatory variable in their analysis of energy-related variables.
 They investigate the linkage between between energy consumption, carbon dioxide emissions, economic growth, trade openness and urbanization for a panel of new EU member and candidate countries, using panel cointegration methods and panel causality tests.
 Again, while not specifically addressing energy intensity, they find short-run unidirectional
 causality running from increases in per capita energy consumption to increased trade openness, and not the other direction.
@@ -121,7 +124,9 @@ The three linear estimators of the heterogeneous slope coefficients are the ``me
 and the ``Augmented Mean Group" (AMG) of \cite{eberhardtCrosssectionDependenceNonstationary2009} and \mbox{\cite{eberhardtProductivityAnalysisGlobal2010}}.
 The non-linear estimator is that of \cite{kapetaniosNonlinearPanelData2014}.
 They find that trade openness significantly reduces energy intensity in all four of the heterogenous panel
-analyses that they apply, and verify the robustness of their results against endogeneity among the regressors with the GMM panel estimation of \cite{arellanoTestsSpecificationPanel1991}.
+analyses that they apply
+They also verify the robustness of their results against endogeneity among the regressors with a GMM estimator of \cite{arellanoTestsSpecificationPanel1991}, which similarly finds a significant reduction in energy intensity with trade.
+
 \cite{koengkanPositiveImpactTrade2018} also use the \cite{arellanoTestsSpecificationPanel1991} estimator with a different model specification but some more comprehensive diagnostics; again, however, the sample set is quite limited (a set of 4 Andean countries) and the dependent variable is energy consumption, not energy intensity.
 
 \cite{coleDoesTradeLiberalization2006}\footnotemark{} note that the effect of trade liberalization on energy intensity depends on whether countries are they are importers or exporters of energy intensive output, which in turn depends on comparative advantage, driven by factor endowments. 
@@ -150,11 +155,15 @@ However, rather than an absolute number, we use a per-capita metric, as in \cite
 \end{itemize}
 \item We substitute the composite trade share metric of \cite{squalliNewMeasureTrade2011} as a measure of trade openness, rather than use the naive trade share of GDP.
 \end{itemize}
-Our hypotheses for this model are:
+Our hypotheses for this model, informed by the literature referenced above, are:
 \begin{itemize}
-\item Energy intensity will decrease as population density increases. 
-\item Energy intensity will increase with affluence up to a certain point, and then decrease (the EKC hypothesis).
-The model postulates this in quadratic terms. In terms of coefficients in the model, this should translate to a positive relationship to GDP per capita and a negative relationship to the square of GDP per capita.
+\item Energy intensity decreases as population density increases.
+\item Energy intensity decreases as urbanisation increases. 
+\item Energy intensity increases with affluence up to a certain point, after which it decreases (the EKC hypothesis).
+The model postulates this in quadratic terms: in terms of coefficients in the model, this should translate to a positive relationship to GDP per capita and a negative relationship to the square of GDP per capita.
+\item Energy intensity decreases as openness to trade increases. 
+\item Energy intensity decreases as technological innovation increases. 
+\item Energy intensity decreases as financial openness increases. 
 \end{itemize}
 
 
@@ -292,7 +301,7 @@ This gives a panel of $n=22$ and $19 \leq T_i \leq 26$ (where necessary for our 
 
 \cref{fig:data_dists} in \cref{sec:graph_appendix} shows histograms and kernel density plots of the data for the combined set of countries in both panels, along with p-values of \cite{dagostinoTestsDepartureNormality1973} normality tests.
 Examining the distribution of the data, we find that the standard log-transformation of all but the $KAOPEN$ variable bring the distributions generally closer to normality in broad appearance (though still far from normal, statistically speaking) and bring all variables into roughly the same order of magnitude in scale.
-$KAOPEN$ has already been normalised by construction, so we leave it unchanged.
+$KAOPEN$ has already been standardised by construction, so we leave it unchanged, despite its highly irregular distribution.
 
 For robustness checks, we also prepare an unbalanced panel of all countries that have at least ten years of consecutive observations of the variables of interest; those countries and their data ranges can be found in \cref{tab:all_countries}.
 
@@ -365,9 +374,7 @@ CTS &    156.45 &  $\leq 0.01$ \\
 In summary, we have evidence both in support of and rejection of a unit root.
 Fortunately, the dynamic panel models we propose in \cref{sec:methodology} allow for both the stationary and unit root case; the only assumption made regarding stationarity is that the process is not explosive \cite[p.5, A.2.1]{fritschGMMEstimationLinear2019}.
 
-\clearpage
 \section{Methodology}\label{sec:methodology}
-
 
 The STIRPAT-inspired EKC-type model outlined at the end of \cref{sec:literature} combines the variables described in \cref{sec:data} in the following equation, where $i$ is country and $t$ is year:
 \begin{multline}\label{eq:model}
@@ -434,11 +441,17 @@ When calculating standard errors of parameter estimates we rely on the finite sa
 
 \section{Results}\label{sec:results}
 
-We incrementally test each of our additions to the with the final EKC-type Model IV of \cite{rafiqUrbanizationOpennessEmissions2016} by running a difference GMM with two lags of the exogenous variable on the original model (with the original trade share $TS$, so for shorthand we designate this model TS).
+We incrementally test each of our additions to the with the final EKC-type Model IV of \cite{rafiqUrbanizationOpennessEmissions2016} by running a difference GMM with two lags of the exogenous variable and the moment conditions of \cite{arellanoTestsSpecificationPanel1991} on the original model (with the original trade share $TS$, so for shorthand we designate this model TS).
 We then substitute the composite trade share $CTS$ of of \cite{squalliNewMeasureTrade2011} into the model (and denote it CTS).
 We then add the technological innovation measure $TI$ of \cite{maradanaDoesInnovationPromote2017} and the 
-financial openness measure $KAOPEN$ of \citep{chinnWhatMattersFinancial2006} and denote these models CTS+TI and CTS+TI+KAOPEN, respectively.
-\cref{tab:diffgmm_coeff_subset} shows the results of these regressions are 
+financial openness measure $KAOPEN$ of \citep{chinnWhatMattersFinancial2006} and denote these models CTS+TI and CTS+TI+KO, respectively.
+\cref{tab:diffgmm_coeff_subset} shows the results of these regressions, with p-values in parentheses and asterisks denoting significance levels (one, two, and three asterisks  denoting the 10\%, 5\%, and 1\% level).
+Starting with the original model TS, we see that at a first glance all the coefficients agree in sign with our initial hypotheses: energy intensity appears follow the Kuznets curve (positive linear relationship, negative quadratic relationship) with respect to affluence and have the expected negative linear relationship with urbanisation, population density, and trade.
+However, only the negative quadratic coefficient on affluence is significant, and the others are not significantly different from zero. 
+In sign, the coefficients on $AFL$ and $TS$ match the heterogenous panel estimators of \cite[Table 5]{rafiqUrbanizationOpennessEmissions2016}; however they do not correspond to the results from the GMM estimator in \cite[Appendix Table 5]{rafiqUrbanizationOpennessEmissions2016}, where the EKC curve appears to be inverted.
+
+Substituting $CTS$ for $TS$
+
 
 Arellano-Bond test for serial correlation
 as the test ``depends on the assumption that N is large. Large has no precise definition, but applying it to panels with N = 20, for instance, seems worrisome" \cite{roodmanHowXtabond2Introduction2009}.
@@ -466,6 +479,21 @@ as the test ``depends on the assumption that N is large. Large has no precise de
 
 
 
+Residual plots
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.8\textwidth]{./plots/dis/diffGMM_residual_plot_subset.pdf}
+\caption{Residual plot, restricted panel}
+\label{fig:gmm_residual_plot_subset}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.8\textwidth]{./plots/dis/diffGMM_residual_plot_all.pdf}
+\caption{Residual plot, all countries}
+\label{fig:gmm_residual_plot_all}
+\end{figure}
 
 
 
@@ -696,23 +724,6 @@ All of the Python and R code and output are incorporated into Jupyter Notebooks,
 \end{figure}
 
 \FloatBarrier
-
-
-\begin{figure}[htbp]
-\centering
-\begin{subfigure}{0.90\textwidth}
-\includegraphics[width=\textwidth]{./plots/dis/diffGMM_residual_plot_subset.pdf}
-\caption{Residual plot, restricted panel}
-\end{subfigure}
-\begin{subfigure}{0.90\textwidth}
-\includegraphics[width=\textwidth]{./plots/dis/diffGMM_residual_plot_all.pdf}
-\caption{Residual plot, all countries}
-\end{subfigure}
-\caption{Residuals versus fitted values}
-\label{fig:gmm_residual_plot}
-\end{figure}
-
-
 
 %TC:endignore
 \restoregeometry{}
