@@ -31,6 +31,7 @@
 
 \newcommand{\pkg}[1]{{\fontseries{b}\selectfont #1}} 
 
+\hyphenation{eco-nom-ies}
 
 \title{Composite trade share and energy intensity and failing to search for TODOs in an otherwise finished document}
 \author{S. Drake Siard\\
@@ -46,8 +47,10 @@ MSc Economics 2019-2020 Dissertation}
 \begin{abstract}
 Declining energy intensity is a stylised fact common to nearly all economies, but its interactions with other economic factors are still a topic of active debate.
 This paper builds on previous work examining the direct and indirect impacts of growth, industrialisation, technological innovation, urbanisation, and trade openness on energy intensity, focusing specifically on trade openness. 
-We provide evidence that composite trade share, an alternate specification of trade openness, has a positive effect on energy intensity, unlike the more commonly used ratio of trade share of GDP.
-The effect is robust to using multiple model specifications but not to country selection. 
+We provide evidence that some existing results linking increased trade openness to decreased energy intensity may be due to omitted variable bias.
+In addition, we substitute composite trade share, an alternative specification of trade openness, for the more commonly used ratio of trade share of GDP, and find that it has a positive effect on energy intensity.
+This suggests that existing results may also not be robust to alternative specifications of trade openness.
+
 
 Programs used: Python (\pkg{scipy}); R (\pkg{plm}, \pkg{pdynmc})
 
@@ -79,7 +82,7 @@ First, in developing nations increased integration into the world economy may in
 Second, it may allow efficiency gains through substitution away from energy-intensive domestic
 inputs as well as a focus on higher-productivity exports. 
 However, increased trade may also allow developing nations with weaker environmental regulation to export high-pollution goods (effectively, importing pollution from developed nations). 
-Unsurprisingly, the existing literature does not agree on either the sign or the significance of the empirical relationship.
+Unsurprisingly, the existing literature does not consistently agree on either the sign or the significance of the empirical relationship.
 
 This paper briefly explores the literature on trade openness and energy intensity (\cref{sec:literature}) and describes the economic variables in question more precisely in \cref{sec:data}.
 The relationship is then empirically estimated using several linear dynamic panel data models, which are described and justified in \cref{sec:methodology}.
@@ -112,9 +115,10 @@ They investigate the linkage between between energy consumption, carbon dioxide 
 Again, while not specifically addressing energy intensity, they find short-run unidirectional
 causality running from increases in per capita energy consumption to increased trade openness, and not the other direction.
 
-\cite{rafiqUrbanizationOpennessEmissions2016} investigate two generalisations of the above models: the Stochastic Impacts by Regression on Population, Affluence and Technology (STIRPAT) framework and the Environmental Kuznets Curve (EKC).
-A summary and literature survey of the STIRPAT framework can be found in \cite{mcgeeImpactsTechnologyReevaluation2015}, but the general assumption of the model class is that measures of diverse anthropogenic environmental impacts, such as carbon dioxide emissions and diminished biodiversity, can be represented as a (multiplicative) function of population, affluence, and technology, using various proxies and measures for affluence and technology.
-\cite{dindaEnvironmentalKuznetsCurve2004} provide a summary and literature survey of the EKC framework. 
+\cite{rafiqUrbanizationOpennessEmissions2016} investigate two generalisations of the above models: the Stochastic Impacts by Regression on Population, Affluence and Technology (STIRPAT) framework and the Environmental Kuznets Curve (EKC) framework.
+For the STIRPAT framework, a summary and literature survey can be found in \cite{mcgeeImpactsTechnologyReevaluation2015}.
+The general assumption of the STIRPAT class of model is that measures of diverse anthropogenic environmental impacts, such as carbon dioxide emissions and diminished biodiversity, can be represented as a (multiplicative) function of population, affluence, and technology, using a range of various proxies and measures for affluence and technological development.
+For the EKC framework, \cite{dindaEnvironmentalKuznetsCurve2004} provide a summary and literature survey. 
 The EKC hypothesis adds a non-linearity to the analysis by postulating a positive relationship between environmental impact and affluence at low levels, changing to a negative relationship as countries reach a suficient stage of development; the curve in question is stylistically represented as an inverted U-shape.
 
 In their investigation, \cite{rafiqUrbanizationOpennessEmissions2016} examine the effect of trade openness on emissions and energy intensity in urbanising emerging economies in both STIRPAT- and EKC-type models.
@@ -127,14 +131,16 @@ They find that trade openness significantly reduces energy intensity in all four
 analyses that they apply
 They also verify the robustness of their results against endogeneity among the regressors with a GMM estimator of \cite{arellanoTestsSpecificationPanel1991}, which similarly finds a significant reduction in energy intensity with trade.
 
-\cite{koengkanPositiveImpactTrade2018} also use the \cite{arellanoTestsSpecificationPanel1991} estimator with a different model specification but some more comprehensive diagnostics; again, however, the sample set is quite limited (a set of 4 Andean countries) and the dependent variable is energy consumption, not energy intensity.
+\cite{koengkanPositiveImpactTrade2018} also use the \cite{arellanoTestsSpecificationPanel1991} estimator with a different model specification on a similar set of variables.
+The add financial openness as measured by the Chinn-Ito index of \citep{chinnWhatMattersFinancial2006}, and apply some more comprehensive diagnostics. 
+They find that trade is positively related to energy consumption and that financial openness is negatively related.
+However, their sample set is quite limited (a set of 4 Andean countries) and the dependent variable is energy consumption, not energy intensity.
 
 \cite{coleDoesTradeLiberalization2006}\footnotemark{} note that the effect of trade liberalization on energy intensity depends on whether countries are they are importers or exporters of energy intensive output, which in turn depends on comparative advantage, driven by factor endowments. 
 They use a fixed-effect panel methodology to estimate a model with interactions, and find that trade is positively related to energy use.
 However, the only economic variables in their model are the capital-labor ratio, energy intensity, and trade, where the capital-labor ratio stands as a proxy for overall relative factor abundance.
-\footnotetext{Building on \citep{antweilerFreeTradeGood2001}, who lay out the economic justification for the model and apply the analysis to various air pollutants.}
-
-Another contribution of \cite{coleDoesTradeLiberalization2006} to the literature is the introduction of an alternate measure of trade openness, based in their case on the gravity model of \cite{frankelEstimateEffectCommon2002}.
+\footnotetext{Building on \citep{antweilerFreeTradeGood2001}, who lay out the economic justification for the model and apply the analysis to various air pollutants.
+}Another contribution of \cite{coleDoesTradeLiberalization2006} to the literature is the introduction of an alternate measure of trade openness, based in their case on the gravity model of \cite{frankelEstimateEffectCommon2002}.
 The naive measure of trade openness (the ratio of the sum of imports and exports to GDP) used in the previously cited papers is open to question, and \cite{fujiiWhatDoesTrade2019} provides a useful critique, finding that the between-country variation of the standard trade openness measure derives more from the variability in GDP than variability in trade.
 
 \cite{squalliNewMeasureTrade2011} extend this critique, noting an interesting anomaly: that according to the naive measure, the world’s largest trading countries are ranked among the most closed to trade.
@@ -144,12 +150,13 @@ The first dimension, measuring the proportion of a countries' total income that 
 Their second dimension is intended to reflect countries' interaction and interconnectedness; they measure as the fraction of each country's contribution to global trade, which they label world trade share.
 They combine these two to produce a measure they call composite trade share (CTS), which is the product of the trade share with a normalised world trade share (the exact formula is given later in \cref{sec:data}).
 
-The relationship of the current paper to the existing literature given above can be summed up as follows: 
+The relationship of the following work to the existing literature given above can be summarised as follows: 
 \begin{itemize}
-\item We use as a base the final model (Model IV, EKC-type) given in \cite{rafiqUrbanizationOpennessEmissions2016}, with energy intensity as the dependent variable. We include trade openness, population density, urbanisation, and affluence as explanatory variables.
+\item We use as a base the final model (Model IV, EKC-type) given in \cite{rafiqUrbanizationOpennessEmissions2016}, with energy intensity as the dependent variable. 
+We include trade openness, population density, urbanisation, and affluence as explanatory variables.
 \item We then add as further explanatory variables:
 \begin{itemize}
-\item technological innovation, as measured by total resident and non-resident patent application count, following \cite{panHowIndustrializationTrade2019}. 
+\item technological innovation, as measured by total patent (resident and non-resident) application count, following \cite{panHowIndustrializationTrade2019}.
 However, rather than an absolute number, we use a per-capita metric, as in \cite{maradanaDoesInnovationPromote2017}
 \item financial openness, as measured by the Chinn-Ito index \citep{chinnWhatMattersFinancial2006}, following \cite{koengkanPositiveImpactTrade2018}
 \end{itemize}
@@ -242,7 +249,7 @@ $KAOPEN$ & Capital openness & Composite measure of relative financial openness, 
 These data definitions are summarised in \cref{tab:data_source}.
 All of the included data series are sampled at an annual frequency, with a multi-year reporting lag, and are revised series (not point-in-time).
 
-For the country selection, we replicate the two panels from \cite{tibaIncomeTradeOpenness2018}: one of high-income (p.805) countries and one of middle-income (p.807) countries.
+For the country selection, we join the two panels from \cite{tibaIncomeTradeOpenness2018}: one of high-income (p.805) countries and one of middle-income (p.807) countries.
 For nearly all high-income countries and most middle-income countries, all data points are available over the date range of 1990 to 2015; the limiting factor is often $ENI$, which starts no sooner than 1990 for any country and ends in 2014 or 2015.
 Restricting date ranges to data availability results in different observation periods for each country, yielding unbalanced panels.
 The countries and their respective observation date ranges are specified in \cref{tab:countries}.
@@ -295,7 +302,7 @@ This gives a panel of $n=22$ and $19 \leq T_i \leq 26$ (where necessary for our 
 \end{tabular}
 \caption{High-income}
 \end{subtable}
-\caption{Country panels}
+\caption{Country panel components}
 \label{tab:countries}
 \end{table}
 
@@ -304,9 +311,10 @@ Examining the distribution of the data, we find that the standard log-transforma
 $KAOPEN$ has already been standardised by construction, so we leave it unchanged, despite its highly irregular distribution.
 
 For robustness checks, we also prepare an unbalanced panel of all countries that have at least ten years of consecutive observations of the variables of interest; those countries and their data ranges can be found in \cref{tab:all_countries}.
+For the extended panel, $N = 90$ and $ 10 \leq T_i \leq 26$; we truncate this to 1996-2015 when comparing to the restricted panel.
 
 Our first exploratory analysis is to plot the timeseries of $\ln ENI$ (\cref{fig:ENI_timeseries}) and confirm the stylised facts outlined above.
-We can see that for the vast majority of the countries in the panel, $ENI$ is following a similar log-linear trend, confirming both the downward path and convergence (in absolute terms).
+We can see that for the vast majority of the countries in the panel, $ENI$ is following a similar log-linear trend, confirming both the downward path and convergence (in absolute terms) as described in \cite{ederAnalysisEnergyIntensity2018}.
 
 \begin{figure}[htbp]
 \centering
@@ -323,11 +331,10 @@ We can see that for the vast majority of the countries in the panel, $ENI$ is fo
 \end{figure}
 
 
-Next, we check for non-stationarity in our data series. 
+Next, we check for non-stationarity in our data series (excluding $KAOPEN$, as it is practically digitised). 
 As we have an unbalanced panel, the Levin-Lin-Chu test of \cite{levinUnitRootTests2002} cannot be applied.
 Instead, we use the cross-sectionally augmented\footnote{The standard version yields near-identical results, cross-section dependence is unlikely to be responsible for any difference.} version of the Im-Pesaran-Shin test of \cite{pesaranSimplePanelUnit2007}.
-As time trends are apparent in the data, we apply the Case III ("trend") variant of the test.
-The results of the test are found in \cref{tab:ips}; we fail to reject the null hypothesis of unit root for all tested variables.
+Given the time trends apparent in the data, we apply the Case III ("trend") variant of the test, the results of which are found in \cref{tab:ips}; we fail to reject the null hypothesis of unit root for all tested variables.
 However, applying the inverse chi-squared test of \cite{maddalaComparativeStudyUnit1999}, we get a completely different result, as can be seen in \cref{tab:madwu}.
 
 \begin{table}[htbp]
@@ -372,7 +379,7 @@ CTS &    156.45 &  $\leq 0.01$ \\
 \end{table}
 
 In summary, we have evidence both in support of and rejection of a unit root.
-Fortunately, the dynamic panel models we propose in \cref{sec:methodology} allow for both the stationary and unit root case; the only assumption made regarding stationarity is that the process is not explosive \cite[p.5, A.2.1]{fritschGMMEstimationLinear2019}.
+We therefore restrict ourselves in \cref{sec:methodology} to dynamic panel models that allow for both the stationary and unit root case; the only assumption made regarding stationarity is that the process is not explosive \cite[p.5, A.2.1]{fritschGMMEstimationLinear2019}.
 
 \section{Methodology}\label{sec:methodology}
 
@@ -441,61 +448,67 @@ When calculating standard errors of parameter estimates we rely on the finite sa
 
 \section{Results}\label{sec:results}
 
-We incrementally test each of our additions to the with the final EKC-type Model IV of \cite{rafiqUrbanizationOpennessEmissions2016} by running a difference GMM with two lags of the exogenous variable and the moment conditions of \cite{arellanoTestsSpecificationPanel1991} on the original model (with the original trade share $TS$, so for shorthand we designate this model TS).
+We incrementally test each of our additions to the with the final EKC-type Model IV of \cite{rafiqUrbanizationOpennessEmissions2016} by running a difference GMM with two lags of the exogenous variable, no lags of the regressors, and the moment conditions of \cite{arellanoTestsSpecificationPanel1991} on the original model (with the original trade share $TS$, so for shorthand we designate this model TS).
 We then substitute the composite trade share $CTS$ of of \cite{squalliNewMeasureTrade2011} into the model (and denote it CTS).
-We then add the technological innovation measure $TI$ of \cite{maradanaDoesInnovationPromote2017} and the 
-financial openness measure $KAOPEN$ of \citep{chinnWhatMattersFinancial2006} and denote these models CTS+TI and CTS+TI+KO, respectively.
-\cref{tab:diffgmm_coeff_subset} shows the results of these regressions, with p-values in parentheses and asterisks denoting significance levels (one, two, and three asterisks  denoting the 10\%, 5\%, and 1\% level).
-Starting with the original model TS, we see that at a first glance all the coefficients agree in sign with our initial hypotheses: energy intensity appears follow the Kuznets curve (positive linear relationship, negative quadratic relationship) with respect to affluence and have the expected negative linear relationship with urbanisation, population density, and trade.
+To both of these add the technological innovation measure $TI$ of \cite{maradanaDoesInnovationPromote2017} and the financial openness measure $KAOPEN$ of \citep{chinnWhatMattersFinancial2006}, and denote these models TS+TI+KO and CTS+TI+KO, respectively.
+\cref{tab:diffgmm_coeff_subset_main} shows the results of these regressions\footnote{
+\cref{tab:diffgmm_coeff_all} shows the result of all of the intermediate stages of model construction.
+} on the country panel of \cref{tab:countries}, with p-values in parentheses and asterisks denoting significance levels (one, two, and three asterisks  denoting the 10\%, 5\%, and 1\% level).
+
+\renewcommand{\arraystretch}{3}
+\begin{table}[htbp]
+\centering
+\input{./plots/dis/diffGMM_subset_reg_result_main.tex}
+\caption{Difference-GMM regression results, restricted panel}
+\label{tab:diffgmm_coeff_subset_main}
+\end{table}
+\renewcommand{\arraystretch}{1}
+
+Starting with the original model TS, we see that at a first glance all the coefficients agree in sign with our initial hypotheses: energy intensity appears follow the Kuznets curve (positive linear relationship, negative quadratic relationship) with respect to affluence and has the expected negative linear relationship with urbanisation, population density, and trade.
+
 However, only the negative quadratic coefficient on affluence is significant, and the others are not significantly different from zero. 
 In sign, the coefficients on $AFL$ and $TS$ match the heterogenous panel estimators of \cite[Table 5]{rafiqUrbanizationOpennessEmissions2016}; however they do not correspond to the results from the GMM estimator in \cite[Appendix Table 5]{rafiqUrbanizationOpennessEmissions2016}, where the EKC curve appears to be inverted.
 
-Substituting $CTS$ for $TS$
+Adding the technological innovation indicator $TI$ and the financial openness indicator $KAOPEN$ gives the model TS+TI+KO, whose coefficients yield an unexpected result: in the new specification, while the coefficients of the original regression maintain their sign and gain in significance, the coefficient of $TS$ is now negative (and just as remarkably, becomes significant).
+This suggests that the regression with $TS$ alone may suffer from omitted variable bias, as trade, technological development, and capital openness have well-established correlations.
 
+The coefficients of $TI$ and $KAOPEN$ themselves in the TS+TI+KO model are not significant.
+This differs from \cite{koengkanPositiveImpactTrade2018} who find a significant negative effect of $KAOPEN$ on energy consumption; while they are not investigating energy intensity specifically, their effect of reduced consumption in a period of economic growth obviously implies falling energy intensity.
+It also fails to confirm the finding of \cite{panHowIndustrializationTrade2019} of a negative effect of technological innovation on energy intensity.
 
-Arellano-Bond test for serial correlation
-as the test ``depends on the assumption that N is large. Large has no precise definition, but applying it to panels with N = 20, for instance, seems worrisome" \cite{roodmanHowXtabond2Introduction2009}.
+Substituting $CTS$ for $TS$ (the CTS model) yields an unexpected result: the sign of the other regressors remains the same, and their significance is confirmed, but $CTS$ itself has a positive (though insignificant) coefficient. 
+This suggests that some other results in the literature linking increased trade openness to decreased energy intensity may not be robust to alternative measures of trade openness.
+Since many large open economies have unrepresentatively small $TS$ measures, the positive coefficients in the literature may be the result of including high $TS$ outliers such as Singapore.
+Many of these are also likely to be hubs of technological innovation, which motivates the inclusion of measures such as $TI$ in this category of model.
+In the full CTS+TI+KO model, the only significant coefficients are that of $AFL^2$ (positive, which at least does not contradict the EKC hypothesis) and $TI$ (positive, which does contradict previous findings).
 
-\cref{tab:diffgmm_coeff_all} shows coefficient estimates and test results from the same models run on the extended panel over the same years.
+Applying the specification and identification tests described in \cref{sec:methodology} to all four models, we see that there is strong evidence that at least one of the slope cofficients and at least one of the time dummies are non-zero, as p-values of the F-tests for both are well below 0.01 and the null hypotheses of joint zero coefficients are rejected in both cases.
+The Sargan-Hansen test for the overidentifying restrictions fails to reject the null hypothesis of validity, though as $T \rightarrow N$ this test weakens.
+The only concerning statistics in question are those for the Arellano-Bond test for serial correlation, which reject the null hypothesis (of no serial correlation of order 2 in the idiosyncratic residuals) in all but the final CTS+TI+KO model, suggesting that only this final model is well-specified.
+However, it is worth noting that the test ``depends on the assumption that $N$ is large. Large has no precise definition, but applying it to panels with $N = 20$, for instance, seems worrisome" \cite{roodmanHowXtabond2Introduction2009}.
+In our case, $N = 22$, well within the range of worry.
 
+We therefore repeat the analysis with the extended panel laid out in \cref{tab:all_countries}.
+\cref{tab:diffgmm_coeff_all_main} shows coefficient estimates and test results from the same models run on the extended panel over the same years (1996-2015); as before, \cref{tab:diffgmm_coeff_all} in \cref{sec:graph_appendix} shows all intermediate steps of model construction.
+In all four models, the coefficients for $POP$, $AFL$, and $AFL^2$ are of the expected sign; however, only that for $AFL^2$ is significant.
+The coefficient for $URB$ is now positive (but insignificant) in all four models.
+More surprising is the fact that trade openness, as measured by either $TS$ and $CTS$, is positively associated with energy intensity, and in the case of the $CTS$ and $CTS+TI+KO$ models, significantly so.
 
 \renewcommand{\arraystretch}{3}
 \begin{table}[htbp]
 \centering
-\input{./plots/dis/diffGMM_subset_reg_result.tex}
-\caption{Difference-GMM regression results, restricted panel}
-\label{tab:diffgmm_coeff_subset}
-\end{table}
-\renewcommand{\arraystretch}{1}
-
-\renewcommand{\arraystretch}{3}
-\begin{table}[htbp]
-\centering
-\input{./plots/dis/diffGMM_full_reg_result.tex}
+\input{./plots/dis/diffGMM_full_reg_result_main.tex}
 \caption{Difference-GMM regression results, all countries}
-\label{tab:diffgmm_coeff_all}
+\label{tab:diffgmm_coeff_all_main}
 \end{table}
 \renewcommand{\arraystretch}{1}
 
-
-
-Residual plots
-
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=0.8\textwidth]{./plots/dis/diffGMM_residual_plot_subset.pdf}
-\caption{Residual plot, restricted panel}
-\label{fig:gmm_residual_plot_subset}
-\end{figure}
-
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=0.8\textwidth]{./plots/dis/diffGMM_residual_plot_all.pdf}
-\caption{Residual plot, all countries}
-\label{fig:gmm_residual_plot_all}
-\end{figure}
-
-
+Applying the same specification and identification tests to the four models on the extended panels, we see the same healthy results for the Sargan-Hansen test, and reject the null hypothesis of zero coefficients for both the regressors and the time dummy variables.
+In addition, with the larger panel, we have eliminated evidence of serial correlation in the residuals, increasing confidence in the model specification.
+Additional diagnostic plots \footnote{
+Time dummy coefficient estimates are plotted in (and errors) \cref{fig:gmm_time_dummy_subset} for the restricted panel and \cref{fig:gmm_time_dummy_all} for the extended panel.
+Plots of residuals versus the fitted values by model for the restricted panel are in \cref{fig:gmm_residual_plot_subset} and, for the extended panel, \cref{fig:gmm_residual_plot_all}.
+} can be found in \cref{sec:graph_appendix}.
 
 \section{Conclusion}\label{sec:conclusion}
 
@@ -529,15 +542,15 @@ The repository structure is described at:
 \url{https://github.com/drakesiard/em-2020/blob/v2.0/README.md}
 
 \noindent
-All of the Python and R code and output are incorporated into Jupyter Notebooks, which have also been converted to HTML for ease of examination. For example, the FX analysis described in \cref{sec:data_analysis} can be found here:
+All of the Python and R code and output are incorporated into Jupyter Notebooks, which have also been converted to HTML for ease of examination. For example, the FX analysis described in \cref{sec:data} can be found here:
 
 \begin{adjustbox}{max width=\textwidth}
 \url{https://htmlpreview.github.io/?https://github.com/drakesiard/em-2020/blob/v1.0/analysis/8_FX_impact.html}
 \end{adjustbox}
 
-\subsection{Additional Figures}\label{sec:graph_appendix}
+\subsection{Additional Tables and Figures}\label{sec:graph_appendix}
 
-\cref{fig:gmm_residual_plot}
+We examine plots of the residuals versus the fitted values, for the subset panel in \cref{fig:gmm_residual_plot_subset} and \cref{fig:gmm_residual_plot_all}
 
 \renewcommand{\arraystretch}{1}
 \begin{table}[htbp]
@@ -723,7 +736,58 @@ All of the Python and R code and output are incorporated into Jupyter Notebooks,
 \caption[]{Data histograms and density plots}
 \end{figure}
 
-\FloatBarrier
+\clearpage
+
+\renewcommand{\arraystretch}{3}
+\begin{table}[htbp]
+\centering
+\resizebox{\textwidth}{!}{%
+\input{./plots/dis/diffGMM_subset_reg_result.tex}
+}
+\caption{Difference-GMM regression results, restricted panel}
+\label{tab:diffgmm_coeff_subset}
+\end{table}
+\renewcommand{\arraystretch}{1}
+
+\renewcommand{\arraystretch}{3}
+\begin{table}[htbp]
+\centering
+\resizebox{\textwidth}{!}{%
+\input{./plots/dis/diffGMM_full_reg_result.tex}
+}
+\caption{Difference-GMM regression results, all countries}
+\label{tab:diffgmm_coeff_all}
+\end{table}
+\renewcommand{\arraystretch}{1}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{./plots/dis/time_dummy_cts_subset.pdf}
+\caption{Time dummy coefficient plot, restricted panel}
+\label{fig:gmm_time_dummy_subset}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{./plots/dis/time_dummy_cts_all.pdf}
+\caption{Time dummy coefficient plot, all countries}
+\label{fig:gmm_time_dummy_all}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.8\textwidth]{./plots/dis/diffGMM_residual_plot_subset.pdf}
+\caption{Residual plot, restricted panel}
+\label{fig:gmm_residual_plot_subset}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.8\textwidth]{./plots/dis/diffGMM_residual_plot_all.pdf}
+\caption{Residual plot, all countries}
+\label{fig:gmm_residual_plot_all}
+\end{figure}
+
 
 %TC:endignore
 \restoregeometry{}
