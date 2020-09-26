@@ -513,6 +513,7 @@ We therefore repeat the analysis with the extended panel laid out in \cref{tab:a
 In all four models, the coefficients for $POP$, $AFL$, and $AFL^2$ are of the expected sign; however, only that for $AFL^2$ is significant.
 The coefficient for $URB$ is now positive (but insignificant) in all four models.
 More surprising is the fact that trade openness, as measured by either $TS$ and $CTS$, is positively associated with energy intensity, and in the case of the CTS and CTS+TI+KO models, significantly so.
+A time stability analysis of the coefficients can be found in \cref{fig:gmm_coefficient_time_series}.
 
 \renewcommand{\arraystretch}{3}
 \begin{table}[htbp]
@@ -525,10 +526,8 @@ More surprising is the fact that trade openness, as measured by either $TS$ and 
 
 Applying the same specification and identification tests to the four models on the extended panels, we see the same healthy results for the Sargan-Hansen test, and reject the null hypothesis of zero coefficients for both the regressors and the time dummy variables.
 In addition, with the larger panel, we have eliminated evidence of serial correlation in the residuals, increasing confidence in the model specification.
-Additional diagnostic plots \footnote{
-Time dummy coefficient estimates are plotted in (and errors) \cref{fig:gmm_time_dummy_subset} for the restricted panel and \cref{fig:gmm_time_dummy_all} for the extended panel.
-Plots of residuals versus the fitted values by model for the restricted panel are in \cref{fig:gmm_residual_plot_subset} and, for the extended panel, \cref{fig:gmm_residual_plot_all}.
-} can be found in \cref{sec:graph_appendix}, showing the better fit of the model to the larger data set.
+Additional diagnostic plots are described in \cref{sec:graph_appendix}, showing the better fit of the model to the larger data set.
+We also consider the stability over time of the regression. 
 
 \FloatBarrier
 
@@ -537,16 +536,18 @@ Plots of residuals versus the fitted values by model for the restricted panel ar
 Energy intensity appears to be declining across nearly all countries, but as many developing economies are reaching middle levels of income, policies to accelerate the process will be necessary if energy use is to remaining sustatinable into the 21\textsuperscript{st} century.
 The purpose of this work was to investigate the interactions of energy intensity with other economic factors under investigation in the recent literature.
 Among these variables we included affluence, population density, technological innovation, urbanisation, and trade openness, and financial openness.
-In the model that most closely replicated earlier work (TS on the restricted panel) generally confirmed the results for most of the non-trade indicators, and thus our hypotheses in \cref{sec:introduction}, except for technological innovation, which we found to be positively associated with energy intensity.
-
+In the model that most closely replicated earlier work (TS on the restricted panel) generally confirmed the results for most of the non-trade indicators, and thus our hypotheses in \cref{sec:introduction}
 However, our findings diverged when we began to include additional variables. 
-Adding either financial openness or technological innovation changed the sign on the coefficient of trade openness.
-When both were added, we found a significant positive association between energy and trade.
-This suggests that some existing results finding a negative association may be due to omitted variable bias.
+For technological innovation alone, we found to a positive (though insignificant) association with energy intensity.
+Adding either financial openness or technological innovation to the model changed the sign on the coefficient of trade openness, implying that increased trade openness led to increased energy intensity.
+When both financial openness and technological innovation were added, that positive association became significant.
+These findings suggest that some existing results finding a negative association may be due to omitted variable bias.
 The high correlation of openness to trade and financial openness in particular may be an important consideration for future studies.
 Our other main finding is that the substitution of an alternative specification of trade openness whose variance is less driven by variations in GDP changes the sign of the association with energy intensity.
 This suggests that other existing results may also not be robust to alternative specifications of trade openness.
+
 Possible future avenues of research exploring these augmented models include dividing countries by stage of development, as in \cite{rafiqUrbanizationOpennessEmissions2016}, or by income level, as in \cite{tibaIncomeTradeOpenness2018}.
+There is also scope to expand the range of econometric techniques to include the additional panel models in \cite{rafiqUrbanizationOpennessEmissions2016}, which allow for heterogeneous slope coefficients across countries within the panel, and to explore alternative measures of trade and capital openness. 
 
 \clearpage
 
@@ -586,9 +587,11 @@ All of the Python and R code and output are incorporated into Jupyter Notebooks,
 \begin{itemize}
 \item \cref{tab:all_countries} lists the 90 countries in the extended panel along with the date ranges of the data availability for each.
 \item \cref{fig:data_dists} shows the distribution of the variables described in \cref{sec:data}, along with the distribution of their log-transformation where relevant.
+\item \cref{fig:gmm_coefficient_time_series} shows the time stability of the coefficients in the final CTS+TI+KO over time in 10-year regressions, compared to the final full-history regression.
+For comparison, all parameters are divided by their standard error, giving a plot of the t-stat of each parameter through time; the area between $\pm 1.96$ (approximately, the 95\% confidence interval around zero) is shadowed.
 \item \cref{tab:diffgmm_coeff_subset} and \cref{tab:diffgmm_coeff_all} show the coefficients and test statistics for the initial and final models, alongside all of the intermediate steps, for the subset panel and the extended country panel respectively.
 \item \cref{fig:gmm_time_dummy_subset} and \cref{fig:gmm_time_dummy_all} show the point estimates and 2 standard error bars for the time dummy coefficients, for the different models across both panels.
-\item \cref{fig:gmm_residual_plot_subset} and \cref{fig:gmm_residual_plot_all} show plots of the regression residuals versus the fitted values.
+\item \cref{fig:gmm_residual_plot_subset} and \cref{fig:gmm_residual_plot_all} show plots of the regression residuals versus the fitted values (of the differenced equation).
 \end{itemize}
 
 \renewcommand{\arraystretch}{1}
@@ -775,6 +778,13 @@ All of the Python and R code and output are incorporated into Jupyter Notebooks,
 \caption[]{Data histograms and density plots}
 \end{figure}
 
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{./plots/dis/parameter_time_stability_CTS+TI+KO.pdf}
+\caption{Coefficient time series plot, CTS+TI+KO model, extended panel}
+\label{fig:gmm_coefficient_time_series}
+\end{figure}
+
 \clearpage
 
 \renewcommand{\arraystretch}{3}
@@ -826,7 +836,6 @@ All of the Python and R code and output are incorporated into Jupyter Notebooks,
 \caption{Residual plot, all countries}
 \label{fig:gmm_residual_plot_all}
 \end{figure}
-
 
 %TC:endignore
 \restoregeometry{}
